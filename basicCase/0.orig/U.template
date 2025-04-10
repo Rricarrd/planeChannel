@@ -1,0 +1,77 @@
+/*--------------------------------*- C++ -*-------engine:jinja2----------------------*\
+
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v2406                                 |
+|   \\  /    A nd           | Website:  www.openfoam.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volVectorField;
+    object      U;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 1 -1 0 0 0 0];
+
+{% if case=="spatial"%}
+    internalField   uniform (0 0 0);
+{% elif case=="temporal"%} 
+#include "$FOAM_CASE/constant/fieldData/0.000/U"
+{% endif %}
+
+boundaryField
+{
+    {% if case=="spatial"%}
+        inlet
+        {
+            type            timeVaryingMappedFixedValue;
+            mapMethod       nearest;
+            outOfBounds     clamp;
+            fileName        "$FOAM_CASE/constant/boundaryData"; // Directory containing data
+            value           uniform (0 0 0);
+        }
+        
+        outlet
+        {
+            type            zeroGradient;
+        }
+    {% elif case=="temporal"%}
+        inlet
+        {
+            type            cyclic;
+        }
+        
+        outlet
+        {
+            type            cyclic;
+        }
+    {% endif %}
+    
+
+    {% if model=="oscillating"%}
+        "(bottom|top)"
+        {
+            type            movingWallVelocity;
+        }
+    {% else %}
+        "(bottom|top)"
+        {
+            type            noSlip;
+        }
+    {% endif %}
+
+    "(left|right)"
+    {
+        type            cyclic;
+    }
+}
+
+
+// ************************************************************************* //
+
+
+

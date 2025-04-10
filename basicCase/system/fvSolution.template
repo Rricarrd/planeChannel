@@ -1,0 +1,98 @@
+/*--------------------------------*- C++ -*-------------engine:jinja2---------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v2406                                 |
+|   \\  /    A nd           | Website:  www.openfoam.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      fvSolution;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+solvers
+{
+    p
+    {
+        solver          GAMG;
+        smoother        DICGaussSeidel;
+        tolerance       {{tolp}};
+        relTol          0.01;
+        nPreSweeps      0;
+        nPostSweeps     2;
+        cacheAgglomeration true;
+        nCellsInCoarsestLevel 1000;
+        agglomerator    faceAreaPair;
+        mergeLevels     1;
+    }
+
+    pFinal
+    {
+        $p;
+        tolerance       {{tolpFinal}};
+        relTol          0;
+    }
+    
+    pcorr
+    {
+        $p;
+    }
+
+    pcorrFinal
+    {
+        $pFinal;
+    }
+
+    U
+    {
+        solver          PBiCG;
+        preconditioner  DILU;
+        tolerance       {{tolU}};
+        relTol          0.1;
+    }
+
+    UFinal
+    {
+        $U;
+        tolerance       {{tolUFinal}};
+        relTol          0;
+    }
+}
+
+{% if solver=="pimpleFoam" %}
+  PIMPLE
+  {
+      nCorrectors              {{nCorrectors}};
+      nOuterCorrectors         {{nOuterCorrectors}};
+      nNonOrthogonalCorrectors {{nNonOrthogonalCorrectors}};
+      pRefCell                  0;
+      pRefValue                 0;
+
+      residualControl
+        {
+            "(U|k|epsilon|omega)"
+            {
+                relTol          0;
+                tolerance       1e-3;
+            }
+        }
+      
+  }
+
+{% else %}
+  PISO
+  {
+      nCorrectors              {{nCorrectors}};
+      nNonOrthogonalCorrectors {{nNonOrthogonalCorrectors}};
+      pRefCell                  0;
+      pRefValue                 0;
+  }
+
+{% endif %}
+
+
+// ************************************************************************* //
