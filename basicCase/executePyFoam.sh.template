@@ -1,0 +1,6 @@
+# Run openfoam case with PyFoam
+echo "Running case with parameters $name.parameters"
+
+mpirun -np |-numberOfProcessors-| |-solver-| -parallel > log.|-solver-| &
+
+pyFoamPlotWatcher.py log.|-solver-|
