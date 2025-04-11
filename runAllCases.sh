@@ -4,6 +4,7 @@ for dir in *; do
     	cd $dir
         echo "Running $dir/runCase.sh"
         bash runCase.sh
+        ^c
         cd ..
     fi
 done

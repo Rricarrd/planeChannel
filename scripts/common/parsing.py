@@ -13,8 +13,8 @@ def parse_variations(filename):
     
     for set_content in sets:
         # Extract key-value pairs
-        entries = re.findall(r'(\w+)\s+(\w+);', set_content)
-        
+        entries = re.findall(r'(\w+)\s+(\d*\.?\d+|\w+)', set_content)
+
         # Convert to dictionary
         variations.append({key: value for key, value in entries})
     

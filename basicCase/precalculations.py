@@ -17,14 +17,14 @@ def get_parameters():
     from scripts.common import parsing
 
     # Parse CLI commands
-    parser = argparse.ArgumentParser(description="Initialization Python script for the planeChannel turbulent transition case")
-    parser.add_argument("parameters_file", type=str, help="Parameters file name")
-    args = parser.parse_args()
+    try:
+        parser = argparse.ArgumentParser(description="Initialization Python script for the planeChannel turbulent transition case")
+        parser.add_argument("parameters-file", type=str, help="Parameters file name")
+        args = parser.parse_args()
 
-    # Parse data from a .parameters file
-    if args.parameters_file:
+        # Parse data from a .parameters file
         parameters_file_name = f"{args.parameters_file}.parameters"
-    else:
+    except:
         parameters_file_name = f"default.parameters"
 
     print(f"Getting values from {parameters_file_name}")

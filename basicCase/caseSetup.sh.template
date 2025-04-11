@@ -17,3 +17,7 @@ echo "Setting $case field and boundary conditions."
 	
 {% endif %} 
 
+{% if dynamicMesh=="no" %}
+   	rm -f constant/dynamicMeshDict
+{% endif %} 	
+
