@@ -3,6 +3,17 @@ import pickle
 import matplotlib.pyplot as plt
 import json
 from IPython.lib.pretty import pprint
+import re
+
+
+def extract_number(name):
+    num = ""
+    for char in name:
+        if char.isdigit():
+            num += char
+        else:
+            break
+    return int(num) if num else 0
 
 # Get the current directory
 current_directory = os.getcwd()
@@ -10,13 +21,15 @@ current_directory = os.getcwd()
 # List all folders in the current directory
 folders = [name for name in os.listdir(current_directory) if os.path.isdir(os.path.join(current_directory, name))]
 
+folders.sort(key=extract_number)
+
 # Print the folder names
 print(folders)
 
 
 # Create a simple matplotlib figure
 fig, ax = plt.subplots()
-ax.set_title("Sample Plot")
+ax.set_title("Channel Ret over time")
 ax.set_xlabel("Time")
 ax.set_ylabel("Ret")
 
@@ -49,7 +62,10 @@ for folder in folders:
                 times = data[plots_names['ReTau']]['times']
 
 
-                ax.plot(times, ret, label=folder)
+                folder_name = re.sub(r'^\d+_', '', folder)
+                folder_name = folder_name.capitalize()
+
+                ax.plot(times, ret, label=folder_name)
                 
 
         except KeyError as e:
@@ -62,4 +78,7 @@ ret_dns = [101.14503816793894, 101.6030534351145, 101.6030534351145, 101.3740458
 ax.scatter(times_dns, ret_dns, label="DNS")
           
 plt.legend()
+plt.savefig("variations_ret.png")
 plt.show()
+
+

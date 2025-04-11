@@ -8,6 +8,7 @@
 \*---------------------------------------------------------------------------*/
 FoamFile
 {
+    version     v2412;
     format      ascii;
     class       dictionary;
     location    "constant";
@@ -19,11 +20,23 @@ FoamFile
 
 {% if dynamicMesh=="oscillating_domain"%}
 
-dynamicFvMesh dynamicMotionSolverFvMesh;
+    // The whole domain oscillates at a certain frequency and amplitude
+    dynamicFvMesh dynamicMotionSolverFvMesh;
+    motionSolver solidBody;
 
-motionSolver solidBody;
+    solidBodyMotionFunction oscillatingLinearMotion;
+    amplitude   (0 |-amplitude-| 0);
+    omega             |-frequency-|;
 
-solidBodyMotionFunction oscillatingLinearMotion;
-amplitude   (0 |-amplitude-| 0);
-omega             |-frequency-|;
+{% elif dynamicMesh=="sine_lower_wall"%}
+
+    // The lower wall moves with a sinusoidal waveform
+    dynamicFvMesh dynamicMotionSolverFvMesh;
+    motionSolver displacementLaplacian;
+    diffusivity uniform;
+
+
+
 {% endif %}
+
+// ************************************************************************* //

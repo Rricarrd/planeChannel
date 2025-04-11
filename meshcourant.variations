@@ -3,6 +3,7 @@ sets (
      nx 16;
      ny 16;
      nz 16;
+     maxCo
    }
    {
      nx 24;

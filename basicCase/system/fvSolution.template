@@ -21,7 +21,7 @@ solvers
         solver          GAMG;
         smoother        DICGaussSeidel;
         tolerance       {{tolp}};
-        relTol          0.01;
+        relTol          {{relTol}};
         nPreSweeps      0;
         nPostSweeps     2;
         cacheAgglomeration true;
@@ -34,7 +34,7 @@ solvers
     {
         $p;
         tolerance       {{tolpFinal}};
-        relTol          0;
+        relTol          {{relTolFinal}};
     }
     
     pcorr
@@ -52,14 +52,14 @@ solvers
         solver          PBiCG;
         preconditioner  DILU;
         tolerance       {{tolU}};
-        relTol          0.1;
+        relTol          {{relTol}};
     }
 
     UFinal
     {
         $U;
         tolerance       {{tolUFinal}};
-        relTol          0;
+        relTol          {{relTolFinal}};
     }
 }
 
@@ -76,8 +76,8 @@ solvers
         {
             "(U|k|epsilon|omega)"
             {
-                relTol          0;
-                tolerance       1e-3;
+                relTol          {{PIMPLErelTol}};
+                tolerance       {{PIMPLEtol}};
             }
         }
       
