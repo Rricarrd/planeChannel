@@ -7,6 +7,7 @@ for dir in *; do
         ^c
         cd ..
         pkill -f "python.*plot_all.py"
+        killall gnuplot_x11
         python plot_all.py
     fi
 done

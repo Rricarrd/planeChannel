@@ -1,10 +1,10 @@
 // Simulation parameters
 case temporal;
 numberOfProcessors 16;
-tAveragingStart   170;
-tEnd              250;
+tAveragingStart   200;
+tEnd              350;
 dt               5e-3;
-maxDeltaT        5e-1;
+maxDeltaT        3e-1;
 writeTime           1;
 
 // Dynamic mesh
@@ -14,22 +14,22 @@ frequency 2;
 
 // Solver parameters
 solver            pimpleFoam;
-nCorrectors              3;
+nCorrectors              4;
 nNonOrthogonalCorrectors 1;
-nOuterCorrectors        40;  // Only works for pimpleFoam
+nOuterCorrectors         1;  // Only works for pimpleFoam
 limitCo                yes;  // Only works for pimpleFoam
 PIMPLErelTol             0;
 PIMPLEtol             1e-4;
-maxCo                  0.2;
+maxCo                 0.01;
 
 // Numerical schemes
 schemes default;        // Change between linear or cubic. If default, uses the high order values       
 
 // Numerical solvers
-tolU 1e-8;
+tolU 1e-6;
 tolp 1e-6;
 tolUFinal 1e-10;
-tolpFinal 1e-8;
+tolpFinal 1e-10;
 relTol 0.01;
 relTolFinal 0;
 
@@ -45,10 +45,10 @@ H 2;
 W 2.9919930042;
 L 5.60998688141;
 Ls 0.25;
-nx 16;
-ny 16;
-nz 16;
-gradient 8;
+nx 64;
+ny 64;
+nz 64;
+gradient 20;
 
 // Flow parameters
 Re_b 3333;

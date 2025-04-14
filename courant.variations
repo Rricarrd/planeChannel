@@ -1,11 +1,5 @@
 sets (
    {
-    maxCo 0.005;
-   }
-   {
-    maxCo 0.01;
-   }
-   {
     maxCo 0.05;
    }
    {
