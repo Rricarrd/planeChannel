@@ -3,6 +3,7 @@ import pathlib
 import sys
 import argparse
 import openfoamparser as Ofpp
+import numpy as np
 
 
 current_path = pathlib.Path().resolve() # Get current path
@@ -42,7 +43,12 @@ if args.type == "spatial":
 elif args.type == "temporal":
     # Generate spatailly varying field for the time changing simulation
     generate_initial_field.generate(parsed_data,current_path,cell_centres)
-
+    if parsed_data['freqFromOrr'] == 'yes':
+        frequency = np.real(generate_initial_field.calculate_frequency(parsed_data,current_path))
+        print(f"Frequency calculated from Orr-Sommerfeld equation: {frequency}")
+        data_to_substitute = {'frequency': frequency}
+        parameters_file_path = os.path.join(current_path,parameters_file_name)
+        parsing.substitute_in_parameters(data_to_substitute,parameters_file_path)
 else:
     print("Incorrect type initialization. Choose either inletBC or initialField")
     

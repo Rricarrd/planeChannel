@@ -9,20 +9,20 @@ writeTime           1;
 
 // Dynamic mesh
 dynamicMesh sine_lower_wall;
-amplitude 0;
+freqFromOrr no;
+amplitude 0.01;
 frequency 5;
-uwx 1;
 matchTolerance  0.01;
 
 // Solver parameters
 solver            pimpleFoam;
-nCorrectors              10;
+nCorrectors              5;
 nNonOrthogonalCorrectors 5;
-nOuterCorrectors         1;  // Only works for pimpleFoam
+nOuterCorrectors         40;  // Only works for pimpleFoam
 limitCo                yes;  // Only works for pimpleFoam
 PIMPLErelTol             0;
 PIMPLEtol             1e-3;
-maxCo                 0.4;
+maxCo                 0.01;
 
 // Numerical schemes
 schemes default;        // Change between linear or cubic. If default, uses the high order values       

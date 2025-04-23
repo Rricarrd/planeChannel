@@ -2,8 +2,9 @@ import numpy as np
 from scripts.field.velocity_field_functions import space_evolution_field
 from scripts.common.files import write_points_file
 from scripts.common.utils import clear_directory
-from scripts.common.orr_sommerfeld_solution import parameters
+from scripts.common.orr_sommerfeld_solution import parameters,solve_os_equation
 from scripts.common.mesh import get_mesh_y_positions
+
 import os
 import matplotlib.pyplot as plt
 
@@ -65,6 +66,42 @@ def generate(dict, path, cell_centres):
 
     write_field_velocity_file(u1_space, v1_space, w1_space, t, folder_path, type="start")
     write_field_velocity_file(u2_space, v2_space, w2_space, t, folder_path, type="finish")
+
+def calculate_frequency(dict, path):
+
+    # --- File and parameters ---
+    print("Generating parameter values from .parameters file...")
+    ny, nx, nz, yp, zp, alp2d, alp3d, beta, A2d, A3d, Re_b, n3d, n2d, Np, t, xp, Ucl, H = parameters(dict)
+    Re_lam = 1.5*Re_b
+    N = 100
+
+    print("Calculating vibration frequency")
+    (
+        yp_orr,
+        u2d,
+        v2d,
+        w2d,
+        u3dp,
+        v3dp,
+        w3dp,
+        u3dm,
+        v3dm,
+        w3dm,
+        om2d,
+        om3dp,
+        om3dm,
+    ) = solve_os_equation(
+        N,
+        alp2d,
+        alp3d,
+        beta,
+        Re_lam,
+        n3d,
+        n2d,
+        Np
+    )
+    return om2d
+    
 
 def write_field_velocity_file(u, v, w, t, folder_path,type):
 

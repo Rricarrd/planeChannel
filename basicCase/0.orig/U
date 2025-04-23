@@ -42,7 +42,11 @@ boundaryField
 
     // Static or oscillating BC/domain
     
-        "(bottom|top)"
+        top
+        {
+            type            noSlip;
+        }
+        bottom
         {
             type            noSlip;
         }

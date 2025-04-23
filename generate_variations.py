@@ -80,6 +80,8 @@ for i in range(n_variations):
             file.writelines(file_content)
 
 
+#freqFromOrr
+
 # Copy runAllCases.sh
 run_all_cases_source_path = "runAllCases.sh"
 run_all_cases_destination_path = os.path.join(variations_file_name, "runAllCases.sh")

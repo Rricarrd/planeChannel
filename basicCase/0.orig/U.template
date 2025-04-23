@@ -68,15 +68,19 @@ boundaryField
     
 
     // Static or oscillating BC/domain
-    {% if model=="oscillating"%}
+    {% if dynamicMesh=="oscillating"%}
         "(bottom|top)"
         {
-            type            movingWallVelocity;
+            type            noSlip;
         }
-    {% elif model=="sine_lower_wall"%}
-        "(bottom|top)"
+    {% elif dynamicMesh=="sine_lower_wall"%}
+        top
         {
-            type            movingWallVelocity;
+            type            noSlip;
+        }
+        bottom
+        {
+            type            noSlip;
         }
     {% else %}
         "(bottom|top)"

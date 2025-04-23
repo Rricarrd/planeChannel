@@ -24,8 +24,8 @@ boundaryField
   {
       type        groovyBC;
       value       uniform (0 0 0);
-      variables "A={{amplitude}};k=2*pi/{{L}};Uwx={{uwx}};";
-      valueExpression "vector(0,A*sin(k*pos().x-Uwx*time()),0)";
+      variables "A={{amplitude}};k=2*pi/{{L-L/nx}};f={{frequency}};ramp=min(time()/15.0, 1.0);";
+      valueExpression "pos().x < 0.05 || pos().x > {{L-0.05}} ? vector(0,0,0):vector(0,ramp*A*sin(f*time())*sin(k*pos().x),0)";
   }
   
   top

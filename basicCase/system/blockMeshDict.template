@@ -54,18 +54,7 @@ blocks
 
 boundary
 (
-    bottom
-    {
-        type            wall;
-        faces           ((0 6 7 1));
-        matchTolerance  |-matchTolerance-|;
-    }
-    top
-    {
-        type            wall;
-        faces           ((4 3 9 10));
-        matchTolerance  |-matchTolerance-|;
-    }
+    
     
     
     <!--(if case=="spatial")-->
@@ -82,6 +71,17 @@ boundary
     <!--(else)-->
     
         <!--(if dynamicMesh=="sine_lower_wall")-->
+        
+            bottom
+            {
+                type            wall;
+                faces           ((0 6 7 1));
+            }
+            top
+            {
+                type            wall;
+                faces           ((4 3 9 10));
+            }
             inlet
             {
                 type            cyclicAMI;
