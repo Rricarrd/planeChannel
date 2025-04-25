@@ -9,7 +9,7 @@ parser = argparse.ArgumentParser(description="Generate variations for OpenFOAM c
 parser.add_argument("--variations", type=str, default="default.variations", help="Path to the variations file")
 args = parser.parse_args()
 
-variations_file_path = args.variations
+variations_file_path = os.path.join('variation_files',args.variations)
 print(f"Looking for variations in file {variations_file_path}")
 
 # Parse variations file

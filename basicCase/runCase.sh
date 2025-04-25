@@ -31,11 +31,10 @@ echo "Reconstructing data and generating mesh center files"
 reconstructPar
 
 
-
 # Plotting
-#echo "Postprocessing and plotting"
-#mkdir -p ./plots
-#python ./plot.py
-#mv -f *.png plots/ # Move pyFoam plots to plots and overwrite them
+echo "Postprocessing and plotting"
+mkdir -p ./plots
+#python ./scripts/plot.py
+mv -f *.png plots/ # Move pyFoam plots to plots and overwrite them
 
 

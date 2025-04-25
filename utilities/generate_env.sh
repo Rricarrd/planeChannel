@@ -6,4 +6,5 @@ conda env export --from-history | grep -v "^prefix: " > environment.yml
 
 echo "$pip_packages" >> environment.yml
 
-
+# Also generate a pip installer file requirements.txt
+pip list --format=freeze > requirements.txt

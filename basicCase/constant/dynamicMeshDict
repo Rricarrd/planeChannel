@@ -29,7 +29,7 @@ FoamFile
 
     displacementLaplacianCoeffs
     {
-        diffusivity     directional (0 1 0);
+        diffusivity     uniform 1;
     }
 
 

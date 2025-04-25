@@ -10,15 +10,15 @@ writeTime           1;
 // Dynamic mesh
 dynamicMesh sine_lower_wall;
 freqFromOrr no;
-amplitude 0.01;
+amplitude 0.5;
 frequency 5;
 matchTolerance  0.01;
 
 // Solver parameters
-solver            pimpleFoam;
-nCorrectors              5;
+solver            moveDynamicMesh;
+nCorrectors              4;
 nNonOrthogonalCorrectors 5;
-nOuterCorrectors         40;  // Only works for pimpleFoam
+nOuterCorrectors         1;  // Only works for pimpleFoam
 limitCo                yes;  // Only works for pimpleFoam
 PIMPLErelTol             0;
 PIMPLEtol             1e-3;
@@ -37,7 +37,7 @@ relTolFinal 0;
 
 
 // Turbulence model
-model dynamicSmagorinsky;
+model WALE;
 cs 0.065;
 ck 0.02655;
 ce 1.048;

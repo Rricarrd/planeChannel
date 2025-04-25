@@ -22,6 +22,10 @@ if [[ " $@ " == *" -all "* ]]; then
     rm -f *.log 
     rm -f PyFoam*
     rm -rf *.rst
+    rm -rf *.foam
+    rm -rf *.obj
+    rm -rf *.logfile
+    
 fi
 
 echo "Case cleaned"
