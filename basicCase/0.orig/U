@@ -29,11 +29,11 @@ boundaryField
         
             "(inlet|outlet)"
             {
-                type            cyclicAMI;
+                type            cyclic;
             }
             "(left|right)"
             {
-                type        cyclicAMI;
+                type        cyclic;
             }
         
 
@@ -42,11 +42,7 @@ boundaryField
 
     // Static or oscillating BC/domain
     
-        top
-        {
-            type            noSlip;
-        }
-        bottom
+        "(bottom|top)"
         {
             type            noSlip;
         }

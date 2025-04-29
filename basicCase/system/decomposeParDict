@@ -10,7 +10,7 @@ FoamFile
 	object nix;
 }
 method scotch;
-numberOfSubdomains 16;
+numberOfSubdomains 6;
 scotchCoeffs
 {
 }

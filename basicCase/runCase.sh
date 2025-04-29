@@ -22,8 +22,9 @@ echo "Preparing case with parameters $name.parameters"
 pyFoamPrepareCase.py . --parameter-file="$name.parameters"
 
 
-# Executing PyFoam
-bash ./executePyFoam.sh
+# Executing run
+echo "Executing a foamJob in the background"
+./executeSolver.sh 
 
 
 # Reconstructing

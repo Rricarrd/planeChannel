@@ -25,7 +25,9 @@ if [[ " $@ " == *" -all "* ]]; then
     rm -rf *.foam
     rm -rf *.obj
     rm -rf *.logfile
-    
+    rm caseSetup.sh
+    rm decomposeCase.sh
+
 fi
 
 echo "Case cleaned"

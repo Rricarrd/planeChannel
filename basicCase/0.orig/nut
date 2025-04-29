@@ -24,11 +24,11 @@ boundaryField
         
             "(inlet|outlet)"
             {
-                type            cyclicAMI;
+                type            cyclic;
             }
             "(left|right)"
             {
-                type        cyclicAMI;
+                type        cyclic;
             }
         
     

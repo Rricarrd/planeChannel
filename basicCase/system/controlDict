@@ -23,7 +23,7 @@ libs (
     "libsampling.so"
    );
 
-application     moveDynamicMesh;
+application     pimpleFoam;
 
 startFrom       latestTime;
 
@@ -49,6 +49,10 @@ timeFormat      general;
 
 timePrecision   8;
 
+
+  adjustTimeStep            yes;
+  maxCo               0.1;
+  maxDeltaT       0.3;
 
 
 functions

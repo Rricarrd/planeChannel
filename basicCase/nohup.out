@@ -1,0 +1,23 @@
+Application : pimpleFoam (6 processes)
+Output      : log.pimpleFoam
+Executing   : /usr/bin/mpirun -n 6 /usr/lib/openfoam/openfoam2412/bin/tools/foamExec pimpleFoam -parallel
+Waiting for process 27369 to finish
+Application : pimpleFoam (6 processes)
+Output      : log.pimpleFoam
+Executing   : /usr/bin/mpirun -n 6 /usr/lib/openfoam/openfoam2412/bin/tools/foamExec pimpleFoam -parallel
+Waiting for process 32616 to finish
+Application : pimpleFoam (6 processes)
+Output      : log.pimpleFoam
+Executing   : /usr/bin/mpirun -n 6 /usr/lib/openfoam/openfoam2412/bin/tools/foamExec pimpleFoam -parallel
+Waiting for process 36934 to finish
+Process 36934 finished
+Application : pimpleFoam (6 processes)
+Output      : log.pimpleFoam
+Executing   : /usr/bin/mpirun -n 6 /usr/lib/openfoam/openfoam2412/bin/tools/foamExec pimpleFoam -parallel
+Waiting for process 41324 to finish
+Process 41324 finished
+Application : pimpleFoam (6 processes)
+Output      : log.pimpleFoam
+Executing   : /usr/bin/mpirun -n 6 /usr/lib/openfoam/openfoam2412/bin/tools/foamExec pimpleFoam -parallel
+Waiting for process 45815 to finish
+Process 45815 finished
