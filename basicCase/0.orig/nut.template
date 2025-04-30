@@ -26,6 +26,14 @@ boundaryField
             type            calculated;
             value           uniform 1e-08;
         }
+
+    {% elif case=="spatial_coded"%}
+        "(inlet|outlet)"
+        {
+            type            calculated;
+            value           uniform 1e-08;
+        }
+
     {% elif case=="temporal"%}
         {% if dynamicMesh=="sine_lower_wall"%}
             "(inlet|outlet)"

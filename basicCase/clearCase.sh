@@ -6,6 +6,7 @@ pyFoamClearCase.py --keep-dynamic-code .
 echo "Removing mesh and initial conditions"
 rm -r "./constant/boundaryData"
 rm -r "./constant/polyMesh"
+rm -r "./constant/velocityProfiles"
 
 
 echo "Finding and removing directories matching the pattern processor[0-9]+"

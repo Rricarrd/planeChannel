@@ -21,16 +21,12 @@ internalField   uniform 0;
 boundaryField
 {
     
-        
-            "(inlet|outlet)"
-            {
-                type            cyclic;
-            }
-            "(left|right)"
-            {
-                type        cyclic;
-            }
-        
+        "(inlet|outlet)"
+        {
+            type            calculated;
+            value           uniform 1e-08;
+        }
+
     
     
 

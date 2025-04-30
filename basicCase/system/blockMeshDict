@@ -57,37 +57,16 @@ boundary
     
     
     
-    
-            inlet
-            {
-                type            cyclic;
-                neighbourPatch  outlet;
-                faces           ((0 5 11 6)(5 4 10 11));
-                matchTolerance  0.01;
-            }
-            
-            outlet
-            {
-                type            cyclic;
-                neighbourPatch  inlet;
-                faces           ((1 7 8 2)(2 8 9 3));
-                matchTolerance  0.01;
-            }
-            left
-            {
-                type            cyclic;
-                neighbourPatch  right;
-                faces           ((1 2 5 0)(2 3 4 5));
-                matchTolerance  0.01;
-            }
-            right
-            {
-                type            cyclic;
-                neighbourPatch  left;
-                faces           ((6 11 8 7)(11 10 9 8));
-                matchTolerance  0.01;
-            }
-            
+        inlet
+        {
+            type            patch;
+            faces           ((0 5 11 6)(5 4 10 11));
+        }
+        outlet
+        {
+            type            patch;
+            faces           ((1 7 8 2)(2 8 9 3));
+        }
 );
 
 

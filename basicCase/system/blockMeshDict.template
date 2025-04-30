@@ -68,6 +68,18 @@ boundary
             type            patch;
             faces           ((1 7 8 2)(2 8 9 3));
         }
+
+    <!--(elif case=="spatial_coded")-->
+        inlet
+        {
+            type            patch;
+            faces           ((0 5 11 6)(5 4 10 11));
+        }
+        outlet
+        {
+            type            patch;
+            faces           ((1 7 8 2)(2 8 9 3));
+        }
     <!--(else)-->
     
         <!--(if dynamicMesh=="sine_lower_wall")-->

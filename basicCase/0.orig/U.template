@@ -19,8 +19,13 @@ dimensions      [0 1 -1 0 0 0 0];
 
 {% if case=="spatial"%}
     internalField   uniform (0 0 0);
+
+{% elif case=="spatial_coded"%}
+    internalField   uniform (0 0 0);
+
 {% elif case=="temporal"%} 
 #include "$FOAM_CASE/constant/fieldData/0.000/U"
+
 {% endif %}
 
 boundaryField
@@ -36,6 +41,130 @@ boundaryField
             value           uniform (0 0 0);
         }
         
+        outlet
+        {
+            type            zeroGradient;
+        }
+
+    {% elif case=="spatial_coded"%}
+        inlet
+        {
+            type             codedFixedValue;
+            value            uniform (0 0 0);
+
+            redirectType  orrSommerfeldInlet;
+
+            codeOptions
+            #{
+                -I$(LIB_SRC)/finiteVolume/lnInclude \
+                -I$(LIB_SRC)/meshTools/lnInclude
+            #};
+
+            codeLibs
+            #{
+                -lmeshTools \
+                -lfiniteVolume
+            #};
+
+
+            codeInclude
+            #{
+                #include "fvCFD.H"
+                #include <cmath>
+                #include <iostream>
+                #include <complex>
+                #include <string>
+                #include <array>
+                #include <fstream>
+                #include <vector>
+                #include <sstream>
+                #include <iomanip>
+            #};
+
+            code
+            #{
+                // Creating patch and field data
+                const fvPatch& boundaryPatch = patch();
+                const vectorField& Cf = boundaryPatch.Cf();
+                vectorField& field = *this;
+
+                // Getting current time
+                scalar t = this->db().time().value();
+
+
+                // Read the polynomial regressions coefficients dict
+
+                // IOobject polyReg
+                // (
+                //     "polynomialRegressionCoefficients",    // dictionary name
+                //     "$FOAM_CASE/constant",     // dict is found in "constant"
+                //     patch(),                   // registry for the dict
+                //     IOobject::MUST_READ,    // must exist, otherwise failure
+                //     IOobject::NO_WRITE      // dict is only read by the solver
+                // );
+                //
+                // IOdictionary polyCoeffsDict(polyReg);
+                //
+                // // Save coefficients to vectors
+                // UList u2dCoeffs
+                // (
+                //     polyCoeffsDict.lookup("u2d")
+                // );
+
+
+                // Read file directly
+                std::ifstream inputFile("constant/polynomialRegressions"); // Open the file
+
+                std::array<std::array<double, 20>, 6> coeffs_array;
+
+                // Iterate along the file lines
+                if (inputFile.is_open()) {
+                    std::string line;
+                    // Iterate lines
+                    int i = 0;
+                    while (std::getline(inputFile, line)) {
+                        // Initialize string stream for the current line
+                        std::stringstream ss(line);
+                        double value;
+
+                        // For each line iterate along the elements of the string
+                        int j = 0;
+                        while (ss >> value) {
+                            // Potential Error 1: Bounds checking for j
+                            if (j < 20) {
+                                coeffs_array[i][j] = value;
+                                j++;
+                            } else {
+                                std::cerr << "Warning: Line " << i + 1 << " has more than 20 values. Ignoring extra values." << std::endl;
+                                // Optionally, you could break out of the inner loop here if you only want the first 20.
+                            }
+                        }
+
+                        i++;
+                        // Potential Error 2: Bounds checking for i
+                        if (i >= 6) {
+                            std::cerr << "Warning: File has more than 6 lines. Ignoring extra lines." << std::endl;
+                            break; // Stop reading further lines
+                        }
+                    }
+                    inputFile.close(); // Close the file
+                } else {
+                    std::cerr << "Unable to open file: constant/polynomialRegressions" << std::endl;
+                }
+
+
+
+                // Iterating all face cells
+                forAll(Cf, faceI)
+                {
+                field[faceI] = vector(1,0,0);
+                }
+
+            #};
+
+
+        }
+
         outlet
         {
             type            zeroGradient;

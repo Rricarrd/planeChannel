@@ -1,0 +1,6 @@
+/* dynamicCode:
+ * SHA1 = 3f65a80f395a5029bd3774cc0d38d67b786c7202
+ */
+fixedValueFvPatchFieldTemplate.C
+
+LIB = $(PWD)/../platforms/$(WM_OPTIONS)/lib/liborrSommerfeldInlet_3f65a80f395a5029bd3774cc0d38d67b786c7202

@@ -22,16 +22,16 @@ boundaryField
 {
 
     
-        
-            "(inlet|outlet)"
-            {
-                type            cyclic;
-            }
-            "(left|right)"
-            {
-                type        cyclic;
-            }
-        
+        inlet
+        {
+            type            zeroGradient;
+        }
+        outlet
+        {
+            type            fixedValue;
+            value           $internalField;
+        }
+
     
     
 

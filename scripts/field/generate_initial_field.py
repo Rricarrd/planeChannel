@@ -100,7 +100,7 @@ def calculate_frequency(dict, path):
         n2d,
         Np
     )
-    return om2d
+    return np.imag(om2d)
     
 
 def write_field_velocity_file(u, v, w, t, folder_path,type):

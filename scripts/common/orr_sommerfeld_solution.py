@@ -24,6 +24,8 @@ def solve_os_equation(
     om3dp = -lam3dp[np.argmax(np.imag(lam3dp))] / 1j
     om3dm = -lam3dm[np.argmax(np.imag(lam3dm))] / 1j
 
+    print(f"Frequencies are om2d {np.imag(om2d)} rad/s, om3dp {np.imag(om3dp)} rad/s and om3dm {np.imag(om3dm)} rad/s")
+
     # --- Plotting ---
     # Velocity profile for OSrr-Sommerfield solution
     u3dp = u3dp.flatten()

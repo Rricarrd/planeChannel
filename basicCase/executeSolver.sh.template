@@ -2,7 +2,7 @@
 echo "Running case with parameters $name.parameters"
 #pyFoamPlotRunner.py --clear --with-courant --no-continuity mpirun -np |-numberOfProcessors-| |-solver-| -parallel
 
-nohup foamJob -log-app -parallel -wait |-solver-|
+foamJob -log-app -parallel -wait |-solver-|
 
 # Running plotWatcher
 pyFoamPlotWatcher.py log.|-solver-| || echo "Error occurred executing the pyFoamPlotWatcher.py!"

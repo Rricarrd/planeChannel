@@ -1,5 +1,5 @@
 // Simulation parameters
-case temporal;
+case spatial_coded;
 numberOfProcessors 6;
 tAveragingStart   200;
 tEnd              350;

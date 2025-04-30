@@ -31,6 +31,18 @@ boundaryField
             type            fixedValue;
             value           $internalField;
         }
+
+    {% elif case=="spatial_coded"%}
+        inlet
+        {
+            type            zeroGradient;
+        }
+        outlet
+        {
+            type            fixedValue;
+            value           $internalField;
+        }
+
     {% elif case=="temporal"%}
         {% if dynamicMesh=="sine_lower_wall"%}
             "(inlet|outlet)"
