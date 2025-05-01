@@ -31,7 +31,7 @@ boundaryField
             type             codedFixedValue;
             value            uniform (0 0 0);
 
-            redirectType  orrSommerfeldInlet;
+            name  orrSommerfeldInlet;
 
             codeOptions
             #{
@@ -53,90 +53,199 @@ boundaryField
                 #include <iostream>
                 #include <complex>
                 #include <string>
-                #include <array>
                 #include <fstream>
                 #include <vector>
                 #include <sstream>
-                #include <iomanip>
             #};
 
             code
             #{
+
+            struct local {
+                // Evaluate polynomial function
+                static double evaluatePolynomial
+                (
+                    const std::vector<double>& coefficients,
+                    double y
+                )
+                    {
+                        double result = 0.0;
+                        for (size_t i = 0; i < coefficients.size(); ++i)
+                            {
+                            result += coefficients[i] * std::pow(y, i);
+                            }
+                        return result;
+                    }
+
+
+
+                // Function to calculate the real part of a complex number
+                static double realPart(const std::complex<double>& y)
+                {
+                    return std::real(y);
+                }
+
+
+                // Function to calculate the u_hat values based on y and component index
+                static std::complex<double> calculate_u_hat(
+                    const std::vector<double>& real_coefficients,
+                    const std::vector<double>& imag_coefficients,
+                    double y)
+                    {
+                        double real_part = evaluatePolynomial(real_coefficients, y);
+                        double imag_part = evaluatePolynomial(imag_coefficients, y);
+                        return std::complex<double>(real_part, imag_part);
+                    }
+
+                // Function to implement the equation for a single spatial component
+                static double calculate_u_tilde_component(
+                    double y,
+                    double z,
+                    double t,
+                    double A_2d,
+                    double omega_r2d,
+                    double A_3d,
+                    double beta,
+                    double omega_r3d,
+                    const std::vector<double>& u_r2d_coefficients,
+                    const std::vector<double>& u_r2di_coefficients,
+                    const std::vector<double>& u_r3d_coefficients,
+                    const std::vector<double>& u_r3di_coefficients)
+                    {
+                        std::complex<double> term1_exponential = exp(std::complex<double>(0.0, -omega_r2d * t));
+                        std::complex<double> term2_exponential = exp(std::complex<double>(0.0, beta * z - omega_r3d * t));
+                        std::complex<double> term3_exponential = exp(std::complex<double>(0.0, -beta * z - omega_r3d * t)); // Assuming the '-' sign was intended
+
+                        std::complex<double> u_hat_r2d_y = calculate_u_hat(u_r2d_coefficients, u_r2di_coefficients, y);
+                        std::complex<double> u_hat_plus_r3d_y = calculate_u_hat(u_r3d_coefficients, u_r3di_coefficients, y);
+                        std::complex<double> u_hat_minus_r3d_y = calculate_u_hat(u_r3d_coefficients, u_r3di_coefficients, y);
+
+                        double term1 = A_2d * realPart(u_hat_r2d_y * term1_exponential);
+                        double term2 = 0.5 * A_3d * realPart(u_hat_plus_r3d_y * term2_exponential);
+                        double term3 = 0.5 * A_3d * realPart(u_hat_minus_r3d_y * term3_exponential);
+
+                        double result = term1 + term2 + term3;
+                        return result;
+                    }
+
+
+                static double addParabolicProfile(
+                    double H,
+                    double Ucl,
+                    double y)
+                {
+                    return ((4.0 * Ucl / (H * H)) * y * (H - y));
+                }
+
+                };
+
                 // Creating patch and field data
                 const fvPatch& boundaryPatch = patch();
                 const vectorField& Cf = boundaryPatch.Cf();
                 vectorField& field = *this;
 
                 // Getting current time
-                scalar t = this->db().time().value();
+                double t = this->db().time().value();
 
-
-                // Read the polynomial regressions coefficients dict
-
-                // IOobject polyReg
+                // To read data from dictionaries
+                // dimensionedScalar nu
                 // (
-                //     "polynomialRegressionCoefficients",    // dictionary name
-                //     "$FOAM_CASE/constant",     // dict is found in "constant"
-                //     patch(),                   // registry for the dict
-                //     IOobject::MUST_READ,    // must exist, otherwise failure
-                //     IOobject::NO_WRITE      // dict is only read by the solver
-                // );
-                //
-                // IOdictionary polyCoeffsDict(polyReg);
-                //
-                // // Save coefficients to vectors
-                // UList u2dCoeffs
-                // (
-                //     polyCoeffsDict.lookup("u2d")
+                //     "nu",
+                //     dimViscosity,
+                //     this->db().lookupObject<IOdictionary>("transportProperties").lookup("nu")
                 // );
 
 
                 // Read file directly
-                std::ifstream inputFile("constant/polynomialRegressions"); // Open the file
+                std::ifstream inputFile("constant/polynomialRegressions");  // order of data is
+                std::vector<std::vector<double>> coeffs_vector;
 
-                std::array<std::array<double, 20>, 6> coeffs_array;
 
-                // Iterate along the file lines
-                if (inputFile.is_open()) {
-                    std::string line;
-                    // Iterate lines
-                    int i = 0;
-                    while (std::getline(inputFile, line)) {
-                        // Initialize string stream for the current line
-                        std::stringstream ss(line);
-                        double value;
+                std::string line;
 
-                        // For each line iterate along the elements of the string
-                        int j = 0;
-                        while (ss >> value) {
-                            // Potential Error 1: Bounds checking for j
-                            if (j < 20) {
-                                coeffs_array[i][j] = value;
-                                j++;
-                            } else {
-                                std::cerr << "Warning: Line " << i + 1 << " has more than 20 values. Ignoring extra values." << std::endl;
-                                // Optionally, you could break out of the inner loop here if you only want the first 20.
-                            }
-                        }
-
-                        i++;
-                        // Potential Error 2: Bounds checking for i
-                        if (i >= 6) {
-                            std::cerr << "Warning: File has more than 6 lines. Ignoring extra lines." << std::endl;
-                            break; // Stop reading further lines
-                        }
+                while (std::getline(inputFile, line)) {
+                    std::stringstream ss(line);
+                    double value;
+                    std::vector<double> row_coeffs;
+                    while (ss >> value) {
+                        row_coeffs.push_back(value);
                     }
-                    inputFile.close(); // Close the file
-                } else {
-                    std::cerr << "Unable to open file: constant/polynomialRegressions" << std::endl;
+                    coeffs_vector.push_back(row_coeffs);
                 }
 
+                inputFile.close();
+
+
+
+
+                // Define parameters
+                double A_2d = 0.03;
+                double omega_r2d = 1;
+                double A_3d = 0.001;
+                double beta = 2;
+                double omega_r3d = 1;
+                double H = 2;
+                double Ucl = 1;
 
 
                 // Iterating all face cells
                 forAll(Cf, faceI)
                 {
-                field[faceI] = vector(1,0,0);
+
+                    // Calculating perturbations
+                    double u = local::calculate_u_tilde_component(
+                        Cf[faceI].y(),
+                        Cf[faceI].z(),
+                        t,
+                        A_2d,
+                        omega_r2d,
+                        A_3d,
+                        beta,
+                        omega_r3d,
+                        coeffs_vector[0],
+                        coeffs_vector[1],
+                        coeffs_vector[2],
+                        coeffs_vector[3]
+                    );
+
+
+
+                    double v = local::calculate_u_tilde_component(
+                        Cf[faceI].y(),
+                        Cf[faceI].z(),
+                        t,
+                        A_2d,
+                        omega_r2d,
+                        A_3d,
+                        beta,
+                        omega_r3d,
+                        coeffs_vector[4],
+                        coeffs_vector[5],
+                        coeffs_vector[6],
+                        coeffs_vector[7]
+                    );
+
+                    double w = local::calculate_u_tilde_component(
+                        Cf[faceI].y(),
+                        Cf[faceI].z(),
+                        t,
+                        A_2d,
+                        omega_r2d,
+                        A_3d,
+                        beta,
+                        omega_r3d,
+                        coeffs_vector[8],
+                        coeffs_vector[9],
+                        coeffs_vector[10],
+                        coeffs_vector[11]
+                    );
+
+                    // Adding parabolic profile
+                    u += local::addParabolicProfile (H, Ucl, Cf[faceI].y());
+
+
+                    // Setting boundary conditions
+                    field[faceI] = vector(u,v,w);
                 }
 
             #};

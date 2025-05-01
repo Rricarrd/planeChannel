@@ -84,16 +84,7 @@ boundary
     
         <!--(if dynamicMesh=="sine_lower_wall")-->
         
-            bottom
-            {
-                type            wall;
-                faces           ((0 6 7 1));
-            }
-            top
-            {
-                type            wall;
-                faces           ((4 3 9 10));
-            }
+
             inlet
             {
                 type            cyclicAMI;
@@ -184,6 +175,20 @@ boundary
             
         <!--(end)-->
     <!--(end)-->
+
+
+            bottom
+            {
+                type            wall;
+                faces           ((0 6 7 1));
+            }
+            top
+            {
+                type            wall;
+                faces           ((4 3 9 10));
+            }
+
+
 );
 
 

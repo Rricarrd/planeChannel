@@ -82,7 +82,7 @@ FoamFile
             
             Info << "sumReTau " << sumReTau << endl;
             
-            scalar nodes = 256;
+            scalar nodes = 3072;
             
             Info << "nodes: " << nodes << endl;
             

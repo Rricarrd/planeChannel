@@ -24,8 +24,8 @@ boundaryField
   {
       type        groovyBC;
       value       uniform (0 0 0);
-      variables "A=0.5;k=2*pi/5.2593627013218756;f=5;ramp=min(time()/15.0, 1.0);";
-      valueExpression "pos().x < 0.70124836017625 || pos().x > 4.90873852123375 ? vector(0,0,0):vector(0,ramp*A*sin(k*pos().x),0)";
+      variables "A=0.5;k=2*pi/79.375;f=5;ramp=min(time()/15.0, 1.0);";
+      valueExpression "pos().x < 1.25 || pos().x > 78.75 ? vector(0,0,0):vector(0,ramp*A*sin(k*pos().x),0)";
   }
   
   top

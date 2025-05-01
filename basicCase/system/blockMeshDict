@@ -18,7 +18,7 @@ scale   1;
 
 
 // L:length, H:height, W:width
-L       5.60998688141;
+L       80;
 H       1.0;
 W       2.9919930042;
 H2       2;
@@ -48,8 +48,8 @@ vertices
 
 blocks
 (
-    hex ( 0  1  2  5  6  7  8 11) (16 8 16) simpleGrading (1 8 1)
-    hex ( 5  2  3  4 11  8  9 10) (16 8 16) simpleGrading (1 -8 1)
+    hex ( 0  1  2  5  6  7  8 11) (128 12 24) simpleGrading (1 12 1)
+    hex ( 5  2  3  4 11  8  9 10) (128 12 24) simpleGrading (1 -12 1)
 );
 
 boundary
@@ -67,6 +67,20 @@ boundary
             type            patch;
             faces           ((1 7 8 2)(2 8 9 3));
         }
+
+
+    bottom
+            {
+                type            wall;
+                faces           ((0 6 7 1));
+            }
+            top
+            {
+                type            wall;
+                faces           ((4 3 9 10));
+            }
+
+
 );
 
 

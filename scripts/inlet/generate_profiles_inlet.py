@@ -80,15 +80,22 @@ def generate(dict, path, cell_centres):
 
     # List of data
     coeffs = []
-    names = ["u2d", "u3dp", "v2d", "v3dp", "w2d", "w3dp"]
+
+    names = ["u2d", "u2di", "u3d", "u3di", "v2d", "v2di", "v3d", "v3di", "w2d", "w2di", "w3d", "w3di"]
 
     # Fit profiles to curves
     for u in u_list:
-        coeffs.append(np.polyfit(y,np.real(u), degree))
-        coeffs.append(np.polyfit(y,np.imag(u), degree))
+        coeffs.append(np.flip(np.polyfit(y,np.real(u), degree)))
+        coeffs.append(np.flip(np.polyfit(y,np.imag(u), degree)))
 
     # Write data to file
     write_polynomials_list(names, coeffs, constant_path)
+
+    # n = 3
+    # plt.plot(y,np.polyval(coeffs[2*n],y))
+    # plt.plot(y, u_list[n])
+    # plt.show()
+
 
 
 
@@ -110,15 +117,17 @@ def write_inlet_velocity_profile_file(u, v, w, folder_path, name, type):
             f.write(f"({row[0]} {row[1]} {row[2]})\n")
         f.write(')\n')
 
+
 def write_polynomials_list(names, coeff_list, constant_path):
     file_path = os.path.join(constant_path, "polynomialRegressions")
     print(f"Regressions path is {file_path}")
     with open(file_path, 'w') as f:
         # f.write('/*--------------------------------*- C++ -*----------------------------------*\n| =========                 |                                                 |\n| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |\n|  \\    /   O peration     | Version:  1.6                                   |\n|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |\n|    \\/     M anipulation  |                                                 |\n\*---------------------------------------------------------------------------*/\nFoamFile\n{\nversion     2.0;\nformat      ascii;\nclass       dictionary;\nlocation    "constant";\nobject      polynomialRegressionCoefficients;\n}\n// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //\n')
 
-        coeff_string = ""
+
         for name, coeffs in zip(names, coeff_list):
 
+            coeff_string = ""
             for coeff in coeffs:
                 coeff_string = coeff_string + f" {coeff}"
             f.write(f"{coeff_string}\n")

@@ -69,7 +69,7 @@ class orrSommerfeldInletFixedValueFvPatchVectorField
 public:
 
     //- SHA1 representation of the code content
-    static constexpr const char* const SHA1sum = "3f65a80f395a5029bd3774cc0d38d67b786c7202";
+    static constexpr const char* const SHA1sum = "3d229fca55ddc07a5d02652d9aba631d2d3faa14";
 
     //- Runtime type information
     TypeName("orrSommerfeldInlet");

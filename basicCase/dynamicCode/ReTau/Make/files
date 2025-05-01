@@ -1,0 +1,6 @@
+/* dynamicCode:
+ * SHA1 = dd2b7d4f019c8d0e45d80c7ef4dcb8755c49e736
+ */
+functionObjectTemplate.C
+
+LIB = $(PWD)/../platforms/$(WM_OPTIONS)/lib/libReTau_dd2b7d4f019c8d0e45d80c7ef4dcb8755c49e736

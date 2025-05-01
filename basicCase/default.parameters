@@ -22,7 +22,7 @@ nOuterCorrectors         1;  // Only works for pimpleFoam
 limitCo                yes;  // Only works for pimpleFoam
 PIMPLErelTol             0;
 PIMPLEtol             1e-3;
-maxCo                  0.1;
+maxCo                  0.5;
 
 // Numerical schemes
 schemes default;        // Change between linear or cubic. If default, uses the high order values       
@@ -45,12 +45,12 @@ ce 1.048;
 // Meshing
 H 2;
 W 2.9919930042;
-L 5.60998688141;
+L 80;
 Ls 0.25;
-nx 16;
-ny 16;
-nz 16;
-gradient 8;
+nx 128;
+ny 24;
+nz 24;
+gradient 12;
 
 // Flow parameters
 Re_b 3333;
