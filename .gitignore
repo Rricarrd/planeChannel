@@ -112,6 +112,7 @@ processor[0-9]*
 # Ignore .log and .logfiles
 *.log
 *.logfile
+log.pimpleFoam
 
 # Ignore .analyzed directories
 *.analyzed
