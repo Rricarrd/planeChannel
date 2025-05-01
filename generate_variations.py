@@ -84,11 +84,11 @@ for i in range(n_variations):
 
 # Copy runAllCases.sh
 run_all_cases_source_path = ["runAllCases.sh","runAllCasesTmux.sh"]
-for path in run_all_cases_source_path:
-    run_all_cases_destination_path = os.path.join(variations_file_name, path)
+for run_path in run_all_cases_source_path:
+    run_all_cases_destination_path = os.path.join(variations_file_name, run_path)
 
     try:
-        shutil.copy2(run_all_cases_source_path, run_all_cases_destination_path)
+        shutil.copy2(run_path, run_all_cases_destination_path)
     except OSError as e:
         print(f"Error copying runAllCases.sh to {run_all_cases_destination_path}: {e}")
 
