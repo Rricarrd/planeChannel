@@ -10,7 +10,7 @@ writeTime           1;
 // Dynamic mesh
 dynamicMesh sine_lower_wall;
 freqFromOrr yes;
-amplitude 0.01;
+amplitude 0.1;
 frequency 0.28175739321266047;
 matchTolerance  0.01;
 
@@ -22,7 +22,7 @@ nOuterCorrectors         1;  // Only works for pimpleFoam
 limitCo                yes;  // Only works for pimpleFoam
 PIMPLErelTol             0;
 PIMPLEtol             1e-3;
-maxCo                 0.05;
+maxCo                  0.05;
 
 // Numerical schemes
 schemes default;        // Change between linear or cubic. If default, uses the high order values       
