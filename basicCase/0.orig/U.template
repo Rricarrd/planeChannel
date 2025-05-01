@@ -46,6 +46,11 @@ boundaryField
             type            zeroGradient;
         }
 
+        "(left|right)"
+        {
+            type        cyclic;
+        }
+
     {% elif case=="spatial_coded"%}
         inlet
         {
@@ -77,6 +82,8 @@ boundaryField
                 #include <fstream>
                 #include <vector>
                 #include <sstream>
+                #include <unordered_map>
+                #include <regex>
             #};
 
             code
@@ -158,6 +165,27 @@ boundaryField
                     return ((4.0 * Ucl / (H * H)) * y * (H - y));
                 }
 
+
+                static std::string trim(const std::string& str) {
+                    size_t first = str.find_first_not_of(" \t\n\r");
+                    if (std::string::npos == first) {
+                        return str;
+                    }
+                    size_t last = str.find_last_not_of(" \t\n\r");
+                    return str.substr(first, (last - first + 1));
+                }
+
+
+                // Helper function to remove comments from a line
+                static std::string removeComments(const std::string& line) {
+                    size_t commentPos = line.find("//");
+                    if (commentPos != std::string::npos) {
+                        return line.substr(0, commentPos);
+                    }
+                    return line;
+                }
+
+
                 };
 
                 // Creating patch and field data
@@ -198,15 +226,44 @@ boundaryField
 
 
 
+                // Parse default parameters
+                std::ifstream parameterInputFile("default.parameters");
+                if (!parameterInputFile.is_open()) {
+                    std::cerr << "Error opening file!" << std::endl;
+                }
+
+                std::unordered_map<std::string, std::string> parameters;
+
+
+                while (std::getline(parameterInputFile, line)) {
+                    line = local::removeComments(line);
+                    line = local::trim(line);
+
+                    if (!line.empty()) {
+                        std::regex pattern(R"(([a-zA-Z0-9_]+)\s+(.+);)");
+                        std::smatch match;
+
+                        if (std::regex_search(line, match, pattern) && match.size() == 3) {
+                            std::string key = local::trim(match[1].str());
+                            std::string value = local::trim(match[2].str());
+                            parameters[key] = value;
+                        }
+                    }
+                }
+
+                inputFile.close();
+
+
+
 
                 // Define parameters
-                double A_2d = 0.03;
-                double omega_r2d = 1;
-                double A_3d = 0.001;
-                double beta = 2;
-                double omega_r3d = 1;
-                double H = 2;
-                double Ucl = 1;
+                double A_2d = std::stod(parameters["alpha_2D"]);
+                double omega_r2d = 0.281;
+                double A_3d = std::stod(parameters["alpha_3D"]);
+                double beta = std::stod(parameters["beta_3D"]);
+                double omega_r3d = 0.95;
+                double H = std::stod(parameters["H"]);
+                double Ucl = std::stod(parameters["Ucl"]);
 
 
                 // Iterating all face cells
@@ -279,6 +336,11 @@ boundaryField
             type            zeroGradient;
         }
 
+        "(left|right)"
+        {
+            type        cyclicAMI;
+        }
+
         
     {% elif case=="temporal"%}
     
@@ -298,7 +360,7 @@ boundaryField
             }
             "(left|right)"
             {
-                type        cyclic;
+                type        cyclicAMI;
             }
         {% endif %}
 
@@ -309,8 +371,10 @@ boundaryField
     {% if dynamicMesh=="oscillating"%}
         "(bottom|top)"
         {
-            type            noSlip;
+            type           movingWallVelocity;
+            value           uniform (0 0 0);
         }
+
     {% elif dynamicMesh=="sine_lower_wall"%}
         top
         {
@@ -318,7 +382,8 @@ boundaryField
         }
         bottom
         {
-            type            noSlip;
+            type            movingWallVelocity;
+            value           uniform (0 0 0);
         }
     {% else %}
         "(bottom|top)"

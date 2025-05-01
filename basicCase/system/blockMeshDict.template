@@ -80,40 +80,41 @@ boundary
             type            patch;
             faces           ((1 7 8 2)(2 8 9 3));
         }
-    <!--(else)-->
+    <!--(elif case=="temporal")-->
+
+        inlet
+        {
+            type            cyclicAMI;
+            neighbourPatch  outlet;
+            faces           ((0 5 11 6)(5 4 10 11));
+            matchTolerance  |-matchTolerance-|;
+            transform       translational;
+            separationVector (|- L -| 0 0);
+            AMI
+            {
+                method          faceAreaWeight; // Ensures flux conservation
+                tolerance 1e-8;
+            }
+        }
+
+        outlet
+        {
+            type            cyclicAMI;
+            neighbourPatch  inlet;
+            faces           ((1 7 8 2)(2 8 9 3));
+            matchTolerance  |-matchTolerance-|;
+            transform       translational;
+            separationVector (|- -L -| 0 0);
+            AMI
+            {
+                method          faceAreaWeight; // Ensures flux conservation
+                tolerance 1e-8;
+            }
+        }
+    <!--(end)-->
     
         <!--(if dynamicMesh=="sine_lower_wall")-->
         
-
-            inlet
-            {
-                type            cyclicAMI;
-                neighbourPatch  outlet;
-                faces           ((0 5 11 6)(5 4 10 11));
-                matchTolerance  |-matchTolerance-|;
-                transform       translational;
-                separationVector (|- L -| 0 0);
-                AMI
-                {
-                    method          faceAreaWeight; // Ensures flux conservation
-                    tolerance 1e-8;
-                }
-            }
-            
-            outlet
-            {
-                type            cyclicAMI;
-                neighbourPatch  inlet;
-                faces           ((1 7 8 2)(2 8 9 3));
-                matchTolerance  |-matchTolerance-|;
-                transform       translational;
-                separationVector (|- -L -| 0 0);
-                AMI
-                {
-                    method          faceAreaWeight; // Ensures flux conservation
-                    tolerance 1e-8;
-                }
-            }
             left
             {
                 type            cyclicAMI;
@@ -142,22 +143,10 @@ boundary
                     tolerance 1e-8;
                 }
             }
+
+
         <!--(else)-->
-            inlet
-            {
-                type            cyclic;
-                neighbourPatch  outlet;
-                faces           ((0 5 11 6)(5 4 10 11));
-                matchTolerance  |-matchTolerance-|;
-            }
-            
-            outlet
-            {
-                type            cyclic;
-                neighbourPatch  inlet;
-                faces           ((1 7 8 2)(2 8 9 3));
-                matchTolerance  |-matchTolerance-|;
-            }
+
             left
             {
                 type            cyclic;
@@ -172,9 +161,7 @@ boundary
                 faces           ((6 11 8 7)(11 10 9 8));
                 matchTolerance  |-matchTolerance-|;
             }
-            
         <!--(end)-->
-    <!--(end)-->
 
 
             bottom

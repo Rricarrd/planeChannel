@@ -43,6 +43,20 @@ boundaryField
             value           $internalField;
         }
 
+        {% if dynamicMesh=="sine_lower_wall"%}
+
+            "(left|right)"
+            {
+                type        cyclicAMI;
+            }
+        {% else %}
+
+            "(left|right)"
+            {
+                type        cyclic;
+            }
+        {% endif %}
+
     {% elif case=="temporal"%}
         {% if dynamicMesh=="sine_lower_wall"%}
             "(inlet|outlet)"

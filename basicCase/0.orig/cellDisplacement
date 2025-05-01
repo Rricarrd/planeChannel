@@ -24,7 +24,7 @@ boundaryField
   {
       type        groovyBC;
       value       uniform (0 0 0);
-      variables "A=0.5;k=2*pi/79.375;f=5;ramp=min(time()/15.0, 1.0);";
+      variables "A=0.1;k=2*pi/79.375;f=0.28175739321266047;ramp=min(time()/15.0, 1.0);";
       valueExpression "pos().x < 1.25 || pos().x > 78.75 ? vector(0,0,0):vector(0,ramp*A*sin(k*pos().x),0)";
   }
   
@@ -35,17 +35,25 @@ boundaryField
   }
   
   
+
   
+
+        
+            "(inlet|outlet)"
+            {
+                type            fixedValue;
+                value           uniform (0 0 0);
+            }
+            "(left|right)"
+            {
+                type        cyclicAMI;
+            }
+        
+
+
+
   
-      "(inlet|outlet)"
-      {
-          type            cyclic;
-      }
-      "(left|right)"
-      {
-          type        cyclic;
-      }
-  
+
   
 }
 // ************************************************************************* //

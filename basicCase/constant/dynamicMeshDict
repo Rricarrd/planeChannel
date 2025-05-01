@@ -1,7 +1,8 @@
-/*--------------------------------*- C++ -*--------engine:jinja2--------------------------*\
+
+/*--------------------------------*- C++ -*-------engine:jinja2---------------*\
 | =========                 |                                                 |
 | \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
-|  \\    /   O peration     | Version:  v2406                                 |
+|  \\    /   O peration     | Version:  v2406                                  |
 |   \\  /    A nd           | Website:  www.openfoam.com                      |
 |    \\/     M anipulation  |                                                 |
 \*---------------------------------------------------------------------------*/
@@ -9,41 +10,29 @@ FoamFile
 {
     version     2.0;
     format      ascii;
-    class       volScalarField;
-    object      nut;
+    class       dictionary;
+    location    "constant";
+    object      dynamicMeshDict;
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-dimensions      [0 2 -1 0 0 0 0];
 
-internalField   uniform 0;
 
-boundaryField
-{
+
+
+    // The lower wall moves with a sinusoidal waveform
+    dynamicFvMesh dynamicMotionSolverFvMesh;
     
-        "(inlet|outlet)"
-        {
-            type            calculated;
-            value           uniform 1e-08;
-        }
+    motionSolverLibs (fvMotionSolvers overset);
 
-        
+    solver          displacementLaplacian;
 
-            "(left|right)"
-            {
-                type        cyclicAMI;
-            }
-        
-
-    
-    
-
-    "(bottom|top)"
+    displacementLaplacianCoeffs
     {
-        type            zeroGradient;
+        diffusivity     uniform 1;
     }
 
-}
+
 
 
 // ************************************************************************* //

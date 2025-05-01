@@ -48,7 +48,7 @@ FoamFile
 
   snGradSchemes
   {
-      default         orthogonal;
+      default         corrected;
   }
 
 

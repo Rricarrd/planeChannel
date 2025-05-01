@@ -27,12 +27,41 @@ boundaryField
             value           uniform 1e-08;
         }
 
+        {% if dynamicMesh=="sine_lower_wall"%}
+
+            "(left|right)"
+            {
+                type        cyclicAMI;
+            }
+        {% else %}
+
+            "(left|right)"
+            {
+                type        cyclic;
+            }
+        {% endif %}
+
     {% elif case=="spatial_coded"%}
         "(inlet|outlet)"
         {
             type            calculated;
             value           uniform 1e-08;
         }
+
+        {% if dynamicMesh=="sine_lower_wall"%}
+
+            "(left|right)"
+            {
+                type        cyclicAMI;
+            }
+        {% else %}
+
+            "(left|right)"
+            {
+                type        cyclic;
+            }
+
+        {% endif %}
 
     {% elif case=="temporal"%}
         {% if dynamicMesh=="sine_lower_wall"%}

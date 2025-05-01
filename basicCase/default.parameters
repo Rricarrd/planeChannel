@@ -8,10 +8,10 @@ maxDeltaT        3e-1;
 writeTime           1;
 
 // Dynamic mesh
-dynamicMesh no;
-freqFromOrr no;
-amplitude 0.5;
-frequency 5;
+dynamicMesh sine_lower_wall;
+freqFromOrr yes;
+amplitude 0.1;
+frequency 0.28175739321266047;
 matchTolerance  0.01;
 
 // Solver parameters

@@ -32,6 +32,14 @@ boundaryField
             value           $internalField;
         }
 
+        
+
+            "(left|right)"
+            {
+                type        cyclicAMI;
+            }
+        
+
     
     
 

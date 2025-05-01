@@ -67,9 +67,41 @@ boundary
             type            patch;
             faces           ((1 7 8 2)(2 8 9 3));
         }
+    
+        
+            left
+            {
+                type            cyclicAMI;
+                neighbourPatch  right;
+                faces           ((1 2 5 0)(2 3 4 5));
+                matchTolerance  0.01;
+                transform       translational;
+                separationVector (0 0 2.9919930042);
+                AMI
+                {
+                    method          faceAreaWeight; // Ensures flux conservation
+                    tolerance 1e-8;
+                }
+            }
+            right
+            {
+                type            cyclicAMI;
+                neighbourPatch  left;
+                faces           ((6 11 8 7)(11 10 9 8));
+                matchTolerance  0.01;
+                transform       translational;
+                separationVector (0 0 -2.9919930042);
+                AMI
+                {
+                    method          faceAreaWeight; // Ensures flux conservation
+                    tolerance 1e-8;
+                }
+            }
 
 
-    bottom
+
+
+            bottom
             {
                 type            wall;
                 faces           ((0 6 7 1));

@@ -44,6 +44,8 @@ License
                 #include <fstream>
                 #include <vector>
                 #include <sstream>
+                #include <unordered_map>
+                #include <regex>
 //}}} end codeInclude
 
 
@@ -62,11 +64,11 @@ namespace Foam
 // * * * * * * * * * * * * * * * Global Functions  * * * * * * * * * * * * * //
 
 // dynamicCode:
-// SHA1 = 3d229fca55ddc07a5d02652d9aba631d2d3faa14
+// SHA1 = 210896b908afd9d6676c81e88a9914858a990c27
 //
 // unique function name that can be checked if the correct library version
 // has been loaded
-extern "C" void orrSommerfeldInlet_3d229fca55ddc07a5d02652d9aba631d2d3faa14(bool load)
+extern "C" void orrSommerfeldInlet_210896b908afd9d6676c81e88a9914858a990c27(bool load)
 {
     if (load)
     {
@@ -209,7 +211,7 @@ orrSommerfeldInletFixedValueFvPatchVectorField::updateCoeffs()
     }
 
 //{{{ begin code
-    #line 62 "/home/rricarrd/OpenFOAM/rricarrd-v2412/run/tfm/planeChannel/basicCase/0/U/boundaryField/inlet"
+    #line 64 "/home/rricarrd/OpenFOAM/rricarrd-v2412/run/tfm/planeChannel/basicCase/0/U/boundaryField/inlet"
 struct local {
                 // Evaluate polynomial function
                 static double evaluatePolynomial
@@ -286,6 +288,27 @@ struct local {
                     return ((4.0 * Ucl / (H * H)) * y * (H - y));
                 }
 
+
+                static std::string trim(const std::string& str) {
+                    size_t first = str.find_first_not_of(" \t\n\r");
+                    if (std::string::npos == first) {
+                        return str;
+                    }
+                    size_t last = str.find_last_not_of(" \t\n\r");
+                    return str.substr(first, (last - first + 1));
+                }
+
+
+                // Helper function to remove comments from a line
+                static std::string removeComments(const std::string& line) {
+                    size_t commentPos = line.find("//");
+                    if (commentPos != std::string::npos) {
+                        return line.substr(0, commentPos);
+                    }
+                    return line;
+                }
+
+
                 };
 
                 // Creating patch and field data
@@ -326,15 +349,44 @@ struct local {
 
 
 
+                // Parse default parameters
+                std::ifstream parameterInputFile("default.parameters");
+                if (!parameterInputFile.is_open()) {
+                    std::cerr << "Error opening file!" << std::endl;
+                }
+
+                std::unordered_map<std::string, std::string> parameters;
+
+
+                while (std::getline(parameterInputFile, line)) {
+                    line = local::removeComments(line);
+                    line = local::trim(line);
+
+                    if (!line.empty()) {
+                        std::regex pattern(R"(([a-zA-Z0-9_]+)\s+(.+);)");
+                        std::smatch match;
+
+                        if (std::regex_search(line, match, pattern) && match.size() == 3) {
+                            std::string key = local::trim(match[1].str());
+                            std::string value = local::trim(match[2].str());
+                            parameters[key] = value;
+                        }
+                    }
+                }
+
+                inputFile.close();
+
+
+
 
                 // Define parameters
-                double A_2d = 0.03;
-                double omega_r2d = 1;
-                double A_3d = 0.001;
-                double beta = 2;
-                double omega_r3d = 1;
-                double H = 2;
-                double Ucl = 1;
+                double A_2d = std::stod(parameters["alpha_2D"]);
+                double omega_r2d = 0.281;
+                double A_3d = std::stod(parameters["alpha_3D"]);
+                double beta = std::stod(parameters["beta_3D"]);
+                double omega_r3d = 0.95;
+                double H = std::stod(parameters["H"]);
+                double Ucl = std::stod(parameters["Ucl"]);
 
 
                 // Iterating all face cells

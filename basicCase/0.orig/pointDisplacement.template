@@ -35,24 +35,54 @@ boundaryField
   }
   
 
-  {% if dynamicMesh=="sine_lower_wall"%}
-      "(inlet|outlet)"
-      {
-          type            cyclicAMI;
-      }
-      "(left|right)"
-      {
-          type        cyclicAMI;
-      }
-  {% else %}
-      "(inlet|outlet)"
-      {
-          type            cyclic;
-      }
-      "(left|right)"
-      {
-          type        cyclic;
-      }
+  {% if case=="spatial_coded"%}
+
+        {% if dynamicMesh=="sine_lower_wall"%}
+            "(inlet|outlet)"
+            {
+                type            fixedValue;
+                value           uniform (0 0 0);
+            }
+            "(left|right)"
+            {
+                type        cyclicAMI;
+            }
+        {% else %}
+            "(inlet|outlet)"
+            {
+                type            fixedValue;
+                value           uniform (0 0 0);
+            }
+            "(left|right)"
+            {
+                type        cyclic;
+            }
+        {% endif %}
+
+
+
+  {% elif case=="temporal"%}
+
+        {% if dynamicMesh=="sine_lower_wall"%}
+            "(inlet|outlet)"
+            {
+                type            cyclicAMI;
+            }
+            "(left|right)"
+            {
+                type        cyclicAMI;
+            }
+        {% else %}
+            "(inlet|outlet)"
+            {
+                type            cyclic;
+            }
+            "(left|right)"
+            {
+                type        cyclic;
+            }
+        {% endif %}
+
   {% endif %}
   
 }
