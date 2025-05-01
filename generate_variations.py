@@ -83,13 +83,14 @@ for i in range(n_variations):
 #freqFromOrr
 
 # Copy runAllCases.sh
-run_all_cases_source_path = "runAllCases.sh"
-run_all_cases_destination_path = os.path.join(variations_file_name, "runAllCases.sh")
+run_all_cases_source_path = ["runAllCases.sh","runAllCasesTmux.sh"]
+for path in run_all_cases_source_path:
+    run_all_cases_destination_path = os.path.join(variations_file_name, path)
 
-try:
-    shutil.copy2(run_all_cases_source_path, run_all_cases_destination_path)
-except OSError as e:
-    print(f"Error copying runAllCases.sh to {run_all_cases_destination_path}: {e}")
+    try:
+        shutil.copy2(run_all_cases_source_path, run_all_cases_destination_path)
+    except OSError as e:
+        print(f"Error copying runAllCases.sh to {run_all_cases_destination_path}: {e}")
 
 # Copy scripts/common/variations to variations_file_name directory
 variations_scripts_source_path = "scripts/variations"

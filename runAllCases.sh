@@ -4,7 +4,7 @@ for dir in *; do
     	
     	cd $dir
         echo "Running $dir/runCase.sh using foamJob"
-        bash runCaseTmux.sh
+        bash runCase.sh
         cd ..
     fi
 done
