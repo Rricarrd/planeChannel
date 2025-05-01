@@ -115,6 +115,9 @@ processor[0-9]*
 log.pimpleFoam
 *basicCase/log.pimpleFoam
 *log.*
+basicCase/log.pimpleFoam
+log.pimpleFoam
+
 # Ignore .analyzed directories
 *.analyzed
 /basicCase/*.analyzed
