@@ -257,9 +257,9 @@ boundaryField
 
 
                 // Define parameters
-                double A_2d = std::stod(parameters["alpha_2D"]);
-                double omega_r2d = 0.281;
-                double A_3d = std::stod(parameters["alpha_3D"]);
+                double A_2d = std::stod(parameters["alpha_2D"])/100;
+                double omega_r2d = std::stod(parameters["frequency"]);
+                double A_3d = std::stod(parameters["alpha_3D"])/100;
                 double beta = std::stod(parameters["beta_3D"]);
                 double omega_r3d = 0.95;
                 double H = std::stod(parameters["H"]);

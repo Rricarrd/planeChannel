@@ -17,7 +17,7 @@ matchTolerance  0.01;
 // Solver parameters
 solver          pimpleFoam;
 nCorrectors              5;
-nNonOrthogonalCorrectors 1;
+nNonOrthogonalCorrectors 5;
 nOuterCorrectors         1;  // Only works for pimpleFoam
 limitCo                yes;  // Only works for pimpleFoam
 PIMPLErelTol             0;
