@@ -13,7 +13,7 @@ echo "Setting $case field and boundary conditions."
 	python initializeCaseFieldBC.py spatial_coded default
 
 	# Set initial field to a parabolic profile using funkySetFields
-	funkySetFields -time 0
+	# funkySetFields -time 0
 
 {% elif case=="spatial" %} 
 	# Generate initial spatial K-waves for the whole simulation

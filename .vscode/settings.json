@@ -1,0 +1,27 @@
+{
+    "files.associations": {
+        "*.py": "python",
+        "*Dict": "OpenFOAM",
+        "*Properties": "OpenFOAM",
+        "fvSchemes": "OpenFOAM",
+        "fvSolution": "OpenFOAM",
+        "**/constant/g": "OpenFOAM",
+        "**/0/*": "OpenFOAM",
+        "sampleCf": "OpenFOAM",
+        "sampleUMean": "OpenFOAM",
+        "U": "OpenFOAM",
+        "p": "OpenFOAM",
+        "nut": "OpenFOAM",
+        "**/system/*": "OpenFOAM",
+        "**/constant/*": "OpenFOAM",
+        "0.orig": "OpenFOAM",
+        "k": "OpenFOAM",
+        "gammaInt": "OpenFOAM",
+        "ReThetat": "OpenFOAM",
+        "omega": "OpenFOAM",
+        "points": "OpenFOAM",
+        "*.template": "OpenFOAM",
+        "cellDisplacement": "OpenFOAM",
+        "fixedValueFvPatchFieldTemplate.C": "cpp"
+    }
+}

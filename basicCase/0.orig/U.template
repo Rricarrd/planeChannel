@@ -43,7 +43,7 @@ boundaryField
         
         outlet
         {
-            type            zeroGradient;
+            type            advective;
         }
 
         "(left|right)"
@@ -206,7 +206,7 @@ boundaryField
 
 
                 // Read file directly
-                std::ifstream inputFile("constant/polynomialRegressions");  // order of data is
+                std::ifstream inputFile("constant/polynomialRegressions.values");  // order of data is
                 std::vector<std::vector<double>> coeffs_vector;
 
 
@@ -322,6 +322,8 @@ boundaryField
                     u += local::addParabolicProfile (H, Ucl, Cf[faceI].y());
 
 
+
+
                     // Setting boundary conditions
                     field[faceI] = vector(u,v,w);
                 }
@@ -333,7 +335,7 @@ boundaryField
 
         outlet
         {
-            type            zeroGradient;
+            type            advective;
         }
 
         "(left|right)"
@@ -371,8 +373,7 @@ boundaryField
     {% if dynamicMesh=="oscillating"%}
         "(bottom|top)"
         {
-            type           movingWallVelocity;
-            value           uniform (0 0 0);
+            type            noSlip;
         }
 
     {% elif dynamicMesh=="sine_lower_wall"%}
@@ -382,8 +383,7 @@ boundaryField
         }
         bottom
         {
-            type            movingWallVelocity;
-            value           uniform (0 0 0);
+            type            noSlip;
         }
     {% else %}
         "(bottom|top)"

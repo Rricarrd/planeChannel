@@ -16,14 +16,12 @@ FoamFile
 
 libs (
     "libOpenFOAM.so"
-    "libsimpleSwakFunctionObjects.so"
-    "libswakFunctionObjects.so"
-    "libgroovyBC.so"
+    
     "libdynamicSmagorinsky.so"
     "libsampling.so"
    );
 
-application     pimpleFoam;
+application     moveDynamicMesh;
 
 startFrom       latestTime;
 
@@ -50,30 +48,12 @@ timeFormat      general;
 timePrecision   8;
 
 
-  adjustTimeStep            yes;
-  maxCo               0.5;
-  maxDeltaT       0.3;
-
 
 functions
 {
     
-    // Calculating extra fields and some 
-    // #include "FOCf"
-    #include "FOlambda2"
-    #include "FOQ"
-    // #include "FOstrainRate"
-    #include "FOwallShearStress"
-    #include "FOyPlus"
-    #include "FOReTau"
-    
-    
-    
-    // Calculating some averages
-    #include "FOmeanFields"
 
-    // Continuous sampling functions
-    // #include "samplePoints"
+    
      
 }
 

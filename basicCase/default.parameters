@@ -1,6 +1,6 @@
 // Simulation parameters
 case    spatial_coded;
-numberOfProcessors 16;
+numberOfProcessors 6;
 tAveragingStart   200;
 tEnd              350;
 dt               5e-3;
@@ -10,12 +10,13 @@ writeTime           1;
 // Dynamic mesh
 dynamicMesh sine_lower_wall;
 freqFromOrr yes;
-amplitude 0.01;
-frequency 0.28175739321266047;
+amplitude 0.5;
+frequency 0.2817573932125998;
 matchTolerance  0.01;
+swak4Foam no;
 
 // Solver parameters
-solver          pimpleFoam;
+solver          moveDynamicMesh;
 nCorrectors              5;
 nNonOrthogonalCorrectors 5;
 nOuterCorrectors         1;  // Only works for pimpleFoam
@@ -37,7 +38,7 @@ relTolFinal 0;
 
 
 // Turbulence model
-model dynamicSmagorinsky;
+model WALE;
 cs 0.065;
 ck 0.02655;
 ce 1.048;

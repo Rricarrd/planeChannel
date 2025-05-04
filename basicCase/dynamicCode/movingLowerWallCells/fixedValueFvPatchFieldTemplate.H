@@ -49,7 +49,7 @@ namespace Foam
                          A templated FixedValueFvPatch
 \*---------------------------------------------------------------------------*/
 
-class orrSommerfeldInletFixedValueFvPatchVectorField
+class movingLowerWallCellsFixedValueFvPatchVectorField
 :
     public fixedValueFvPatchField<vector>,
     public dictionaryContent
@@ -69,23 +69,23 @@ class orrSommerfeldInletFixedValueFvPatchVectorField
 public:
 
     //- SHA1 representation of the code content
-    static constexpr const char* const SHA1sum = "adca0eae2656736864b69b97d621f0e76b6fb5ca";
+    static constexpr const char* const SHA1sum = "4b1e03a26e10eb039c4f4d7d794cc44b74347be6";
 
     //- Runtime type information
-    TypeName("orrSommerfeldInlet");
+    TypeName("movingLowerWallCells");
 
 
     // Constructors
 
         //- Construct from patch and internal field
-        orrSommerfeldInletFixedValueFvPatchVectorField
+        movingLowerWallCellsFixedValueFvPatchVectorField
         (
             const fvPatch&,
             const DimensionedField<vector, volMesh>&
         );
 
         //- Construct from patch, internal field and dictionary
-        orrSommerfeldInletFixedValueFvPatchVectorField
+        movingLowerWallCellsFixedValueFvPatchVectorField
         (
             const fvPatch&,
             const DimensionedField<vector, volMesh>&,
@@ -93,24 +93,24 @@ public:
         );
 
         //- Construct by mapping a copy onto a new patch
-        orrSommerfeldInletFixedValueFvPatchVectorField
+        movingLowerWallCellsFixedValueFvPatchVectorField
         (
-            const orrSommerfeldInletFixedValueFvPatchVectorField&,
+            const movingLowerWallCellsFixedValueFvPatchVectorField&,
             const fvPatch&,
             const DimensionedField<vector, volMesh>&,
             const fvPatchFieldMapper&
         );
 
         //- Construct as copy
-        orrSommerfeldInletFixedValueFvPatchVectorField
+        movingLowerWallCellsFixedValueFvPatchVectorField
         (
-            const orrSommerfeldInletFixedValueFvPatchVectorField&
+            const movingLowerWallCellsFixedValueFvPatchVectorField&
         );
 
         //- Construct as copy setting internal field reference
-        orrSommerfeldInletFixedValueFvPatchVectorField
+        movingLowerWallCellsFixedValueFvPatchVectorField
         (
-            const orrSommerfeldInletFixedValueFvPatchVectorField&,
+            const movingLowerWallCellsFixedValueFvPatchVectorField&,
             const DimensionedField<vector, volMesh>&
         );
 
@@ -131,7 +131,7 @@ public:
 
 
     //- Destructor
-    virtual ~orrSommerfeldInletFixedValueFvPatchVectorField();
+    virtual ~movingLowerWallCellsFixedValueFvPatchVectorField();
 
 
     // Member Functions

@@ -35,7 +35,7 @@ License
 #include "PatchFunction1.H"
 
 //{{{ begin codeInclude
-#line 50 "/home/rricarrd/OpenFOAM/rricarrd-v2412/run/tfm/planeChannel/basicCase/0/U/boundaryField/inlet"
+#line 50 "/home/rricarrd/OpenFOAM/rricarrd-v2406/tfm/planeChannel/basicCase/0/U/boundaryField/inlet"
 #include "fvCFD.H"
                 #include <cmath>
                 #include <iostream>
@@ -64,11 +64,11 @@ namespace Foam
 // * * * * * * * * * * * * * * * Global Functions  * * * * * * * * * * * * * //
 
 // dynamicCode:
-// SHA1 = 210896b908afd9d6676c81e88a9914858a990c27
+// SHA1 = adca0eae2656736864b69b97d621f0e76b6fb5ca
 //
 // unique function name that can be checked if the correct library version
 // has been loaded
-extern "C" void orrSommerfeldInlet_210896b908afd9d6676c81e88a9914858a990c27(bool load)
+extern "C" void orrSommerfeldInlet_adca0eae2656736864b69b97d621f0e76b6fb5ca(bool load)
 {
     if (load)
     {
@@ -211,7 +211,7 @@ orrSommerfeldInletFixedValueFvPatchVectorField::updateCoeffs()
     }
 
 //{{{ begin code
-    #line 64 "/home/rricarrd/OpenFOAM/rricarrd-v2412/run/tfm/planeChannel/basicCase/0/U/boundaryField/inlet"
+    #line 64 "/home/rricarrd/OpenFOAM/rricarrd-v2406/tfm/planeChannel/basicCase/0/U/boundaryField/inlet"
 struct local {
                 // Evaluate polynomial function
                 static double evaluatePolynomial
@@ -329,7 +329,7 @@ struct local {
 
 
                 // Read file directly
-                std::ifstream inputFile("constant/polynomialRegressions");  // order of data is
+                std::ifstream inputFile("constant/polynomialRegressions.values");  // order of data is
                 std::vector<std::vector<double>> coeffs_vector;
 
 
@@ -380,9 +380,9 @@ struct local {
 
 
                 // Define parameters
-                double A_2d = std::stod(parameters["alpha_2D"]);
-                double omega_r2d = 0.281;
-                double A_3d = std::stod(parameters["alpha_3D"]);
+                double A_2d = std::stod(parameters["alpha_2D"])/100;
+                double omega_r2d = std::stod(parameters["frequency"]);
+                double A_3d = std::stod(parameters["alpha_3D"])/100;
                 double beta = std::stod(parameters["beta_3D"]);
                 double omega_r3d = 0.95;
                 double H = std::stod(parameters["H"]);
@@ -443,6 +443,8 @@ struct local {
 
                     // Adding parabolic profile
                     u += local::addParabolicProfile (H, Ucl, Cf[faceI].y());
+
+
 
 
                     // Setting boundary conditions

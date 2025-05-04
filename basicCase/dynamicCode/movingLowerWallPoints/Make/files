@@ -1,0 +1,6 @@
+/* dynamicCode:
+ * SHA1 = ae78ca5958e8f022d635aa96f616d989d9977772
+ */
+fixedValuePointPatchFieldTemplate.C
+
+LIB = $(PWD)/../platforms/$(WM_OPTIONS)/lib/libmovingLowerWallPoints_ae78ca5958e8f022d635aa96f616d989d9977772
