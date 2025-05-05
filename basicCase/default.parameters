@@ -1,5 +1,6 @@
 // Simulation parameters
 case    spatial_coded;
+juno no;
 numberOfProcessors 6;
 tAveragingStart   400;
 tEnd              600;
