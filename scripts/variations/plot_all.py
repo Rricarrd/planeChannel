@@ -71,7 +71,7 @@ def print_retau_space(folders, current_directory):
     # Create a simple matplotlib figure
     fig, ax = plt.subplots()
     
-    ax.set_xlabel("Space")
+    ax.set_xlabel("Lenght [m]")
     ax.set_ylabel("Ret")
 
     # Iterate through each folder and check for the pickled file
@@ -106,15 +106,16 @@ def print_retau_space(folders, current_directory):
                 mags_bot = np.array(np.linalg.norm(wss[b"bottom"][b"value"],axis=1))
                 tau = 0.5*np.abs(np.add(mags_top,mags_bot))
 
-
-                averaged_tau_values = [np.mean(tau[i:i+parsed_data["nx"]]) for i in range(0, len(tau), parsed_data["nz"])]
+                n = parsed_data["nz"]
+                averaged_tau_values = [np.mean(tau[i:i+n]) for i in range(0, len(tau), n)]
 
 
                 ut = np.sqrt(averaged_tau_values)
 
                 ret = ut*(parsed_data["H"]/2)/parsed_data["nu"]
                 
-                ax.plot(ret, label=f"{folder}")
+                x = np.linspace(0, parsed_data["L"], len(ret))
+                ax.scatter(x,ret, label=f"{folder}")
 
 
             except KeyError as e:
