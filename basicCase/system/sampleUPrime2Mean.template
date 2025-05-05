@@ -1,4 +1,10 @@
-// -*- C++ -*-
+/*-----------------------*- C++ -*-------engine:jinja2-----------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v2406                                 |
+|   \\  /    A nd           | Website:  www.openfoam.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
 
 type                sets;
 libs                (sampling);
@@ -12,14 +18,81 @@ fields
 
 sets
 {
-    l1 // 1, 5, 10, ... delta
-    {
-        type        uniform;
-        axis        distance;
-        start       (|-L/2-| 0 |-W/2-|);
-        end         (|-L/2-| |-H-| |-W/2-|);
-        nPoints     200;
-    }  
+    {% if case=="temporal"%}
+        lhalf // 1, 5, 10, ... delta
+        {
+            type        uniform;
+            axis        distance;
+            start       ({{L/2}} 0 {{W/2}});
+            end         ({{L/2}} {{H}} {{W/2}});
+            nPoints     200;
+        }    
+    {% elif case=="spatial_coded"%}
+        l0 // 1, 5, 10, ... delta
+        {
+            type        uniform;
+            axis        distance;
+            start       ({{0}} 0 {{W/2}});
+            end         ({{0}} {{H}} {{W/2}});
+            nPoints     200;
+        }
+        
+        
+
+        l1 // 1, 5, 10, ... delta
+        {
+            type        uniform;
+            axis        distance;
+            start       ({{L*0.1}} 0 {{W/2}});
+            end         ({{L*0.1}} {{H}} {{W/2}});
+            nPoints     200;
+        }
+
+        l3 // 1, 5, 10, ... delta
+        {
+            type        uniform;
+            axis        distance;
+            start       ({{L*0.3}} 0 {{W/2}});
+            end         ({{L*0.3}} {{H}} {{W/2}});
+            nPoints     200;
+        }
+
+        l5 // 1, 5, 10, ... delta
+        {
+            type        uniform;
+            axis        distance;
+            start       ({{L*0.5}} 0 {{W/2}});
+            end         ({{L*0.5}} {{H}} {{W/2}});
+            nPoints     200;
+        }
+
+        l7 // 1, 5, 10, ... delta
+        {
+            type        uniform;
+            axis        distance;
+            start       ({{L*0.7}} 0 {{W/2}});
+            end         ({{L*0.7}} {{H}} {{W/2}});
+            nPoints     200;
+        }
+
+        l9 // 1, 5, 10, ... delta
+        {
+            type        uniform;
+            axis        distance;
+            start       ({{L*0.9}} 0 {{W/2}});
+            end         ({{L*0.9}} {{H}} {{W/2}});
+            nPoints     200;
+        }
+
+        l10 // 1, 5, 10, ... delta
+        {
+            type        uniform;
+            axis        distance;
+            start       ({{L}} 0 {{W/2}});
+            end         ({{L}} {{H}} {{W/2}});
+            nPoints     200;
+        }
+    {% endif %} 
 }
 
 

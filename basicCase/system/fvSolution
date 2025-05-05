@@ -65,12 +65,23 @@ solvers
 }
 
 
-  PISO
+  PIMPLE
   {
       nCorrectors              5;
-      nNonOrthogonalCorrectors 5;
+      nOuterCorrectors         1;
+      nNonOrthogonalCorrectors 1;
       pRefCell                  0;
       pRefValue                 0;
+
+      residualControl
+        {
+            "(U|k|epsilon|omega)"
+            {
+                relTol          0;
+                tolerance       0.001;
+            }
+        }
+      
   }
 
 

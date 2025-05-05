@@ -92,10 +92,6 @@ boundaryField
         const vectorField& cellDisplacementFaceValuesInterpolated = patchInterpolator.interpolate(cellDisplacementFaceValues);
 
 
-
-
-
-        
         
         Info<< "Updated bottom boundary displacement field" << endl;
     #};

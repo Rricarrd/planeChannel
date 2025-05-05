@@ -12,4 +12,8 @@ echo "Setting $case field and boundary conditions."
 
  
 
+
+   	rm -f constant/dynamicMeshDict
+   	rm -f 0/cellDisplacement
+   	rm -f 0/pointDisplacement
  	

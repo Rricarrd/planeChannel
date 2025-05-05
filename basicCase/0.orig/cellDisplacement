@@ -103,7 +103,7 @@ boundaryField
             }
             "(left|right)"
             {
-                type        cyclicAMI;
+                type        cyclic;
             }
         
 

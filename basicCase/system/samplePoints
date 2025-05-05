@@ -1,4 +1,4 @@
-/*--------------------------------*- C++ -*----------------------------------*\
+/*-----------------------*- C++ -*-------engine:jinja2-----------------------*\
 | =========                 |                                                 |
 | \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
 |  \\    /   O peration     | Version:  v2406                                 |
@@ -24,7 +24,19 @@ FoamFile
          fields              (U);        // Field(s) you want to sample
          probeLocations
          (
-             (40.0 1.0 1.4959965021)
-             // Add more points as needed
+
+            (40.0 1.0 1.4959965021) // Center of the domain
+
+            
+             (40.0 1.0 1.4959965021) // Center of the domain
+             (8.0 1.0 1.4959965021) // 10% of L
+             (24.0 1.0 1.4959965021) // 30% of L
+             (40.0 1.0 1.4959965021) // 50% of L
+             (56.0 1.0 1.4959965021) // 70% of L
+             (72.0 1.0 1.4959965021) // 90% of L
+             (80 1.0 1.4959965021) // End of the domain
+             (40.0 0 1.4959965021) // Bottom of the domain
+            
+
          );
      }

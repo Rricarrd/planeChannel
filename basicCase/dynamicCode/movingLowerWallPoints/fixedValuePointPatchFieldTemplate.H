@@ -69,7 +69,7 @@ class movingLowerWallPointsFixedValuePointPatchVectorField
 public:
 
     //- SHA1 representation of the code content
-    static constexpr const char* const SHA1sum = "ae78ca5958e8f022d635aa96f616d989d9977772";
+    static constexpr const char* const SHA1sum = "0aa72166855daf743d2ea4216a469a452bfb1795";
 
     //- Runtime type information
     TypeName("movingLowerWallPoints");

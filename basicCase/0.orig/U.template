@@ -340,7 +340,7 @@ boundaryField
 
         "(left|right)"
         {
-            type        cyclicAMI;
+            type        cyclic;
         }
 
         
@@ -362,7 +362,7 @@ boundaryField
             }
             "(left|right)"
             {
-                type        cyclicAMI;
+                type        cyclic;
             }
         {% endif %}
 

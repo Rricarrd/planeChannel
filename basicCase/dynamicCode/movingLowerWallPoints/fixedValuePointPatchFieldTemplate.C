@@ -59,11 +59,11 @@ namespace Foam
 // * * * * * * * * * * * * * * * Global Functions  * * * * * * * * * * * * * //
 
 // dynamicCode:
-// SHA1 = ae78ca5958e8f022d635aa96f616d989d9977772
+// SHA1 = 0aa72166855daf743d2ea4216a469a452bfb1795
 //
 // unique function name that can be checked if the correct library version
 // has been loaded
-extern "C" void movingLowerWallPoints_ae78ca5958e8f022d635aa96f616d989d9977772(bool load)
+extern "C" void movingLowerWallPoints_0aa72166855daf743d2ea4216a469a452bfb1795(bool load)
 {
     if (load)
     {
@@ -208,28 +208,41 @@ movingLowerWallPointsFixedValuePointPatchVectorField::updateCoeffs()
 
 //{{{ begin code
     #line 59 "/home/rricarrd/OpenFOAM/rricarrd-v2406/tfm/planeChannel/basicCase/0/pointDisplacement/boundaryField/bottom"
-// Creating patch and field data
-        const fvPatch& boundaryPatch = patch();
-        const vectorField& Cf = boundaryPatch.Cf();
+//- Get this field
         vectorField& field = *this;
 
-        // Getting current time
-        double t = this->db().time().value();
-
-
-        // Set variables
-        const scalar A = 0.5;
-        const scalar k = 2 * 3.141592 / 80;
-        const scalar f = 0.2817573932125998;
-        const scalar ramp = min(t / 15.0, 1.0);
-        const scalarField& X = Cf.component(vector::X);
-
-
-        // Loop over the faces of the patch
-        forAll(Cf, faceI)
-        { 
-            field[faceI] = vector(0, A * sin(k * X[faceI] + f * t), 0);
+        //- Get the cell displacement field
+        const volVectorField& cellDisplacement = this->db().lookupObject<volVectorField>("cellDisplacement");
+        const fvMesh & mesh  =  cellDisplacement.mesh();
+        
+        //- PatchID 
+        const label patchID = mesh.boundaryMesh().findPatchID("bottom");
+        if (patchID < 0)
+        {
+            FatalError
+                << "Cannot find patch named 'bottom'"
+                << exit(FatalError);
         }
+
+        //- set-up interpolator
+        primitivePatchInterpolation patchInterpolator
+        (
+            mesh.boundaryMesh()[patchID]
+        );
+
+        //- Get cell displacement face values 
+        const vectorField& cellDisplacementFaceValues = cellDisplacement.boundaryField()[patchID];
+
+        //- Perform interpolation 
+        const vectorField& cellDisplacementFaceValuesInterpolated = patchInterpolator.interpolate(cellDisplacementFaceValues);
+
+
+
+
+
+        
+        
+        Info<< "Updated bottom boundary displacement field" << endl;
 //}}} end code
 
     this->parent_bctype::updateCoeffs();
