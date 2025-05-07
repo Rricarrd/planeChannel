@@ -26,8 +26,8 @@ boundaryField
     {% if swak4Foam=="yes"%}
     type        groovyBC;
     value       uniform (0 0 0);
-    variables "A={{amplitude}};k=2*pi/{{L-L/nx}};f={{frequency}};ramp=min(time()/15.0, 1.0);";
-    valueExpression "vector(0,ramp*A*sin(k*pos().x + f * time()),0)";
+    variables "A={{amplitude}};k=2*pi/{{L-L/nx}};w={{omega}};ramp=min(time()/15.0, 1.0);";
+    valueExpression "vector(0,ramp*A*sin(k*pos().x + w * time()),0)";
   
     {% else %}
     
@@ -75,7 +75,7 @@ boundaryField
         // Set variables
         const scalar A = {{amplitude}};
         const scalar k = 2 * 3.141592 / {{L}};
-        const scalar f = {{frequency}};
+        const scalar w = {{omega}};
         const scalar ramp = min(t / 15.0, 1.0);
         const scalarField& X = Cf.component(vector::X);
 
@@ -83,7 +83,7 @@ boundaryField
         // Loop over the faces of the patch
         forAll(Cf, faceI)
         { 
-            field[faceI] = vector(0, A * sin(k * X[faceI] + f * t), 0);
+            field[faceI] = vector(0, A * sin(k * X[faceI] + w * t), 0);
         }
     #};
 
