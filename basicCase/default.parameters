@@ -1,8 +1,16 @@
 // Simulation parameters
+<<<<<<< HEAD
 case         temporal;
 numberOfProcessors  6;
 tAveragingStart   200;
 tEnd              350;
+=======
+case    spatial_coded;
+juno no;
+numberOfProcessors 6;
+tAveragingStart   400;
+tEnd              600;
+>>>>>>> 156e6add5d5146c8352bfc17e16a1abd1f17a87a
 dt               5e-3;
 maxDeltaT        3e-1;
 writeTime           1;
@@ -10,11 +18,18 @@ writeTime           1;
 
 // Dynamic mesh
 dynamicMesh no;
+<<<<<<< HEAD
 transpiration yes;
 freqFromOrr yes;
 amplitude 0.01;
 omega 0.28175739321266047;
+=======
+freqFromOrr no;
+amplitude 0.5;
+frequency 0.2817573932125998;
+>>>>>>> 156e6add5d5146c8352bfc17e16a1abd1f17a87a
 matchTolerance  0.01;
+swak4Foam no;
 
 // Solver parameters
 solver          pimpleFoam;
@@ -39,7 +54,7 @@ relTolFinal 0;
 
 
 // Turbulence model
-model dynamicSmagorinsky;
+model WALE;
 cs 0.065;
 ck 0.02655;
 ce 1.048;

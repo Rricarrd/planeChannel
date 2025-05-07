@@ -119,7 +119,7 @@ def write_inlet_velocity_profile_file(u, v, w, folder_path, name, type):
 
 
 def write_polynomials_list(names, coeff_list, constant_path):
-    file_path = os.path.join(constant_path, "polynomialRegressions")
+    file_path = os.path.join(constant_path, "polynomialRegressions.values")
     print(f"Regressions path is {file_path}")
     with open(file_path, 'w') as f:
         # f.write('/*--------------------------------*- C++ -*----------------------------------*\n| =========                 |                                                 |\n| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |\n|  \\    /   O peration     | Version:  1.6                                   |\n|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |\n|    \\/     M anipulation  |                                                 |\n\*---------------------------------------------------------------------------*/\nFoamFile\n{\nversion     2.0;\nformat      ascii;\nclass       dictionary;\nlocation    "constant";\nobject      polynomialRegressionCoefficients;\n}\n// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //\n')

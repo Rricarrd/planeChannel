@@ -16,9 +16,7 @@ FoamFile
 
 libs (
     "libOpenFOAM.so"
-    "libsimpleSwakFunctionObjects.so"
-    "libswakFunctionObjects.so"
-    "libgroovyBC.so"
+    
     "libdynamicSmagorinsky.so"
     "libsampling.so"
    );
@@ -31,7 +29,7 @@ startTime       0;
 
 stopAt          endTime;
 
-endTime         350;
+endTime         600;
 
 deltaT          0.005;
 
@@ -51,29 +49,36 @@ timePrecision   8;
 
 
   adjustTimeStep            yes;
+<<<<<<< HEAD
   maxCo               0.1;
+=======
+  maxCo               0.05;
+>>>>>>> 156e6add5d5146c8352bfc17e16a1abd1f17a87a
   maxDeltaT       0.3;
 
 
 functions
 {
     
+
+    
+
     // Calculating extra fields and some 
-    // #include "FOCf"
+     #include "FOCf"
     #include "FOlambda2"
     #include "FOQ"
-    // #include "FOstrainRate"
     #include "FOwallShearStress"
     #include "FOyPlus"
     #include "FOReTau"
-    
-    
+
     
     // Calculating some averages
     #include "FOmeanFields"
 
     // Continuous sampling functions
-    // #include "samplePoints"
+     #include "samplePoints"
+
+    
      
 }
 

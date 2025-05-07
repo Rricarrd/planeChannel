@@ -16,9 +16,11 @@ FoamFile
 
 libs (
     "libOpenFOAM.so"
+    {% if swak4Foam=="yes"%}
     "libsimpleSwakFunctionObjects.so"
     "libswakFunctionObjects.so"
     "libgroovyBC.so"
+    {% endif %}
     "libdynamicSmagorinsky.so"
     "libsampling.so"
    );
@@ -58,22 +60,29 @@ timePrecision   8;
 functions
 {
     
+
+    {% if solver!="moveDynamicMesh"%}
+
     // Calculating extra fields and some 
-    // #include "FOCf"
+        {% if hardware!="juno"%}
+        #include "FOCf"
+        #include "FOReTau"
+        {% endif %}
+
     #include "FOlambda2"
     #include "FOQ"
-    // #include "FOstrainRate"
     #include "FOwallShearStress"
     #include "FOyPlus"
-    #include "FOReTau"
     
-    
+
     
     // Calculating some averages
     #include "FOmeanFields"
 
     // Continuous sampling functions
-    // #include "samplePoints"
+     #include "samplePoints"
+
+    {% endif %}
      
 }
 

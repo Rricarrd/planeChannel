@@ -25,19 +25,19 @@ License
 
 Description
     Template for use with dynamic code generation of a
-    fixedValue fvPatchField.
+    fixedValue pointPatchField.
 
     - without state
 
 SourceFiles
-    fixedValueFvPatchFieldTemplate.C
+    fixedValuePointPatchFieldTemplate.C
 
 \*---------------------------------------------------------------------------*/
 
-#ifndef fixedValueFvPatchTemplateVectorField_H
-#define fixedValueFvPatchTemplateVectorField_H
+#ifndef coded_fixedValuePointPatchTemplateVectorField_H
+#define coded_fixedValuePointPatchTemplateVectorField_H
 
-#include "fixedValueFvPatchFields.H"
+#include "fixedValuePointPatchFields.H"
 #include "dictionaryContent.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
@@ -46,16 +46,16 @@ namespace Foam
 {
 
 /*---------------------------------------------------------------------------*\
-                         A templated FixedValueFvPatch
+                A templated FixedValuePointPatchField
 \*---------------------------------------------------------------------------*/
 
-class orrSommerfeldInletFixedValueFvPatchVectorField
+class movingLowerWallPointsFixedValuePointPatchVectorField
 :
-    public fixedValueFvPatchField<vector>,
+    public fixedValuePointPatchField<vector>,
     public dictionaryContent
 {
     //- The parent boundary condition type
-    typedef fixedValueFvPatchField<vector> parent_bctype;
+    typedef fixedValuePointPatchField<vector> parent_bctype;
 
 
     // Private Member Functions
@@ -69,69 +69,70 @@ class orrSommerfeldInletFixedValueFvPatchVectorField
 public:
 
     //- SHA1 representation of the code content
-    static constexpr const char* const SHA1sum = "adca0eae2656736864b69b97d621f0e76b6fb5ca";
+    static constexpr const char* const SHA1sum = "0aa72166855daf743d2ea4216a469a452bfb1795";
 
     //- Runtime type information
-    TypeName("orrSommerfeldInlet");
+    TypeName("movingLowerWallPoints");
 
 
     // Constructors
 
         //- Construct from patch and internal field
-        orrSommerfeldInletFixedValueFvPatchVectorField
+        movingLowerWallPointsFixedValuePointPatchVectorField
         (
-            const fvPatch&,
-            const DimensionedField<vector, volMesh>&
+            const pointPatch&,
+            const DimensionedField<vector, pointMesh>&
         );
 
         //- Construct from patch, internal field and dictionary
-        orrSommerfeldInletFixedValueFvPatchVectorField
+        movingLowerWallPointsFixedValuePointPatchVectorField
         (
-            const fvPatch&,
-            const DimensionedField<vector, volMesh>&,
-            const dictionary&
+            const pointPatch&,
+            const DimensionedField<vector, pointMesh>&,
+            const dictionary& dict,
+            IOobjectOption::readOption requireValue = IOobjectOption::MUST_READ
         );
 
         //- Construct by mapping a copy onto a new patch
-        orrSommerfeldInletFixedValueFvPatchVectorField
+        movingLowerWallPointsFixedValuePointPatchVectorField
         (
-            const orrSommerfeldInletFixedValueFvPatchVectorField&,
-            const fvPatch&,
-            const DimensionedField<vector, volMesh>&,
-            const fvPatchFieldMapper&
+            const movingLowerWallPointsFixedValuePointPatchVectorField&,
+            const pointPatch&,
+            const DimensionedField<vector, pointMesh>&,
+            const pointPatchFieldMapper&
         );
 
         //- Construct as copy
-        orrSommerfeldInletFixedValueFvPatchVectorField
+        movingLowerWallPointsFixedValuePointPatchVectorField
         (
-            const orrSommerfeldInletFixedValueFvPatchVectorField&
+            const movingLowerWallPointsFixedValuePointPatchVectorField&
         );
 
         //- Construct as copy setting internal field reference
-        orrSommerfeldInletFixedValueFvPatchVectorField
+        movingLowerWallPointsFixedValuePointPatchVectorField
         (
-            const orrSommerfeldInletFixedValueFvPatchVectorField&,
-            const DimensionedField<vector, volMesh>&
+            const movingLowerWallPointsFixedValuePointPatchVectorField&,
+            const DimensionedField<vector, pointMesh>&
         );
 
         //- Return a clone
-        virtual tmp<fvPatchField<vector>> clone() const
+        virtual autoPtr<pointPatchField<vector>> clone() const
         {
-            return fvPatchField<vector>::Clone(*this);
+            return pointPatchField<vector>::Clone(*this);
         }
 
-        //- Clone with an internal field reference
-        virtual tmp<fvPatchField<vector>> clone
+        //- Construct and return a clone setting internal field reference
+        virtual autoPtr<pointPatchField<vector>> clone
         (
-            const DimensionedField<vector, volMesh>& iF
+            const DimensionedField<vector, pointMesh>& iF
         ) const
         {
-            return fvPatchField<vector>::Clone(*this, iF);
+            return pointPatchField<vector>::Clone(*this, iF);
         }
 
 
     //- Destructor
-    virtual ~orrSommerfeldInletFixedValueFvPatchVectorField();
+    virtual ~movingLowerWallPointsFixedValuePointPatchVectorField();
 
 
     // Member Functions

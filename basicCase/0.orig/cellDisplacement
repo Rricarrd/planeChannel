@@ -22,10 +22,74 @@ boundaryField
 {
   bottom
   {
+<<<<<<< HEAD
       type        groovyBC;
       value       uniform (0 0 0);
       variables "A=0.01;k=2*pi/5.2359;w=0.28175739321266047;ramp=min(time()/15.0, 1.0);";
       valueExpression "vector(0,ramp*A*sin(k*pos().x + w * time()),0)";
+=======
+
+    
+    
+    type             codedFixedValue;
+    value            uniform (0 0 0);
+
+    name  movingLowerWallCells;
+
+    codeOptions
+    #{
+        -I$(LIB_SRC)/finiteVolume/lnInclude \
+        -I$(LIB_SRC)/meshTools/lnInclude
+    #};
+
+    codeLibs
+    #{
+        -lmeshTools \
+        -lfiniteVolume
+    #};
+
+
+    codeInclude
+    #{
+        #include "fvCFD.H"
+        #include <cmath>
+        #include <iostream>
+        #include <vector>
+        #include <fstream>
+        #include <string>
+        #include <regex>
+        #include <unordered_map>
+    #};
+
+    code
+    #{
+        // Creating patch and field data
+        const fvPatch& boundaryPatch = patch();
+        const vectorField& Cf = boundaryPatch.Cf();
+        vectorField& field = *this;
+
+        // Getting current time
+        double t = this->db().time().value();
+
+
+        // Set variables
+        const scalar A = 0.5;
+        const scalar k = 2 * 3.141592 / 80;
+        const scalar f = 0.2817573932125998;
+        const scalar ramp = min(t / 15.0, 1.0);
+        const scalarField& X = Cf.component(vector::X);
+
+
+        // Loop over the faces of the patch
+        forAll(Cf, faceI)
+        { 
+            field[faceI] = vector(0, A * sin(k * X[faceI] + f * t), 0);
+        }
+    #};
+
+    
+
+>>>>>>> 156e6add5d5146c8352bfc17e16a1abd1f17a87a
   }
   
   top
