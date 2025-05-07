@@ -1,6 +1,6 @@
 // Simulation parameters
 case    temporal;
-juno               no;
+calculateReCf      yes;
 numberOfProcessors  6;
 tAveragingStart   300;
 tEnd              600;

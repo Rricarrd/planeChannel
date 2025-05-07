@@ -64,9 +64,9 @@ functions
     {% if solver!="moveDynamicMesh"%}
 
     // Calculating extra fields and some 
-        {% if hardware!="juno"%}
-        #include "FOCf"
-        #include "FOReTau"
+        {% if calculateReCf!="yes"%}
+            #include "FOCf"
+            #include "FOReTau"
         {% endif %}
 
     #include "FOlambda2"
