@@ -24,7 +24,7 @@ FoamFile
          fields              (U);        // Field(s) you want to sample
          probeLocations
          (
-             (40.0 1.0 1.4959965021)
+             (2.61795 1.0 1.4959965021)
              // Add more points as needed
          );
      }

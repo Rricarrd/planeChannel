@@ -40,16 +40,13 @@ boundaryField
         
             "(inlet|outlet)"
             {
-                type            fixedValue;
-                value           uniform (0 0 0);
+                type            cyclic;
             }
             "(left|right)"
             {
-                type        cyclicAMI;
+                type        cyclic;
             }
         
-
-
 
   
   

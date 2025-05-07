@@ -1,28 +1,30 @@
 // Simulation parameters
-case    spatial_coded;
-numberOfProcessors 16;
+case         temporal;
+numberOfProcessors  6;
 tAveragingStart   200;
 tEnd              350;
 dt               5e-3;
 maxDeltaT        3e-1;
 writeTime           1;
 
+
 // Dynamic mesh
-dynamicMesh sine_lower_wall;
+dynamicMesh no;
+transpiration yes;
 freqFromOrr yes;
 amplitude 0.01;
-frequency 0.28175739321266047;
+omega 0.28175739321266047;
 matchTolerance  0.01;
 
 // Solver parameters
 solver          pimpleFoam;
 nCorrectors              5;
-nNonOrthogonalCorrectors 5;
+nNonOrthogonalCorrectors 1;
 nOuterCorrectors         1;  // Only works for pimpleFoam
 limitCo                yes;  // Only works for pimpleFoam
 PIMPLErelTol             0;
 PIMPLEtol             1e-3;
-maxCo                 0.05;
+maxCo                 0.1;
 
 // Numerical schemes
 schemes default;        // Change between linear or cubic. If default, uses the high order values       
@@ -45,9 +47,9 @@ ce 1.048;
 // Meshing
 H 2;
 W 2.9919930042;
-L 80;
+L 5.2359;
 Ls 0.25;
-nx 128;
+nx 24;
 ny 24;
 nz 24;
 gradient 12;

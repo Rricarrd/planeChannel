@@ -84,32 +84,32 @@ boundary
 
         inlet
         {
-            type            cyclicAMI;
+            type            cyclic;
             neighbourPatch  outlet;
             faces           ((0 5 11 6)(5 4 10 11));
-            matchTolerance  |-matchTolerance-|;
-            transform       translational;
-            separationVector (|- L -| 0 0);
-            AMI
-            {
-                method          faceAreaWeight; // Ensures flux conservation
-                tolerance 1e-8;
-            }
+            // matchTolerance  |-matchTolerance-|;
+            // transform       translational;
+            // separationVector (|- L -| 0 0);
+            // AMI
+            // {
+            //     method          faceAreaWeight; // Ensures flux conservation
+            //     tolerance 1e-8;
+            // }
         }
 
         outlet
         {
-            type            cyclicAMI;
+            type            cyclic;
             neighbourPatch  inlet;
             faces           ((1 7 8 2)(2 8 9 3));
-            matchTolerance  |-matchTolerance-|;
-            transform       translational;
-            separationVector (|- -L -| 0 0);
-            AMI
-            {
-                method          faceAreaWeight; // Ensures flux conservation
-                tolerance 1e-8;
-            }
+            // matchTolerance  |-matchTolerance-|;
+            // transform       translational;
+            // separationVector (|- -L -| 0 0);
+            // AMI
+            // {
+            //     method          faceAreaWeight; // Ensures flux conservation
+            //     tolerance 1e-8;
+            // }
         }
     <!--(end)-->
     

@@ -20,13 +20,13 @@ FoamFile
 
 {% if dynamicMesh=="oscillating_domain"%}
 
-    // The whole domain oscillates at a certain frequency and amplitude
+    // The whole domain oscillates at a certain omega and amplitude
     dynamicFvMesh dynamicMotionSolverFvMesh;
     motionSolver solidBody;
 
     solidBodyMotionFunction oscillatingLinearMotion;
     amplitude   (0 |-amplitude-| 0);
-    omega             |-frequency-|;
+    omega             |-omega-|;
 
 {% elif dynamicMesh=="sine_lower_wall"%}
 

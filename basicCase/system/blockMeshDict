@@ -18,7 +18,7 @@ scale   1;
 
 
 // L:length, H:height, W:width
-L       80;
+L       5.2359;
 H       1.0;
 W       2.9919930042;
 H2       2;
@@ -48,8 +48,8 @@ vertices
 
 blocks
 (
-    hex ( 0  1  2  5  6  7  8 11) (128 12 24) simpleGrading (1 12 1)
-    hex ( 5  2  3  4 11  8  9 10) (128 12 24) simpleGrading (1 -12 1)
+    hex ( 0  1  2  5  6  7  8 11) (24 12 24) simpleGrading (1 12 1)
+    hex ( 5  2  3  4 11  8  9 10) (24 12 24) simpleGrading (1 -12 1)
 );
 
 boundary
@@ -57,48 +57,52 @@ boundary
     
     
     
+
         inlet
         {
-            type            patch;
+            type            cyclic;
+            neighbourPatch  outlet;
             faces           ((0 5 11 6)(5 4 10 11));
+            // matchTolerance  0.01;
+            // transform       translational;
+            // separationVector (5.2359 0 0);
+            // AMI
+            // {
+            //     method          faceAreaWeight; // Ensures flux conservation
+            //     tolerance 1e-8;
+            // }
         }
+
         outlet
         {
-            type            patch;
+            type            cyclic;
+            neighbourPatch  inlet;
             faces           ((1 7 8 2)(2 8 9 3));
+            // matchTolerance  0.01;
+            // transform       translational;
+            // separationVector (-5.2359 0 0);
+            // AMI
+            // {
+            //     method          faceAreaWeight; // Ensures flux conservation
+            //     tolerance 1e-8;
+            // }
         }
     
-        
+
             left
             {
-                type            cyclicAMI;
+                type            cyclic;
                 neighbourPatch  right;
                 faces           ((1 2 5 0)(2 3 4 5));
                 matchTolerance  0.01;
-                transform       translational;
-                separationVector (0 0 2.9919930042);
-                AMI
-                {
-                    method          faceAreaWeight; // Ensures flux conservation
-                    tolerance 1e-8;
-                }
             }
             right
             {
-                type            cyclicAMI;
+                type            cyclic;
                 neighbourPatch  left;
                 faces           ((6 11 8 7)(11 10 9 8));
                 matchTolerance  0.01;
-                transform       translational;
-                separationVector (0 0 -2.9919930042);
-                AMI
-                {
-                    method          faceAreaWeight; // Ensures flux conservation
-                    tolerance 1e-8;
-                }
             }
-
-
 
 
             bottom

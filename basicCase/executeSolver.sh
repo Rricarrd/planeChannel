@@ -4,4 +4,5 @@ echo "Running case with parameters $name.parameters"
 
 foamJob -log-app -parallel -wait pimpleFoam
 
-
+# Running plotWatcher
+pyFoamPlotWatcher.py log.pimpleFoam || echo "Error occurred executing the pyFoamPlotWatcher.py!"

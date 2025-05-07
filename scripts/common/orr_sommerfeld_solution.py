@@ -19,7 +19,7 @@ def solve_os_equation(
     y3dm,lam3dm, u3dm, v3dm, w3dm = OSTemporal(N, R, alp3d, -beta, n3d, Np)
     y2d,lam2d, u2d, v2d, w2d = OSTemporal(N, R, alp2d, 0, n2d, Np)
 
-    # --- Calculate frequency for the most unstable mode ---
+    # --- Calculate omega for the most unstable mode ---
     om2d = -lam2d[np.argmax(np.imag(lam2d))] / 1j 
     om3dp = -lam3dp[np.argmax(np.imag(lam3dp))] / 1j
     om3dm = -lam3dm[np.argmax(np.imag(lam3dm))] / 1j

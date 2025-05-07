@@ -67,7 +67,7 @@ def generate(dict, path, cell_centres):
     write_field_velocity_file(u1_space, v1_space, w1_space, t, folder_path, type="start")
     write_field_velocity_file(u2_space, v2_space, w2_space, t, folder_path, type="finish")
 
-def calculate_frequency(dict, path):
+def calculate_omega(dict, path):
 
     # --- File and parameters ---
     print("Generating parameter values from .parameters file...")
@@ -75,7 +75,7 @@ def calculate_frequency(dict, path):
     Re_lam = 1.5*Re_b
     N = 100
 
-    print("Calculating vibration frequency")
+    print("Calculating vibration omega")
     (
         yp_orr,
         u2d,

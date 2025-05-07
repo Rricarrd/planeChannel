@@ -6,11 +6,11 @@ import openfoamparser as Ofpp
 import numpy as np
 
 # Functions
-def calculate_frequency(parsed_data, current_path, parameters_file_name):
+def calculate_omega(parsed_data, current_path, parameters_file_name):
     if parsed_data['freqFromOrr'] == 'yes':
-        frequency = np.real(generate_initial_field.calculate_frequency(parsed_data,current_path))
-        print(f"Frequency calculated from Orr-Sommerfeld equation: {frequency}")
-        data_to_substitute = {'frequency': frequency}
+        omega = np.real(generate_initial_field.calculate_omega(parsed_data,current_path))
+        print(f"Omega calculated from Orr-Sommerfeld equation: {omega}")
+        data_to_substitute = {'omega': omega}
         parameters_file_path = os.path.join(current_path,parameters_file_name)
         parsing.substitute_in_parameters(data_to_substitute,parameters_file_path)
 
@@ -50,18 +50,18 @@ cell_centres=Ofpp.parse_internal_field(f'{str(current_path)}/constant/C')
 if args.type == "spatial":
     # Generate time varying inlet for spatial changing simulation
     generate_initial_inlet.generate(parsed_data,current_path,cell_centres)
-    calculate_frequency(parsed_data, current_path, parameters_file_name)
+    calculate_omega(parsed_data, current_path, parameters_file_name)
 
 elif args.type == "spatial_coded":
     # Generate velocities Orr sommerfeld velocity profiles for the inlet
     generate_profiles_inlet.generate(parsed_data,current_path,cell_centres)
-    calculate_frequency(parsed_data, current_path, parameters_file_name)
+    calculate_omega(parsed_data, current_path, parameters_file_name)
 
 
 elif args.type == "temporal":
     # Generate spatailly varying field for the time changing simulation
     generate_initial_field.generate(parsed_data,current_path,cell_centres)
-    calculate_frequency(parsed_data, current_path, parameters_file_name)
+    calculate_omega(parsed_data, current_path, parameters_file_name)
 
 else:
     print("Incorrect type initialization. Choose either inletBC or initialField")
