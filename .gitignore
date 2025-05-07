@@ -124,10 +124,32 @@ log.pimpleFoam
 
 # Ignore constant big files
 /basicCase/constant/boundaryData
-
 /basicCase/constant/polyMesh
 
 # Ignore .png images - anywhere
 /basicCase/plots/*.png
 
 
+# Ignore dynamicCode
+/basicCase/dynamicCode
+
+# Ignore non templated files
+/basicCase/0.orig/U
+/basicCase/0.orig/nut
+/basicCase/0.orig/p
+/basicCase/0.orig/pointDisplacement
+/basicCase/0.orig/cellDisplacement
+
+/basicCase/0.orig/U
+/basicCase/0.orig/nut
+/basicCase/0.orig/p
+/basicCase/0.orig/pointDisplacement
+/basicCase/system/blockMeshDict
+/basicCase/system/controlDict
+/basicCase/system/FOCf
+/basicCase/system/FOmeanFields
+/basicCase/system/FOReTau
+/basicCase/system/funkySetFieldsDict
+/basicCase/system/fvSchemes
+/basicCase/system/fvOptions
+/basicCase/system/fvSolution
