@@ -153,3 +153,9 @@ log.pimpleFoam
 /basicCase/system/fvSchemes
 /basicCase/system/fvOptions
 /basicCase/system/fvSolution
+/basicCase/system/samplePoints
+/basicCase/system/sampleUMean
+/basicCase/system/sampleUPrime2Mean
+/basicCase/system/sampleCf
+/basicCase/system/lowerWallTranspiration
+/basicCase/system/inletOrrSommerfeld

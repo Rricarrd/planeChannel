@@ -22,12 +22,6 @@ boundaryField
 {
   bottom
   {
-<<<<<<< HEAD
-      type        groovyBC;
-      value       uniform (0 0 0);
-      variables "A={{amplitude}};k=2*pi/{{L}};w={{omega}};ramp=min(time()/15.0, 1.0);";
-      valueExpression "vector(0,ramp*A*sin(k*pos().x + w * time()),0)";
-=======
 
     {% if swak4Foam=="yes"%}
     type        groovyBC;
@@ -95,7 +89,6 @@ boundaryField
 
     {% endif %}
 
->>>>>>> 156e6add5d5146c8352bfc17e16a1abd1f17a87a
   }
   
   top
