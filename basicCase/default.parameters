@@ -1,9 +1,9 @@
 // Simulation parameters
 case    temporal;
 calculateReCf      yes;
-numberOfProcessors  6;
-tAveragingStart   3;
-tEnd              15;
+numberOfProcessors  20;
+tAveragingStart   300;
+tEnd              600;
 dt               5e-3;
 maxDeltaT        3e-1;
 writeTime           1;
@@ -14,7 +14,7 @@ dynamicMesh no;
 transpiration yes;
 freqFromOrr yes;
 amplitude 0.01;
-omega 0.28175739321266047;
+omega 0.2817573932124329;
 matchTolerance  0.01;
 swak4Foam no;
 
@@ -26,7 +26,7 @@ nOuterCorrectors         1;  // Only works for pimpleFoam
 limitCo                yes;  // Only works for pimpleFoam
 PIMPLErelTol             0;
 PIMPLEtol             1e-3;
-maxCo                 0.1;
+maxCo                 0.05;
 
 // Numerical schemes
 schemes default;        // Change between linear or cubic. If default, uses the high order values       
@@ -41,7 +41,7 @@ relTolFinal 0;
 
 
 // Turbulence model
-model WALE;
+model dynamicSmagorinsky;
 cs 0.065;
 ck 0.02655;
 ce 1.048;

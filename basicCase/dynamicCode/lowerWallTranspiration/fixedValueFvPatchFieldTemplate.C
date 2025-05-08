@@ -35,7 +35,7 @@ License
 #include "PatchFunction1.H"
 
 //{{{ begin codeInclude
-#line 20 "/home/rricarrd/OpenFOAM/rricarrd-v2412/run/tfm/planeChannel/basicCase/0/U/boundaryField/bottom"
+#line 21 "/mnt/j5c/META/sgh/40_RICARD_ARBAT/planeChannel/basicCase/0/U.boundaryField.bottom"
 #include "fvCFD.H"
     #include <cmath>
     #include <iostream>
@@ -63,11 +63,11 @@ namespace Foam
 // * * * * * * * * * * * * * * * Global Functions  * * * * * * * * * * * * * //
 
 // dynamicCode:
-// SHA1 = 05177d541746e5645aea461c297ddf1a43be36a3
+// SHA1 = ec9605d59a75c099c129ae0bebae659870e6224b
 //
 // unique function name that can be checked if the correct library version
 // has been loaded
-extern "C" void lowerWallTranspiration_05177d541746e5645aea461c297ddf1a43be36a3(bool load)
+extern "C" void lowerWallTranspiration_ec9605d59a75c099c129ae0bebae659870e6224b(bool load)
 {
     if (load)
     {
@@ -210,7 +210,7 @@ lowerWallTranspirationFixedValueFvPatchVectorField::updateCoeffs()
     }
 
 //{{{ begin code
-    #line 33 "/home/rricarrd/OpenFOAM/rricarrd-v2412/run/tfm/planeChannel/basicCase/0/U/boundaryField/bottom"
+    #line 34 "/mnt/j5c/META/sgh/40_RICARD_ARBAT/planeChannel/basicCase/0/U.boundaryField.bottom"
 struct local {
 
         static double addParabolicProfile(
@@ -255,7 +255,7 @@ struct local {
 
 
          // Define parameters
-        double w = 0.28175739321266047;
+        double w = 0.2817573932124329;
         // double w3d = 0.95;
         // double H = std::stod(parameters["H"]);
         // double Ucl = std::stod(parameters["Ucl"]);

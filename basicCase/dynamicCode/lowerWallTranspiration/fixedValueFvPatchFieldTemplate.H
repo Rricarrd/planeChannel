@@ -69,7 +69,7 @@ class lowerWallTranspirationFixedValueFvPatchVectorField
 public:
 
     //- SHA1 representation of the code content
-    static constexpr const char* const SHA1sum = "05177d541746e5645aea461c297ddf1a43be36a3";
+    static constexpr const char* const SHA1sum = "ec9605d59a75c099c129ae0bebae659870e6224b";
 
     //- Runtime type information
     TypeName("lowerWallTranspiration");
@@ -107,6 +107,15 @@ public:
             const lowerWallTranspirationFixedValueFvPatchVectorField&
         );
 
+        //- Construct and return a clone
+        virtual tmp<fvPatchVectorField> clone() const
+        {
+            return tmp<fvPatchVectorField>
+            (
+                new lowerWallTranspirationFixedValueFvPatchVectorField(*this)
+            );
+        }
+
         //- Construct as copy setting internal field reference
         lowerWallTranspirationFixedValueFvPatchVectorField
         (
@@ -114,19 +123,16 @@ public:
             const DimensionedField<vector, volMesh>&
         );
 
-        //- Return a clone
-        virtual tmp<fvPatchField<vector>> clone() const
-        {
-            return fvPatchField<vector>::Clone(*this);
-        }
-
-        //- Clone with an internal field reference
-        virtual tmp<fvPatchField<vector>> clone
+        //- Construct and return a clone setting internal field reference
+        virtual tmp<fvPatchVectorField> clone
         (
             const DimensionedField<vector, volMesh>& iF
         ) const
         {
-            return fvPatchField<vector>::Clone(*this, iF);
+            return tmp<fvPatchVectorField>
+            (
+                new lowerWallTranspirationFixedValueFvPatchVectorField(*this, iF)
+            );
         }
 
 

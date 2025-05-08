@@ -1,6 +1,0 @@
-/* dynamicCode:
- * SHA1 = 4b1e03a26e10eb039c4f4d7d794cc44b74347be6
- */
-fixedValueFvPatchFieldTemplate.C
-
-LIB = $(PWD)/../platforms/$(WM_OPTIONS)/lib/libmovingLowerWallCells_4b1e03a26e10eb039c4f4d7d794cc44b74347be6
