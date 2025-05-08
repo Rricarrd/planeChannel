@@ -2,8 +2,8 @@
 case    temporal;
 calculateReCf      yes;
 numberOfProcessors  6;
-tAveragingStart   300;
-tEnd              600;
+tAveragingStart   3;
+tEnd              15;
 dt               5e-3;
 maxDeltaT        3e-1;
 writeTime           1;
@@ -51,10 +51,10 @@ H 2;
 W 2.9919930042;
 L 5.2359;
 Ls 0.25;
-nx 24;
-ny 24;
-nz 24;
-gradient 12;
+nx 16;
+ny 16;
+nz 16;
+gradient 8;
 
 // Flow parameters
 Re_b 3333;

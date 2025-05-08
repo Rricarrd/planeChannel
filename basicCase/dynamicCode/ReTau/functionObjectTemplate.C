@@ -52,11 +52,11 @@ addRemovableToRunTimeSelectionTable
 // * * * * * * * * * * * * * * * Global Functions  * * * * * * * * * * * * * //
 
 // dynamicCode:
-// SHA1 = 6ebd71a345ef0e5baf5839164ebaca5a7ef45bdb
+// SHA1 = a4f83d22f23c033ebf5545ac2d4ed0d5150b5905
 //
 // unique function name that can be checked if the correct library version
 // has been loaded
-extern "C" void ReTau_6ebd71a345ef0e5baf5839164ebaca5a7ef45bdb(bool load)
+extern "C" void ReTau_a4f83d22f23c033ebf5545ac2d4ed0d5150b5905(bool load)
 {
     if (load)
     {
@@ -193,7 +193,7 @@ auto* ReTauPtr =
             
             Info << "sumReTau " << sumReTau << endl;
             
-            scalar nodes = 576;
+            scalar nodes = 256;
             
             Info << "nodes: " << nodes << endl;
             

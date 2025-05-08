@@ -94,7 +94,7 @@ class ReTauFunctionObject
 public:
 
     //- SHA1 representation of the code content
-    static constexpr const char* const SHA1sum = "6ebd71a345ef0e5baf5839164ebaca5a7ef45bdb";
+    static constexpr const char* const SHA1sum = "a4f83d22f23c033ebf5545ac2d4ed0d5150b5905";
 
     //- Runtime type information
     TypeName("ReTau");

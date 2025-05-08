@@ -1,8 +1,10 @@
 # Run openfoam case with foamJob
 echo "Running case with parameters $name.parameters"
-#pyFoamPlotRunner.py --clear --with-courant --no-continuity mpirun -np |-numberOfProcessors-| |-solver-| -parallel
+mpirun -np |-numberOfProcessors-| |-solver-| -parallel
 
-foamJob -log-app -parallel -wait |-solver-|
+# Ensure MPI processes are cleaned up
+echo "Cleaning up MPI processes..."
+killall -9 mpirun || echo "No MPI processes to clean up."
 
 # Running plotWatcher
-#pyFoamPlotWatcher.py log.|-solver-| || echo "Error occurred executing the pyFoamPlotWatcher.py!"
+pyFoamPlotWatcher.py --solver-not-running-anymore log.|-solver-| || echo "Error occurred executing the pyFoamPlotWatcher.py!"
