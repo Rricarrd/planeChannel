@@ -1,4 +1,4 @@
 #!/bin/bash/
 
 # Running plotWatcher
-pyFoamPlotWatcher.py log.pimpleFoam || echo "Error occurred executing the pyFoamPlotWatcher.py!"
+pyFoamPlotWatcher.py --solver-not-running-anymore log.pimpleFoam || echo "Error occurred executing the pyFoamPlotWatcher.py!"
