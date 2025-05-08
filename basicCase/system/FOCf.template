@@ -42,7 +42,12 @@ FoamFile
                         mesh(),
                         IOobject::NO_READ,
                         IOobject::AUTO_WRITE,
-                        IOobject::REGISTER
+
+                        {% if OFversion=="v2412"%}
+                            IOobject::REGISTER
+                        {% else %}
+                            true
+                        {% endif %}
                     ),
                     mesh(),
                     dimless

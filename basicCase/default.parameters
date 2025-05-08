@@ -1,4 +1,5 @@
 // Simulation parameters
+OFversion  v2412;
 case    temporal;
 calculateReCf      yes;
 numberOfProcessors  20;
