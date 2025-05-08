@@ -5,4 +5,4 @@ echo "Running case with parameters $name.parameters"
 foamJob -log-app -parallel -wait |-solver-|
 
 # Running plotWatcher
-pyFoamPlotWatcher.py log.|-solver-| || echo "Error occurred executing the pyFoamPlotWatcher.py!"
+#pyFoamPlotWatcher.py log.|-solver-| || echo "Error occurred executing the pyFoamPlotWatcher.py!"

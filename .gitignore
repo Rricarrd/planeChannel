@@ -159,3 +159,7 @@ log.pimpleFoam
 /basicCase/system/sampleCf
 /basicCase/system/lowerWallTranspiration
 /basicCase/system/inletOrrSommerfeld
+
+
+# Dynamic code
+/basicCase/dynamicCode

@@ -1,0 +1,15 @@
+sets (
+   {
+    amplitude 0.0001;
+   }
+   {
+    amplitude 0.001;
+   }
+   {
+    amplitude 0.01;
+   }
+   {
+    amplitude 0.1;
+   }
+
+);
