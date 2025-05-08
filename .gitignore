@@ -133,6 +133,7 @@ log.pimpleFoam
 # Ignore dynamicCode
 /basicCase/dynamicCode
 
+
 # Ignore non templated files
 /basicCase/0.orig/U
 /basicCase/0.orig/nut
@@ -159,3 +160,5 @@ log.pimpleFoam
 /basicCase/system/sampleCf
 /basicCase/system/lowerWallTranspiration
 /basicCase/system/inletOrrSommerfeld
+
+/basicCase/executeSolver.sh
