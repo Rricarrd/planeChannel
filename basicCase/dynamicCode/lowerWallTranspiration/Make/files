@@ -1,6 +1,0 @@
-/* dynamicCode:
- * SHA1 = ec9605d59a75c099c129ae0bebae659870e6224b
- */
-fixedValueFvPatchFieldTemplate.C
-
-LIB = $(PWD)/../platforms/$(WM_OPTIONS)/lib/liblowerWallTranspiration_ec9605d59a75c099c129ae0bebae659870e6224b
