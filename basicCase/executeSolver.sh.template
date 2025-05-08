@@ -1,6 +1,6 @@
 # Run openfoam case with foamJob
 echo "Running case with parameters $name.parameters"
-mpirun -np |-numberOfProcessors-| |-solver-| -parallel
+mpirun -np |-numberOfProcessors-| |-solver-| -parallel > log.|-solver-| || echo "Error occurred executing the mpirun command!"
 
 # Ensure MPI processes are cleaned up
 echo "Cleaning up MPI processes..."

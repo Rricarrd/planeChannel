@@ -31,7 +31,7 @@ def print_retau_time(folders, current_directory, plots_names):
 
     # Iterate through each folder and check for the pickled file
     for folder in folders:
-        pickled_file_path = os.path.join(current_directory, folder, "Gnuplotting.analyzed/pickledPlots")
+        pickled_file_path = os.path.join(current_directory, folder, "log.pimpleFoam.analyzed/pickledPlots")
         print(f"Checking folder: {folder}")
         print(f"Pickled file path: {pickled_file_path}")
 
