@@ -160,5 +160,10 @@ log.pimpleFoam
 /basicCase/system/sampleCf
 /basicCase/system/lowerWallTranspiration
 /basicCase/system/inletOrrSommerfeld
+/basicCase/system/decomposeParDict
 
+# Ignore the basicCase directory files generated from templates
 /basicCase/executeSolver.sh
+/basicCase/decomposeCase.sh
+/basicCase/caseSetup.sh
+
