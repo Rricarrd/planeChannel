@@ -111,7 +111,7 @@ boundaryField
         }
     {% else %}
 
-        {% if transpiration=="yes"%}
+        {% if transpiration=="forced"%}
             top
             {
                 type            noSlip;
@@ -119,7 +119,17 @@ boundaryField
 
             bottom
             {
-                #include "$FOAM_CASE/system/lowerWallTranspiration"
+                #include "$FOAM_CASE/system/lowerWallTranspirationForced"
+            }
+        {% elif transpiration=="dynamic"%}
+            top
+            {
+                type            noSlip;
+            }
+
+            bottom
+            {
+                #include "$FOAM_CASE/system/lowerWallTranspirationDynamic"
             }
 
         {% else %}

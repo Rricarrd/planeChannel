@@ -2,28 +2,20 @@
 
 ## ------ engine:jinja2 ---------
 
-echo "Setting $case field and boundary conditions."
-{% if case=="temporal" %}
-	# Generate time varying inlet K-waves for the whole simulation
-	python3 initializeCaseFieldBC.py temporal default
-	
 
-{% elif case=="spatial_coded" %}
-	# Generate files for spatial K-waves
-	python3 initializeCaseFieldBC.py spatial_coded default
+# Generate time varying inlet K-waves for the whole simulation
+python3 initializeCaseFieldBC.py {{case}} default
 
-	# Set initial field to a parabolic profile using funkySetFields
-	# funkySetFields -time 0
-
-{% elif case=="spatial" %} 
-	# Generate initial spatial K-waves for the whole simulation
-	python3 initializeCaseFieldBC.py spatial default
-	
-	# Set initial field to a parabolic profile using funkySetFields
+# Set initial field to a parabolic profile using funkySetFields
+{% if swak4Foam=="yes"%}
 	funkySetFields -time 0
-	
+{% endif %}
+
+{% if case!="temporal" %}
+	rm -f system/fvOptions
 {% endif %} 
 
+	
 {% if dynamicMesh=="no" %}
    	rm -f constant/dynamicMeshDict
    	rm -f 0/cellDisplacement
