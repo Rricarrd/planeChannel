@@ -19,17 +19,35 @@ simulationType      LES;
 
 LES{
     
-        
-        
-        
-    
-        LESModel        WALE;
+        LESModel        dynamicSmagorinsky;
+        dynamicSmagorinskyCoeffs
+        {
+            filter        simple;
+            Cs              0.065;
+            Ce              1.048; 
+            Ck              0.02655; 
+        }
         
         delta           cubeRootVol;
         cubeRootVolCoeffs
         {
             deltaCoeff      1;
         }
+        
+        vanDriestCoeffs
+        {
+            delta           cubeRootVol;
+            cubeRootVolCoeffs
+            {
+                deltaCoeff      1;
+            }
+            Aplus           26;
+            Cdelta          0.158;
+        }
+    
+        
+        
+        
     
     
     

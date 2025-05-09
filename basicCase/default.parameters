@@ -1,26 +1,39 @@
 // Simulation parameters
+<<<<<<< HEAD
 OFversion  v2412;
 case    temporal;
 calculateReCf      yes;
 numberOfProcessors  16;
 tAveragingStart   3;
 tEnd              6;
+=======
+OFversion  v2412;         //IMPORTANT!! adequate OF version. Otherwise may crash
+case    temporal;         //IMPORTANT!! type of case. temporal or spatial
+calculateReCf      yes;   //IMPORTANT!! yes or no. If crashes can be disabled
+numberOfProcessors  6;   //IMPORTANT!! number of processors to match the systems
+tAveragingStart   300;
+tEnd              600;    //IMPORTANT!! adequate end time
+>>>>>>> 7d790d400289ff5029bf6f866294ba760ade6dba
 dt               5e-3;
 maxDeltaT        3e-1;
 writeTime           1;
 
 
-// Dynamic mesh
-dynamicMesh no;
-transpiration yes;
+// Flow control
+dynamicMesh no;        //IMPORTANT!! no, sine_lower_wall, oscillating
+transpiration forced;  //IMPORTANT!! forced or dynamic or no          
 freqFromOrr yes;
 amplitude 0.01;
+<<<<<<< HEAD
 omega 0.28175739321258814;
+=======
+omega 0.28175739321266047;
+>>>>>>> 7d790d400289ff5029bf6f866294ba760ade6dba
 matchTolerance  0.01;
-swak4Foam no;
+swak4Foam no;          //IMPORTANT!! yes, no. To enable swak4Foam
 
 // Solver parameters
-solver          pimpleFoam;
+solver          pimpleFoam;   //IMPORTANT!! pimpleFoam, moveDynamicMesh
 nCorrectors              5;
 nNonOrthogonalCorrectors 1;
 nOuterCorrectors         1;  // Only works for pimpleFoam
@@ -42,7 +55,7 @@ relTolFinal 0;
 
 
 // Turbulence model
-model dynamicSmagorinsky;
+model dynamicSmagorinsky;    //IMPORTANT!! dynamicSmagorinsky, WALE, laminar
 cs 0.065;
 ck 0.02655;
 ce 1.048;
@@ -50,12 +63,12 @@ ce 1.048;
 // Meshing
 H 2;
 W 2.9919930042;
-L 5.2359;
+L 5.2359;           //IMPORTANT!! correct length. Change to 80 for spatial case
 Ls 0.25;
-nx 16;
-ny 16;
-nz 16;
-gradient 8;
+nx 16;              //IMPORTANT!! correct cell number
+ny 16;              //IMPORTANT!! correct cell number
+nz 16;              //IMPORTANT!! correct cell number
+gradient 8;         //IMPORTANT!! correct gradient. Usually half the cell number
 
 // Flow parameters
 Re_b 3333;
