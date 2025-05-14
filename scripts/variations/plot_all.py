@@ -346,7 +346,7 @@ def save_retau_data(max_retau_time, turbulent_retau_avg):
     print("Saved ReTau data to retau_data.json")
 
 
-def plot_retau_summary(max_retau_time, turbulent_retau_avg):
+def plot_retau_summary(max_retau_times, turbulent_retau_avgs):
     """
     Plot summary of max ReTau times and average ReTau values against folder names.
     
@@ -359,74 +359,72 @@ def plot_retau_summary(max_retau_time, turbulent_retau_avg):
     # Create figure with two subplots
     fig, (ax1, ax2, ax3) = plt.subplots(3, 1, figsize=(10, 8))
     
-    print("Max ReTau values: ", max_retau_time[0])
-    print("Avg ReTau values: ", turbulent_retau_avg[0])
+    max_values = []
+    max_times = []
+    avg_values = []
+    x_values_max = []
+    x_values_avg = []
     
-    # Extract data for plotting
-    folders_max = max_retau_time[0]
-    max_values = max_retau_time[1]
-    max_times = max_retau_time[2]
-    
-    folders_avg = turbulent_retau_avg[0]
-    avg_values = turbulent_retau_avg[1]
-    
+    for max_retau_time, turbulent_retau_avg in zip(max_retau_times, turbulent_retau_avgs):
+        
+        # Get values and times
+        max_values.append(max_retau_time[1])
+        max_times.append(max_retau_time[2])
+        avg_values.append(turbulent_retau_avg[1])
+        
 
-    # Generate x values max
-    value_flag, x_values, x_type = get_x_values_according_to_folder(folders_max)
-    
-    print(f"X values: {x_values}")
-    print(f"X type: {x_type}")
-    print(f"Value flag: {value_flag}")
-    
+        # Generate x values max
+        value_flag_max, x_value_max, x_type_max = get_x_values_according_to_folder(max_retau_time[0])
+        x_values_max.append(x_value_max)
+        
+        # Generate x values avg
+        value_flag_avg, x_value_avg, x_type_avg = get_x_values_according_to_folder(turbulent_retau_avg[0])
+        x_values_avg.append(x_value_avg)
+        
+
     # Plot maximum ReTau values
-    if value_flag:
-        x_values = np.array(x_values)
-        ax1.plot(x_values, max_values, label="Max ReTau", color='blue')
-        ax1.set_xlabel(x_type)
-        ax1.set_ylabel("ReTau")
-        ax1.set_title("Maximum ReTau Values")
-        ax1.set_xticks(x_values)
+    if value_flag_max:
+        ax1.plot(x_values_max, max_values, label="Max ReTau", color='blue')
+        ax1.set_xlabel(x_type_max)
+        ax1.set_ylabel(r"Max Re_{\tau}")
+        ax1.set_title(r"Maximum Re_{\tau} Values")
+        ax1.set_xticks(x_values_max)
     else:
         bars1 = ax1.plot(folders_max, max_values)
-        ax1.set_title("Maximum ReTau Values")
-        ax1.set_xlabel(x_type)
-        ax1.set_ylabel("ReTau")
-        ax1.set_title("Maximum ReTau Values")
+        ax1.set_title(r"Maximum Re_{\tau}u Values")
+        ax1.set_xlabel(x_type_max)
+        ax1.set_ylabel(r"Max Re_{\tau}")
+        ax1.set_title(r"Maximum Re_{\tau} Values")
         ax1.set_xticklabels(folders_max, rotation=45, ha='right')
         ax1.grid(axis='y', linestyle='--', alpha=0.7)
         
     # Plot maximum ReTau times
-    if value_flag:
-        x_values = np.array(x_values)
-        ax2.plot(x_values, max_times, label="Max Times", color='red')
-        ax2.set_xlabel(x_type)
-        ax2.set_ylabel("ReTau")
-        ax2.set_title("Maximum ReTau Times")
-        ax2.set_xticks(x_values)
+    if value_flag_max:
+        ax2.plot(x_values_max, max_times, label="Max Times", color='red')
+        ax2.set_xlabel(x_type_max)
+        ax2.set_ylabel(r"Time for max Re_{\tau} [s]")
+        ax2.set_title(r"Maximum Re_{\tau} Times")
+        ax2.set_xticks(x_values_max)
     else:
         bars2 = ax2.plot(folders_max, max_times)
-        ax2.set_title("Maximum ReTau Values")
-        ax2.set_xlabel(x_type)
-        ax2.set_ylabel("ReTau")
-        ax2.set_title("Maximum ReTau Values")
+        ax2.set_title(r"Maximum Re_{\tau} Values")
+        ax2.set_xlabel(x_type_max)
+        ax2.set_ylabel(r"Time for max Re_{\tau}")
+        ax2.set_title(r"Maximum Re_{\tau} Values")
         ax2.set_xticklabels(folders_max, rotation=45, ha='right')
         ax2.grid(axis='y', linestyle='--', alpha=0.7)
     
 
-    # Generate x values avg
-    value_flag, x_values, x_type = get_x_values_according_to_folder(folders_avg)
-    
-    if value_flag:
-        x_values = np.array(x_values)
-        ax3.plot(x_values, avg_values, label="Avg ReTau", color='orange')
-        ax3.set_xlabel(x_type)
-        ax3.set_ylabel("ReTau")
-        ax3.set_title("Average ReTau Values (t ≥ 300)")
-        ax3.set_xticks(x_values)
+    if value_flag_avg:
+        ax3.plot(x_values_avg, avg_values, label="Avg ReTau", color='orange')
+        ax3.set_xlabel(x_type_avg)
+        ax3.set_ylabel(r"Avg. Re_{\tau}")
+        ax3.set_title(r"Average Re_{\tau} Values (t ≥ 300)")
+        ax3.set_xticks(x_values_avg)
     else:
         bars3 = ax3.bar(folders_avg, avg_values)
-        ax3.set_title("Average Turbulent ReTau Values (t ≥ 300)")
-        ax3.set_ylabel("ReTau")
+        ax3.set_title(r"Average Turbulent Re_{\tau} Values (t ≥ 300)")
+        ax3.set_ylabel(r"Avg. Re_{\tau}")
         ax3.set_xticklabels(folders_avg, rotation=45, ha='right')
         ax3.grid(axis='y', linestyle='--', alpha=0.7)
     
@@ -435,108 +433,58 @@ def plot_retau_summary(max_retau_time, turbulent_retau_avg):
     plt.savefig("retau_summary.png")
     plt.show()
 
-def read_json_file(file_path):
-    """
-    Reads a JSON file and returns the data.
-    
-    Args:
-        file_path (str): Path to the JSON file.
-        
-    Returns:
-        dict: Parsed JSON data.
-    """
-    try:
-        with open(file_path, 'r') as file:
-            data = json.load(file)
-            
-            # Extract data from the json file
-            max_retau_data = data.get('max_retau_time', [])
-            turbulent_data = data.get('turbulent_retau_avg', [])
-                        
-            # Convert to simple lists
-            folders_max = [item['folder'] for item in max_retau_data]
-            max_values = [item['max_retau'] for item in max_retau_data]
-            max_times = [item['time'] for item in max_retau_data]
 
-            folders_avg = [item['folder'] for item in turbulent_data]
-            avg_values = [item['avg_retau'] for item in turbulent_data]
 
-            # Convert folder names to match the format in other functions
-            folders_max = [re.sub(r'^\d+_', '', folder).capitalize() for folder in folders_max]
-            folders_avg = [re.sub(r'^\d+_', '', folder).capitalize() for folder in folders_avg]
-
-            print(f"Loaded ReTau data for {len(folders_max)} cases (max values)")
-            print(f"Loaded ReTau data for {len(folders_avg)} cases (avg values)")
-            
-        return (folders_max, max_values, max_times), (folders_avg, avg_values)
-    
-    except FileNotFoundError:
-        print(f"Error: File not found at {file_path}")
-        return None
-    except json.JSONDecodeError:
-        print(f"Error: Failed to decode JSON from {file_path}")
-        return None
-    except Exception as e:
-        print(f"An error occurred: {e}")
-        return None
-
-def get_x_values_according_to_folder(folders):
+def get_x_values_according_to_folder(folder):
     """
     Extracts the x values from the folder name.
     """
     x_type = ""
     value_flag = True
     x_values = []
-    for folder in folders:
 
-        # Split by underscore
-        parts = folder.split('_')
-        print(f"Parts: {parts}")
+    # Split by underscore
+    parts = folder.split('_')
+    print(f"Parts: {parts}")
+    
+    if len(parts) >= 3:
+        # Second element is the value, third element is the type
+        value = parts[1]
+        folder_type = parts[2]
         
-        if len(parts) >= 2:
-            try:
-                # Second element is the value, third element is the type
-                value = parts[0]
-                folder_type = parts[1]
-                
-                print(f"Extracting value and type from folder: {folder}")
-                print(f"Value: {value}, Type: {folder_type}")
-                
-                # Try to convert value to float if possible
-                try:
-                    value = float(value)
-                except:
-                    value = value.strip()
-                    value_flag = False
-                
-                # Append to x_values list
-                x_values.append(value)
-                
-                if folder_type == "nx":
-                    x_type = "Mesh size"
-                elif folder_type == "amplitude":
-                    x_type = "Transpiration BC Amplitude"
-                elif folder_type == "maxCo":
-                    x_type = "Max Courant number"
-                elif folder_type == "model":
-                    x_type = "Turbulence Model"
-                elif folder_type == "schemes":
-                    x_type = "Numerical Schemes"
-                else:
-                    x_type = "Unknown"
-                    
+        print(f"Extracting value and type from folder: {folder}")
+        print(f"Value: {value}, Type: {folder_type}")
+        
+        # Try to convert value to float if possible
+        try:
+            value = float(value)
+        except:
+            value = value.strip()
+            value_flag = False
+        
+        # Determine the x values based on the folder type
+        if folder_type == "nx":
+            x_type = "Mesh size"
+        elif folder_type == "amplitude":
+            x_type = "Transpiration BC Amplitude"
+        elif folder_type == "maxCo":
+            x_type = "Max Courant number"
+        elif folder_type == "model":
+            x_type = "Turbulence Model"
+        elif folder_type == "schemes":
+            x_type = "Numerical Schemes"
+        else:
+            x_type = "Unknown"
 
-                
-                print(f"Extracted from {folder}: value={value}, type={folder_type}")
-            except IndexError:
-                print(f"Could not extract value and type from folder: {folder}")
-
-
-    return value_flag, x_values, x_type
+    return value_flag, value, x_type
 
 
 
 if __name__ == "__main__":
+    
+    
+    plt.rcParams['text.usetex'] = True
+    
     # Get the current directory
     current_directory = os.getcwd()
 
