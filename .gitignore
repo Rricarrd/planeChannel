@@ -167,9 +167,4 @@ log.pimpleFoam
 /basicCase/decomposeCase.sh
 /basicCase/caseSetup.sh
 
-<<<<<<< HEAD
 
-/basicCase/executeSolver.sh
-
-=======
->>>>>>> 7d790d400289ff5029bf6f866294ba760ade6dba

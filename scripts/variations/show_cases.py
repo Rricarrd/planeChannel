@@ -24,7 +24,7 @@ plots_names = {
 }
 
 # pickled_file = "Gnuplotting.analyzed/pickledPlots"
-pickled_file = "Gnuplotting.analyzed/pickledStartData"
+pickled_file = "log.pimpleFoam.analyzed/pickledStartData"
 # pickled_file = "Decomposer.analyzed/pickledData"
 
 # Iterate through each folder and check for the pickled file

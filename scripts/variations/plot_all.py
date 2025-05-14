@@ -6,6 +6,7 @@ import openfoamparser as Ofpp
 import numpy as np
 import re
 import sys
+from scipy.signal import lombscargle
 
 
 def extract_number(name):
@@ -19,8 +20,12 @@ def extract_number(name):
 
 
 
-def print_retau_time(folders, current_directory, plots_names):
+def plot_retau_time(folders, current_directory, plots_names):
     print("Printing Retau time")
+
+    # Start maximum Retau point list
+    max_retau_time = []
+    turbulent_retau_avg = []
 
     # Create a simple matplotlib figure
     fig, ax = plt.subplots()
@@ -40,16 +45,40 @@ def print_retau_time(folders, current_directory, plots_names):
                 with open(pickled_file_path, "rb") as file:
                     data = pickle.load(file)
 
-                
-
+                    # Extract Retau values and times
                     ret = data[plots_names['ReTau']]['values']['avg']
                     times = data[plots_names['ReTau']]['times']
+                    
+                    # Find the maximum Retau value and its corresponding time
+                    max_retau_index = np.argmax(ret)
+                    max_retau_value = ret[max_retau_index]
+                    max_retau_time_value = times[max_retau_index]
+                    print(f"Maximum Retau in {folder}: {max_retau_value:.2f} at time {max_retau_time_value:.2f}")
+
+                    # Store the maximum retau and time for later use if needed
+                    max_retau_time.append((folder, max_retau_value, max_retau_time_value))
+                    
+
+                    # Calculate the average Retau value after the maximum (only for times >= 300)
+                    turbulent_indices = [i for i, t in enumerate(times) if t >= 300]
+                    if turbulent_indices:
+                        turbulent_ret = [ret[i] for i in turbulent_indices]
+                        avg_retau_value = np.mean(turbulent_ret)
+                        turbulent_retau_avg.append((folder, avg_retau_value))
+                        print(f"Average turbulent Retau in {folder} (after t=300): {avg_retau_value:.2f}")
+                    else:
+                        avg_retau_value = np.mean(ret[max_retau_index:])
+                        print(f"No data after t=300, using data after max Retau instead")
+                        avg_retau_value = np.mean(ret[max_retau_index:])
+                    
+                    
 
 
                     folder_name = re.sub(r'^\d+_', '', folder)
                     folder_name = folder_name.capitalize()
 
                     ax.plot(times, ret, label=folder_name)
+
                     
 
             except KeyError as e:
@@ -64,10 +93,12 @@ def print_retau_time(folders, current_directory, plots_names):
     plt.legend()
     plt.savefig("variations_ret.png")
     plt.show()
+    
+    return max_retau_time, turbulent_retau_avg
 
-def print_retau_space(folders, current_directory):
+def plot_retau_space(folders, current_directory):
+    
     print("Printing Retau space")
-
     # Create a simple matplotlib figure
     fig, ax = plt.subplots()
     
@@ -134,6 +165,103 @@ def print_retau_space(folders, current_directory):
     plt.savefig("variations_ret.png")
     plt.show()
 
+def plot_u_sample(folders, current_directory):
+    """
+    Plot the U velocity component from probe data files across different cases.
+    """
+    print("Plotting U velocity from probe data")
+    
+    fig, ax = plt.subplots(figsize=(10, 6))
+    ax.set_title("U Velocity at Probe Location")
+    ax.set_xlabel("Time [s]")
+    ax.set_ylabel("U Velocity [m/s]")
+    
+    fig2, ax2 = plt.subplots(figsize=(10, 6))
+    ax2.set_title("Lomgb-Scargle Periodogram")
+    ax2.set_xlabel("Frequency [rad/s]")
+    ax2.set_ylabel("Power")
+    
+    for folder in folders:
+        if folder[0].isdigit():
+            try:
+                # Construct the path to the probe file
+                probe_file_path = os.path.join(current_directory, folder, "postProcessing/samplingUPoints/0/U")
+                
+                if os.path.exists(probe_file_path):
+                    # Read and parse the probe data
+                    times = []
+                    u_values = []
+                    
+                    with open(probe_file_path, 'r') as file:
+                        # Skip header lines
+                        for i in range(3):
+                            next(file)
+                        
+                        # Process data lines
+                        for line in file:
+                            line = line.strip()
+                            if line and not line.startswith('#'):
+                                parts = line.split()
+                                if len(parts) >= 4:
+                                    time = float(parts[0])
+                                    # Extract U component (first value in the vector)
+                                    u_value = float(parts[1].strip('('))
+                                    
+                                    times.append(time)
+                                    u_values.append(u_value)
+                    
+                    
+                    # Plot the data
+                    folder_name = re.sub(r'^\d+_', '', folder)
+                    folder_name = folder_name.capitalize()
+                    ax.plot(times, u_values, label=folder_name)
+                    print(f"Plotting U velocity for folder: {folder_name}")
+                    
+                    # Process power spectrum with Lomgb-Scargle Periodogram
+                    # Select data after t=300
+                    mask = np.array(times) >= 300
+                    times_filtered = np.array(times)[mask]
+                    u_values_filtered = np.array(u_values)[mask]
+
+                    # Only process if we have enough data points
+                    if len(times_filtered) > 10:
+                        # Use filtered data for spectrum analysis
+                        u_values_detrended = u_values_filtered - np.mean(u_values_filtered)
+                        
+                        omega = np.linspace(0.0001, 100, 500)*2*np.pi  # Adjust frequency range as needed
+                        pgram = lombscargle(times_filtered, u_values_filtered, omega)
+                        ax2.loglog(omega, pgram, label=folder_name)
+                        print(f"Plotting Lomb-Scargle periodogram for folder: {folder_name}")
+                    
+            except Exception as e:
+                print(f"Error processing folder {folder}: {e}")
+    
+    
+    # Add a reference line with -5/3 slope for Kolmogorov's law
+    # Use a wide frequency range to show the theoretical slope
+    ref_freqs = np.logspace(-3, 4, 1000)
+    ref_power = ref_freqs**(-5/3)
+    
+    # Scale the reference line to fit in the plot
+    scale_factor = 1.0
+    if len(ax2.get_lines()) > 0:
+        # Get the maximum power value from the existing plots to scale the reference line
+        max_power = max([np.max(line.get_ydata()) for line in ax2.get_lines()])
+        scale_factor = max_power / np.max(ref_power) * 0.5  # Scale to make it visible
+    
+    ax2.loglog(ref_freqs, ref_power * scale_factor, 'k--', label=r'$\omega^{-5/3}$ (Kolmogorov)')
+    
+    # Add labels to ax2
+    ax2.legend()
+    ax2.grid(True)
+    plt.tight_layout()
+    plt.savefig("variations_spectrum.png")
+    
+    plt.legend()
+    plt.grid(True)
+    plt.savefig("variations_u_velocity.png")
+    
+    plt.show()
 
 
 def parse_foam_file(filepath):
@@ -196,7 +324,215 @@ def parse_foam_file(filepath):
         print(f"An error occurred: {e}")
         return None
 
+# Save the max_retau_time and turbulent_retau_avg to a JSON file
+def save_retau_data(max_retau_time, turbulent_retau_avg):
+    # Convert the data to a more JSON-friendly format
+    max_retau_data = [{"folder": folder, "max_retau": float(max_val), "time": float(time_val)} 
+                        for folder, max_val, time_val in max_retau_time]
+    
+    turbulent_data = [{"folder": folder, "avg_retau": float(avg_val)} 
+                        for folder, avg_val in turbulent_retau_avg]
+    
+    # Create a dictionary to store both datasets
+    data_to_save = {
+        "max_retau_time": max_retau_data,
+        "turbulent_retau_avg": turbulent_data
+    }
+    
+    # Save to a JSON file
+    with open("retau_data.json", "w") as f:
+        json.dump(data_to_save, f, indent=4)
+    
+    print("Saved ReTau data to retau_data.json")
 
+
+def plot_retau_summary(max_retau_time, turbulent_retau_avg):
+    """
+    Plot summary of max ReTau times and average ReTau values against folder names.
+    
+    Args:
+        max_retau_time: List of tuples (folder, max_retau, time)
+        turbulent_retau_avg: List of tuples (folder, avg_retau)
+    """
+    print("Plotting ReTau summary")
+    
+    # Create figure with two subplots
+    fig, (ax1, ax2, ax3) = plt.subplots(3, 1, figsize=(10, 8))
+    
+    print("Max ReTau values: ", max_retau_time[0])
+    print("Avg ReTau values: ", turbulent_retau_avg[0])
+    
+    # Extract data for plotting
+    folders_max = max_retau_time[0]
+    max_values = max_retau_time[1]
+    max_times = max_retau_time[2]
+    
+    folders_avg = turbulent_retau_avg[0]
+    avg_values = turbulent_retau_avg[1]
+    
+
+    # Generate x values max
+    value_flag, x_values, x_type = get_x_values_according_to_folder(folders_max)
+    
+    print(f"X values: {x_values}")
+    print(f"X type: {x_type}")
+    print(f"Value flag: {value_flag}")
+    
+    # Plot maximum ReTau values
+    if value_flag:
+        x_values = np.array(x_values)
+        ax1.plot(x_values, max_values, label="Max ReTau", color='blue')
+        ax1.set_xlabel(x_type)
+        ax1.set_ylabel("ReTau")
+        ax1.set_title("Maximum ReTau Values")
+        ax1.set_xticks(x_values)
+    else:
+        bars1 = ax1.plot(folders_max, max_values)
+        ax1.set_title("Maximum ReTau Values")
+        ax1.set_xlabel(x_type)
+        ax1.set_ylabel("ReTau")
+        ax1.set_title("Maximum ReTau Values")
+        ax1.set_xticklabels(folders_max, rotation=45, ha='right')
+        ax1.grid(axis='y', linestyle='--', alpha=0.7)
+        
+    # Plot maximum ReTau times
+    if value_flag:
+        x_values = np.array(x_values)
+        ax2.plot(x_values, max_times, label="Max Times", color='red')
+        ax2.set_xlabel(x_type)
+        ax2.set_ylabel("ReTau")
+        ax2.set_title("Maximum ReTau Times")
+        ax2.set_xticks(x_values)
+    else:
+        bars2 = ax2.plot(folders_max, max_times)
+        ax2.set_title("Maximum ReTau Values")
+        ax2.set_xlabel(x_type)
+        ax2.set_ylabel("ReTau")
+        ax2.set_title("Maximum ReTau Values")
+        ax2.set_xticklabels(folders_max, rotation=45, ha='right')
+        ax2.grid(axis='y', linestyle='--', alpha=0.7)
+    
+
+    # Generate x values avg
+    value_flag, x_values, x_type = get_x_values_according_to_folder(folders_avg)
+    
+    if value_flag:
+        x_values = np.array(x_values)
+        ax3.plot(x_values, avg_values, label="Avg ReTau", color='orange')
+        ax3.set_xlabel(x_type)
+        ax3.set_ylabel("ReTau")
+        ax3.set_title("Average ReTau Values (t ≥ 300)")
+        ax3.set_xticks(x_values)
+    else:
+        bars3 = ax3.bar(folders_avg, avg_values)
+        ax3.set_title("Average Turbulent ReTau Values (t ≥ 300)")
+        ax3.set_ylabel("ReTau")
+        ax3.set_xticklabels(folders_avg, rotation=45, ha='right')
+        ax3.grid(axis='y', linestyle='--', alpha=0.7)
+    
+
+    plt.tight_layout()
+    plt.savefig("retau_summary.png")
+    plt.show()
+
+def read_json_file(file_path):
+    """
+    Reads a JSON file and returns the data.
+    
+    Args:
+        file_path (str): Path to the JSON file.
+        
+    Returns:
+        dict: Parsed JSON data.
+    """
+    try:
+        with open(file_path, 'r') as file:
+            data = json.load(file)
+            
+            # Extract data from the json file
+            max_retau_data = data.get('max_retau_time', [])
+            turbulent_data = data.get('turbulent_retau_avg', [])
+                        
+            # Convert to simple lists
+            folders_max = [item['folder'] for item in max_retau_data]
+            max_values = [item['max_retau'] for item in max_retau_data]
+            max_times = [item['time'] for item in max_retau_data]
+
+            folders_avg = [item['folder'] for item in turbulent_data]
+            avg_values = [item['avg_retau'] for item in turbulent_data]
+
+            # Convert folder names to match the format in other functions
+            folders_max = [re.sub(r'^\d+_', '', folder).capitalize() for folder in folders_max]
+            folders_avg = [re.sub(r'^\d+_', '', folder).capitalize() for folder in folders_avg]
+
+            print(f"Loaded ReTau data for {len(folders_max)} cases (max values)")
+            print(f"Loaded ReTau data for {len(folders_avg)} cases (avg values)")
+            
+        return (folders_max, max_values, max_times), (folders_avg, avg_values)
+    
+    except FileNotFoundError:
+        print(f"Error: File not found at {file_path}")
+        return None
+    except json.JSONDecodeError:
+        print(f"Error: Failed to decode JSON from {file_path}")
+        return None
+    except Exception as e:
+        print(f"An error occurred: {e}")
+        return None
+
+def get_x_values_according_to_folder(folders):
+    """
+    Extracts the x values from the folder name.
+    """
+    x_type = ""
+    value_flag = True
+    x_values = []
+    for folder in folders:
+
+        # Split by underscore
+        parts = folder.split('_')
+        print(f"Parts: {parts}")
+        
+        if len(parts) >= 2:
+            try:
+                # Second element is the value, third element is the type
+                value = parts[0]
+                folder_type = parts[1]
+                
+                print(f"Extracting value and type from folder: {folder}")
+                print(f"Value: {value}, Type: {folder_type}")
+                
+                # Try to convert value to float if possible
+                try:
+                    value = float(value)
+                except:
+                    value = value.strip()
+                    value_flag = False
+                
+                # Append to x_values list
+                x_values.append(value)
+                
+                if folder_type == "nx":
+                    x_type = "Mesh size"
+                elif folder_type == "amplitude":
+                    x_type = "Transpiration BC Amplitude"
+                elif folder_type == "maxCo":
+                    x_type = "Max Courant number"
+                elif folder_type == "model":
+                    x_type = "Turbulence Model"
+                elif folder_type == "schemes":
+                    x_type = "Numerical Schemes"
+                else:
+                    x_type = "Unknown"
+                    
+
+                
+                print(f"Extracted from {folder}: value={value}, type={folder_type}")
+            except IndexError:
+                print(f"Could not extract value and type from folder: {folder}")
+
+
+    return value_flag, x_values, x_type
 
 
 
@@ -224,18 +560,36 @@ if __name__ == "__main__":
     }
 
     # Check for arguments
-    if len(sys.argv) != 2 or sys.argv[1].lower() not in ["time", "space"]:
-        print("Usage: python plot_all.py [time|space]")
+    if len(sys.argv) != 2 or sys.argv[1].lower() not in ["time", "space","skip","fast"]:
+        print("Usage: python plot_all.py [time|space|skip|fast]")
         sys.exit(1)
 
     # Run the corresponding function based on the argument
     if sys.argv[1].lower() == "space":
-        print_retau_space(folders, current_directory)
+        plot_retau_space(folders, current_directory)
+    elif sys.argv[1].lower() == "time":
+        max_retau_time, turbulent_retau_avg = plot_retau_time(folders, current_directory, pickled_plots_names)
+        save_retau_data(max_retau_time, turbulent_retau_avg)
+        plot_retau_summary(max_retau_time, turbulent_retau_avg)
+    elif sys.argv[1].lower() == "fast":
+        path = os.path.join(current_directory, "retau_data.json")
+        print(f"Loading Retau data from {path}")
+        max_retau_time, turbulent_retau_avg = read_json_file(path)
+        plot_retau_summary(max_retau_time, turbulent_retau_avg)
+        
     else:
-        print_retau_time(folders, current_directory, pickled_plots_names)
+        print("Skipping Retau plot")
+        pass
+        
+    plot_u_sample(folders, current_directory)
+    
+
+        
 
 
 
+    
+    
 
 
 
