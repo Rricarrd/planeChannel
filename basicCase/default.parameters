@@ -55,7 +55,7 @@ Ls 0.25;
 nx 48;              //IMPORTANT!! correct cell number
 ny 48;              //IMPORTANT!! correct cell number
 nz 48;              //IMPORTANT!! correct cell number
-gradient 16;         //IMPORTANT!! correct gradient. Usually half the cell numbera
+gradient 24;         //IMPORTANT!! correct gradient. Usually half the cell numbera
 
 // Flow parameters
 Re_b 3333;
