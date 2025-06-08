@@ -74,8 +74,15 @@ def plot_retau_time(folders, current_directory, plots_names):
                     
 
 
+                    # Format folder name to display as "name = value"
                     folder_name = re.sub(r'^\d+_', '', folder)
                     folder_name = folder_name.capitalize()
+                    if '_' in folder_name and len(folder_name.split('_')) >= 2:
+                        parts = folder_name.split('_')
+                        formatted_name = f"{parts[0]} = {parts[1]}"
+                    else:
+                        formatted_name = folder_name
+                        
 
                     ax.plot(times, ret, label=folder_name)
 
@@ -142,11 +149,21 @@ def plot_retau_space(folders, current_directory):
 
 
                 ut = np.sqrt(averaged_tau_values)
-
                 ret = ut*(parsed_data["H"]/2)/parsed_data["nu"]
-                
                 x = np.linspace(0, parsed_data["L"], len(ret))
-                ax.scatter(x,ret, label=f"{folder}")
+                
+                # Format folder name to display as "name = value"
+                folder_name = re.sub(r'^\d+_', '', folder)
+                folder_name = folder_name.capitalize()
+                if '_' in folder_name and len(folder_name.split('_')) >= 2:
+                    parts = folder_name.split('_')
+                    formatted_name = f"{parts[0]} = {parts[1]}"
+                    
+                else:
+                    formatted_name = folder_name
+                        
+                
+                ax.scatter(x,ret, label=formatted_name)
 
 
             except KeyError as e:
@@ -211,10 +228,17 @@ def plot_u_sample(folders, current_directory):
                                     u_values.append(u_value)
                     
                     
-                    # Plot the data
+                    # Format folder name to display as "name = value"
                     folder_name = re.sub(r'^\d+_', '', folder)
                     folder_name = folder_name.capitalize()
-                    ax.plot(times, u_values, label=folder_name)
+                    if '_' in folder_name and len(folder_name.split('_')) >= 2:
+                        parts = folder_name.split('_')
+                        formatted_name = f"{parts[0]} = {parts[1]}"
+                    else:
+                        formatted_name = folder_name
+                        
+                    # Plot the data    
+                    ax.plot(times, u_values, label=formatted_name)
                     print(f"Plotting U velocity for folder: {folder_name}")
                     
                     # Process power spectrum with Lomgb-Scargle Periodogram
@@ -230,7 +254,7 @@ def plot_u_sample(folders, current_directory):
                         
                         omega = np.linspace(0.0001, 100, 500)*2*np.pi  # Adjust frequency range as needed
                         pgram = lombscargle(times_filtered, u_values_filtered, omega)
-                        ax2.loglog(omega, pgram, label=folder_name)
+                        ax2.loglog(omega, pgram, label=formatted_name)
                         print(f"Plotting Lomb-Scargle periodogram for folder: {folder_name}")
                     
             except Exception as e:
@@ -386,15 +410,15 @@ def plot_retau_summary(max_retau_times, turbulent_retau_avgs):
     if value_flag_max:
         ax1.plot(x_values_max, max_values, label="Max ReTau", color='blue')
         ax1.set_xlabel(x_type_max)
-        ax1.set_ylabel(r"Max Re_{\tau}")
-        ax1.set_title(r"Maximum Re_{\tau} Values")
+        ax1.set_ylabel(r'Max $Re_{\tau}$')
+        ax1.set_title(r"Maximum $Re_{\tau}$ Values")
         ax1.set_xticks(x_values_max)
     else:
         bars1 = ax1.plot(folders_max, max_values)
-        ax1.set_title(r"Maximum Re_{\tau}u Values")
+        ax1.set_title(r"Maximum $Re_{\tau}$ u Values")
         ax1.set_xlabel(x_type_max)
-        ax1.set_ylabel(r"Max Re_{\tau}")
-        ax1.set_title(r"Maximum Re_{\tau} Values")
+        ax1.set_ylabel(r"Max $Re_{\tau}$")
+        ax1.set_title(r"Maximum $Re_{\tau}$ Values")
         ax1.set_xticklabels(folders_max, rotation=45, ha='right')
         ax1.grid(axis='y', linestyle='--', alpha=0.7)
         
@@ -402,15 +426,15 @@ def plot_retau_summary(max_retau_times, turbulent_retau_avgs):
     if value_flag_max:
         ax2.plot(x_values_max, max_times, label="Max Times", color='red')
         ax2.set_xlabel(x_type_max)
-        ax2.set_ylabel(r"Time for max Re_{\tau} [s]")
-        ax2.set_title(r"Maximum Re_{\tau} Times")
+        ax2.set_ylabel(r"Time for max $Re_{\tau}$ [s]")
+        ax2.set_title(r"Maximum $Re_{\tau}$ Times")
         ax2.set_xticks(x_values_max)
     else:
         bars2 = ax2.plot(folders_max, max_times)
-        ax2.set_title(r"Maximum Re_{\tau} Values")
+        ax2.set_title(r"Maximum $Re_{\tau}$ Values")
         ax2.set_xlabel(x_type_max)
-        ax2.set_ylabel(r"Time for max Re_{\tau}")
-        ax2.set_title(r"Maximum Re_{\tau} Values")
+        ax2.set_ylabel(r"Time for max $Re_{\tau}$")
+        ax2.set_title(r"Maximum $Re_{\tau}$ Values")
         ax2.set_xticklabels(folders_max, rotation=45, ha='right')
         ax2.grid(axis='y', linestyle='--', alpha=0.7)
     
@@ -418,13 +442,13 @@ def plot_retau_summary(max_retau_times, turbulent_retau_avgs):
     if value_flag_avg:
         ax3.plot(x_values_avg, avg_values, label="Avg ReTau", color='orange')
         ax3.set_xlabel(x_type_avg)
-        ax3.set_ylabel(r"Avg. Re_{\tau}")
-        ax3.set_title(r"Average Re_{\tau} Values (t ≥ 300)")
+        ax3.set_ylabel(r"Avg. $Re_{\tau}$")
+        ax3.set_title(r"Average $Re_{\tau}$ Values (t ≥ 300)")
         ax3.set_xticks(x_values_avg)
     else:
         bars3 = ax3.bar(folders_avg, avg_values)
-        ax3.set_title(r"Average Turbulent Re_{\tau} Values (t ≥ 300)")
-        ax3.set_ylabel(r"Avg. Re_{\tau}")
+        ax3.set_title(r"Average Turbulent $Re_{\tau}$ Values (t ≥ 300)")
+        ax3.set_ylabel(r"Avg. $Re_{\tau}$")
         ax3.set_xticklabels(folders_avg, rotation=45, ha='right')
         ax3.grid(axis='y', linestyle='--', alpha=0.7)
     
