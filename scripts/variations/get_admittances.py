@@ -96,9 +96,43 @@ def plot_admitance_time(folders, current_directory):
                 selected_pressures = wall_pressures[mid_pos::nz]
                 selected_velocities = wall_velocities[mid_pos::nz]
                 selected_coordinates = wall_coordinates[mid_pos::nz]
+                
+                # Fit selected pressures and velocities to sine waves
+                x_coords = selected_coordinates[:, 0]
+                
+                # Define sine wave function: A * sin(2*pi*x/L + phi) + offset
+                def sine_wave(x, amplitude, wavelength, phase, offset):
+                    return amplitude * np.sin(2 * np.pi * x / wavelength + phase) + offset
+                
+                # Initial guess for parameters [amplitude, wavelength, phase, offset]
+                # Use domain length as initial wavelength guess
+                domain_length = x_coords[-1] - x_coords[0]
+                
+                # Fit pressure data
+                p_initial_guess = [np.std(selected_pressures), domain_length, 0, np.mean(selected_pressures)]
+                try:
+                    p_params, _ = scipy.optimize.curve_fit(sine_wave, x_coords, selected_pressures, p0=p_initial_guess)
+                    pressure_amplitude = abs(p_params[0])
+                except:
+                    pressure_amplitude = np.std(selected_pressures)
+                    print(f"Warning: Could not fit pressure sine wave for {folder}")
+                
+                # Fit velocity data
+                v_initial_guess = [np.std(selected_velocities), domain_length, 0, np.mean(selected_velocities)]
+                try:
+                    v_params, _ = scipy.optimize.curve_fit(sine_wave, x_coords, selected_velocities, p0=v_initial_guess)
+                    velocity_amplitude = abs(v_params[0])
+                except:
+                    velocity_amplitude = np.std(selected_velocities)
+                    print(f"Warning: Could not fit velocity sine wave for {folder}")
+                
+                print(f"Pressure amplitude: {pressure_amplitude:.6f} Pa")
+                print(f"Velocity amplitude: {velocity_amplitude:.6f} m/s")
 
                 # Calculate admittance (velocity/pressure ratio)
-                admittance = selected_velocities / selected_pressures
+                admittance = velocity_amplitude / pressure_amplitude
+                
+                print(f"Admittance: {admittance:.6f} m/sPa")
                 
 
                 # Use the arctan2 function to calculate the phase angle for complex data
@@ -126,7 +160,7 @@ def plot_admitance_time(folders, current_directory):
                 # Plot admittance vs x-coordinate
                 ax1.plot(selected_coordinates[:, 0], selected_velocities, label=f"{folder}")
                 ax2.plot(selected_coordinates[:, 0], selected_pressures, label=f"{folder}")
-                ax3.plot(selected_coordinates[:, 0], admittance, label=f"{folder}")
+                
 
                 
                 

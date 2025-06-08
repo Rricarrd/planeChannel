@@ -19,31 +19,26 @@ scale   1;
 
 // L:length, H:height, W:width
 L       |-L-|;
-H       |-H/2-|;
+h       |-H/2-|;
 W       |-W-|;
-H2       |-H-|;
-Ls       |-Ls-|;
+H       |-H-|;
+
 
 vertices
 (
     ( 0   0   0)
     ($L   0   0)
+    ($L  $h   0)
     ($L  $H   0)
-    ($L $H2   0)
-    ( 0 $H2   0)
     ( 0  $H   0)
+    ( 0  $h   0)
 
     ( 0   0  $W)
     ($L   0  $W)
+    ($L  $h  $W)
     ($L  $H  $W)
-    ($L $H2  $W)
-    ( 0 $H2  $W)
     ( 0  $H  $W)
-
-//    ($Ls  0  0)
-//    ($Ls  0  $W)
-
-
+    ( 0  $h  $W)
 );
 
 blocks
@@ -54,9 +49,6 @@ blocks
 
 boundary
 (
-    
-    
-    
     <!--(if case=="spatial")-->
         inlet
         {
@@ -87,14 +79,6 @@ boundary
             type            cyclic;
             neighbourPatch  outlet;
             faces           ((0 5 11 6)(5 4 10 11));
-            // matchTolerance  |-matchTolerance-|;
-            // transform       translational;
-            // separationVector (|- L -| 0 0);
-            // AMI
-            // {
-            //     method          faceAreaWeight; // Ensures flux conservation
-            //     tolerance 1e-8;
-            // }
         }
 
         outlet
@@ -102,14 +86,6 @@ boundary
             type            cyclic;
             neighbourPatch  inlet;
             faces           ((1 7 8 2)(2 8 9 3));
-            // matchTolerance  |-matchTolerance-|;
-            // transform       translational;
-            // separationVector (|- -L -| 0 0);
-            // AMI
-            // {
-            //     method          faceAreaWeight; // Ensures flux conservation
-            //     tolerance 1e-8;
-            // }
         }
     <!--(end)-->
     
@@ -143,10 +119,7 @@ boundary
                     tolerance 1e-8;
                 }
             }
-
-
         <!--(else)-->
-
             left
             {
                 type            cyclic;
@@ -162,8 +135,6 @@ boundary
                 matchTolerance  |-matchTolerance-|;
             }
         <!--(end)-->
-
-
             bottom
             {
                 type            wall;
@@ -174,8 +145,6 @@ boundary
                 type            wall;
                 faces           ((4 3 9 10));
             }
-
-
 );
 
 
