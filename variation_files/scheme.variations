@@ -1,15 +1,8 @@
 sets (
    {
-    maxCo 0.1;
+    schemes linear;
    }
    {
-    maxCo 0.3;
+    schemes cubic;
    }
-   {
-    maxCo 0.5;
-   }
-   {
-    maxCo 1;
-   }
-   
 );

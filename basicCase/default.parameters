@@ -1,8 +1,8 @@
 // Simulation parameters
 OFversion  v2112;         //IMPORTANT!! adequate OF version. Otherwise may crash
-case    spatial_coded;         //IMPORTANT!! type of case. temporal or spatial_coded
+case    temporal;         //IMPORTANT!! type of case. temporal or spatial_coded
 calculateReCf      yes;   //IMPORTANT!! yes or no. If it crashes it can be disabled
-numberOfProcessors  24;   //IMPORTANT!! number of processors to match the systems
+numberOfProcessors  20;   //IMPORTANT!! number of processors to match the systems
 tAveragingStart   300;
 tEnd              600;    //IMPORTANT!! adequate end time
 dt               5e-3;
@@ -12,12 +12,13 @@ writeTime           1;
 
 // Flow control
 dynamicMesh no;        //IMPORTANT!! no, sine_lower_wall, oscillating
-transpiration yes;  //IMPORTANT!! forced or dynamic or no          
+transpiration no;  //IMPORTANT!! forced or dynamic or no          
 freqFromOrr yes;
 amplitude 0.03;
-omega 0.28175739321266047;
+omega 0.2892043982518436;
 matchTolerance  0.01;
 swak4Foam no;          //IMPORTANT!! yes, no. To enable swak4Foam
+forced jump;       //IMPORTANT!! gradient, forcedU or jump
 
 // Solver parameters
 solver          pimpleFoam;   //IMPORTANT!! pimpleFoam, moveDynamicMesh
@@ -27,7 +28,7 @@ nOuterCorrectors         1;  // Only works for pimpleFoam
 limitCo                yes;  // Only works for pimpleFoam
 PIMPLErelTol             0;
 PIMPLEtol             1e-3;
-maxCo                 0.01;
+maxCo                 0.05;
 
 // Numerical schemes
 schemes default;        // Change between linear or cubic. If default, uses the high order values       
@@ -50,12 +51,12 @@ ce 1.048;
 // Meshing
 H 2;
 W 2.9919930042;
-L 80;           //IMPORTANT!! correct length. Change to 80 for spatial case and 5.2359 for temporal
+L 5.6099;           //IMPORTANT!! correct length. Change to 80 for spatial case and 5.2359 for temporal
 Ls 0.25;
-nx 160;              //IMPORTANT!! correct cell number
-ny 32;              //IMPORTANT!! correct cell number
-nz 32;              //IMPORTANT!! correct cell number
-gradient 16;         //IMPORTANT!! correct gradient. Usually half the cell numbera
+nx 48;              //IMPORTANT!! correct cell number
+ny 48;              //IMPORTANT!! correct cell number
+nz 48;              //IMPORTANT!! correct cell number
+gradient 24;         //IMPORTANT!! correct gradient. Usually half the cell numbera
 
 // Flow parameters
 Re_b 3333;

@@ -76,12 +76,12 @@ code
 
 
          // Define parameters
-        double w = 0.28175739321266047;
+        double w = 0.2892043982518436;
         // double w3d = 0.95;
         // double H = std::stod(parameters["H"]);
         // double Ucl = std::stod(parameters["Ucl"]);
         double L = 5.2359;
-        double A = 0.01;
+        double A = 0.03;
         double k = 2 * 3.141592 / L;
         
 

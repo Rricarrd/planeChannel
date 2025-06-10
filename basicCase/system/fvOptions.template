@@ -15,12 +15,33 @@ FoamFile
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
 
-momentumSource
-{
-    type            meanVelocityForce;
-    fields          (U);
-    selectionMode   all;       // Apply to all cells (or use "cellZone" / "cellSet")
-  
-    Ubar            ({{2/3*Ucl}} 0 0);   // Target mean velocity (e.g., 5 m/s in x-direction)
+{% if forced=="forcedU" %}
 
-}
+    momentumSource
+    {
+        type            meanVelocityForce;
+        fields          (U);
+        selectionMode   all;       // Apply to all cells (or use "cellZone" / "cellSet")
+    
+        Ubar            ({{2/3*Ucl}} 0 0);   // Target mean velocity (e.g., 5 m/s in x-direction)
+        relaxation 0.1;  // Relaxation factor for the velocity update
+
+    }
+
+{% elif forced=="gradient" %}
+
+    momentumSource
+    {
+        type            directionalPressureGradientExplicitSource;
+        active          true;
+        selectionMode   all;
+
+        directionalPressureGradientExplicitSourceCoeffs
+        {
+            field           p;         // The pressure field this gradient relates to
+            direction       (1 0 0);   // Direction of the flow
+            magnitude       {{2*rho*nu*Ucl}};       // Magnitude of the pressure gradient [Pa/m]
+        }
+    }
+
+{% endif %}

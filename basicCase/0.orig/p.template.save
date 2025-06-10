@@ -1,4 +1,4 @@
-/*--------------------------------*- C++ -*------------engine:jinja2----------------------*\
+ç/*--------------------------------*- C++ -*------------engine:jinja2----------------------*\
 | =========                 |                                                 |
 | \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
 |  \\    /   O peration     | Version:  v2406                                 |
@@ -28,8 +28,7 @@ boundaryField
         }
         outlet
         {
-            type            fixedValue;
-            value           $internalField;
+            type            cyclic;
         }
 
     {% elif case=="spatial_coded"%}
@@ -66,24 +65,6 @@ boundaryField
             "(left|right)"
             {
                 type        cyclicAMI;
-            }
-        {% elif forced=="jump"%}
-            inlet
-            {
-                type            fixedJump;
-                jump            uniform {{2*rho*nu*Ucl}};
-                patchType       cyclic; 
-    	        value           $internalField;
-            }
-            outlet
-            {
-                type            fixedJump;
-                patchType       cyclic; 
-    	        value           $internalField;
-            }
-            "(left|right)"
-            {
-                type        cyclic;
             }
         {% else %}
             "(inlet|outlet)"
