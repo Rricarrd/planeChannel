@@ -1,0 +1,17 @@
+sets (
+   {
+    nCorrectors 1;
+   }
+   {
+    nCorrectors 3;
+   }
+   {
+    nCorrectors 5;
+   }
+   {
+    nCorrectors 10;
+   }
+   {
+    nCorrectors 20;
+   }
+);

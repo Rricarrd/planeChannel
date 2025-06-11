@@ -71,7 +71,7 @@ boundaryField
             inlet
             {
                 type            fixedJump;
-                jump            uniform {{2*rho*nu*Ucl}};
+                jump            uniform {{2*rho*nu*Ucl*L}};
                 patchType       cyclic; 
     	        value           $internalField;
             }

@@ -2,32 +2,38 @@ sets (
    {
     omega 0.05;
     freqFromOrr no;
-    amplitude 0.03;
-   }
-   {    
-    omega 0.1;
-    freqFromOrr no;
-    amplitude 0.03;
+    transpiration forced;
+    amplitude 0.01;
    }
    {
     omega 0.2;
     freqFromOrr no;
-    amplitude 0.03;
+    transpiration forced;
+    amplitude 0.01;
    }
    {
-    omega 0.3;
-    freqFromOrr no;
-    amplitude 0.03;
-   }
-   {
-    freqFromOrr no;
     omega 0.5;
-    amplitude 0.03;
+    freqFromOrr no;
+    transpiration forced;
+    amplitude 0.01;
    }
    {
     omega 1;
     freqFromOrr no;
-    amplitude 0.03;
+    transpiration forced;
+    amplitude 0.01;
+   }
+   {
+    omega 2;
+    freqFromOrr no;
+    transpiration forced;
+    amplitude 0.01;
+   }
+   {
+    omega 10;
+    freqFromOrr no;
+    transpiration forced;
+    amplitude 0.01;
    }
 
 );

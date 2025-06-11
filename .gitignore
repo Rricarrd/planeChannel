@@ -168,3 +168,7 @@ log.pimpleFoam
 /basicCase/caseSetup.sh
 
 
+# Ignore plots
+./plots/*.png
+./plots/*.pdf
+./plots/*.eps

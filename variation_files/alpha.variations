@@ -1,0 +1,30 @@
+sets (
+   {
+    alpha_2D 0.1;
+    alpha_3D 0.1;
+   }
+   {
+    alpha_2D 0.5;
+    alpha_3D 0.5;
+   }
+   {
+    alpha_2D 1;
+    alpha_3D 1;
+   }
+   {
+    alpha_2D 1.12;
+    alpha_3D 1.12;
+   }
+   {
+    alpha_2D 1.2;
+    alpha_3D 1.2;
+   }
+   {
+    alpha_2D 1.5;
+    alpha_3D 1.5;
+   }
+   {
+    alpha_2D 5;
+    alpha_3D 5;
+   }
+);

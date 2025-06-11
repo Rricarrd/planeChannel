@@ -44,6 +44,39 @@ def solve_os_equation(
 
     return y2d, u2d, v2d, w2d, u3dp, v3dp, w3dp, u3dm, v3dm, w3dm, om2d, om3dp, om3dm
 
+def solve_os_equation_freqs_lambdas(
+    N,
+    alp2d,
+    alp3d,
+    beta,
+    R,
+    n3d,
+    n2d,
+    Np,
+):
+    # --- Calculate Orr-Sommerfeld solution ---
+    y3dp,lam3dp, u3dp, v3dp, w3dp = OSTemporal(N, R, alp3d, beta, n3d, Np)
+    y3dm,lam3dm, u3dm, v3dm, w3dm = OSTemporal(N, R, alp3d, -beta, n3d, Np)
+    y2d,lam2d, u2d, v2d, w2d = OSTemporal(N, R, alp2d, 0, n2d, Np)
+
+    # --- Calculate omega for the most unstable mode ---
+    om2d = -lam2d[np.argmax(np.imag(lam2d))] / 1j 
+    om3dp = -lam3dp[np.argmax(np.imag(lam3dp))] / 1j
+    om3dm = -lam3dm[np.argmax(np.imag(lam3dm))] / 1j
+
+    # Print lambda values of the most unstable modes
+    lam2d_max = lam2d[np.argmax(np.imag(lam2d))]
+    lam3dp_max = lam3dp[np.argmax(np.imag(lam3dp))]
+    lam3dm_max = lam3dm[np.argmax(np.imag(lam3dm))]
+
+    print(f"Lambda values for most unstable modes:")
+    print(f"lam2d: {lam2d_max}")
+    print(f"lam3dp: {lam3dp_max}")
+    print(f"lam3dm: {lam3dm_max}")
+    print(f"Frequencies are om2d {np.imag(om2d)} rad/s, om3dp {np.imag(om3dp)} rad/s and om3dm {np.imag(om3dm)} rad/s")
+
+    return  lam2d, lam3dp, lam3dm, om2d, om3dp, om3dm
+
 def parameters(dict):
     # --- Parameters ---
     H = dict["H"]

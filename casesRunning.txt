@@ -1,0 +1,5 @@
+mié jun 11 16:40:03 CEST 2025: Running runAllCasesTmux.sh on node juno4.upc.edu in directory 5_meshVariations/
+mié jun 11 16:40:03 CEST 2025: Running runAllCasesTmux.sh on node juno5.upc.edu in directory 3_courantVariations/
+mié jun 11 16:40:03 CEST 2025: Running runAllCasesTmux.sh on node juno6.upc.edu in directory 0_alphaVariations/
+mié jun 11 16:40:03 CEST 2025: Running runAllCasesTmux.sh on node juno7.upc.edu in directory 1_amplitude2DVariations/
+mié jun 11 16:52:49 CEST 2025: Running runAllCasesTmux.sh on node juno3.upc.edu in directory 9_schemeVariations/

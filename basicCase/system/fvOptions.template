@@ -28,7 +28,7 @@ FoamFile
 
     }
 
-{% elif forced=="gradient" %}
+{% elif forced=="grad" %}
 
     momentumSource
     {
@@ -40,7 +40,7 @@ FoamFile
         {
             field           p;         // The pressure field this gradient relates to
             direction       (1 0 0);   // Direction of the flow
-            magnitude       {{2*rho*nu*Ucl}};       // Magnitude of the pressure gradient [Pa/m]
+            magnitude       {{2*rho*nu*Ucl*L}};       // Magnitude of the pressure gradient [Pa/m]
         }
     }
 

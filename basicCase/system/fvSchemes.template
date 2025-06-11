@@ -15,11 +15,22 @@ FoamFile
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
 {% if schemes=="linear" or schemes=="cubic"%}
-
-  ddtSchemes
-  {
-      default         backward;
-  }
+  {% if tschemes=="backward"%}
+    ddtSchemes
+    {
+        default         backward;
+    }
+  {% elif tschemes=="Euler"%}
+    ddtSchemes
+    {
+        default         Euler;
+    }
+  {% elif tschemes=="CrankNicolson"%}
+    ddtSchemes
+    {
+        default         CrankNicolson 0.9;
+    }
+  {% endif %}
 
   gradSchemes
   {

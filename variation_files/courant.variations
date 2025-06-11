@@ -1,18 +1,26 @@
 sets (
    {
-    maxCo 0.05;
+    maxCo 1;
    }
    {
-    maxCo 0.1;
-   }
-   {
-    maxCo 0.3;
+    maxCo 0.75;
    }
    {
     maxCo 0.5;
    }
    {
-    maxCo 1;
+    maxCo 0.25;
    }
-
+   {
+    maxCo 0.1;
+   }
+   {
+    maxCo 0.05;
+   }
+   {
+    maxCo 0.01;
+   }
+   {
+    maxCo 0.005;
+   }
 );

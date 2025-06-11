@@ -18,7 +18,7 @@ amplitude 0.03;
 omega 0.2892043982518436;
 matchTolerance  0.01;
 swak4Foam no;          //IMPORTANT!! yes, no. To enable swak4Foam
-forced jump;       //IMPORTANT!! gradient, forcedU or jump
+forced forcedU;       //IMPORTANT!! grad, forcedU or jump
 
 // Solver parameters
 solver          pimpleFoam;   //IMPORTANT!! pimpleFoam, moveDynamicMesh
@@ -27,11 +27,12 @@ nNonOrthogonalCorrectors 1;
 nOuterCorrectors         1;  // Only works for pimpleFoam
 limitCo                yes;  // Only works for pimpleFoam
 PIMPLErelTol             0;
-PIMPLEtol             1e-3;
+PIMPLEtol             1e-4;
 maxCo                 0.05;
 
 // Numerical schemes
 schemes default;        // Change between linear or cubic. If default, uses the high order values       
+tschemes backward;      // If schemes default, ignored. Otherwise, use backward, CrankNicolson (0.9) or Euler
 
 // Numerical solvers
 tolU 1e-6;
@@ -43,7 +44,7 @@ relTolFinal 0;
 
 
 // Turbulence model
-model dynamicSmagorinsky;    //IMPORTANT!! dynamicSmagorinsky, WALE, laminar
+model WALE;    //IMPORTANT!! dynamicSmagorinsky, WALE, laminar
 cs 0.065;
 ck 0.02655;
 ce 1.048;

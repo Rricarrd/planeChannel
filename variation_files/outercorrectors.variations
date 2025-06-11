@@ -1,0 +1,14 @@
+sets (
+   {
+    nOuterCorrectors 1;
+   }
+   {
+    nOuterCorrectors 5;
+   }
+   {
+    nOuterCorrectors 10;
+   }
+   {
+    nOuterCorrectors 40;
+   }
+);
