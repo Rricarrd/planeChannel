@@ -4,7 +4,7 @@ case    temporal;         //IMPORTANT!! type of case. temporal or spatial_coded
 calculateReCf      yes;   //IMPORTANT!! yes or no. If it crashes it can be disabled
 numberOfProcessors  20;   //IMPORTANT!! number of processors to match the systems
 tAveragingStart   300;
-tEnd              600;    //IMPORTANT!! adequate end time
+tEnd              450;    //IMPORTANT!! adequate end time
 dt               5e-3;
 maxDeltaT        3e-1;
 writeTime           1;
