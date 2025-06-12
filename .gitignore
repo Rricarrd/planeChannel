@@ -171,3 +171,5 @@ log.pimpleFoam
 # Ignore plots
 ./plots/*
 ./ret_plots/*
+*.eps
+*.png
