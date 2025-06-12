@@ -10,7 +10,7 @@ if [ ! -d "scripts/variations" ]; then
 fi
 
 # Find all directories that start with a digit followed by underscore
-for target_dir in [0-9]_*/; do
+for target_dir in [0-9]*_*/; do
     if [ -d "$target_dir" ]; then
         echo "Processing directory: $target_dir"
         

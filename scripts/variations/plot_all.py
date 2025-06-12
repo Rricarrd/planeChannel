@@ -20,7 +20,7 @@ def extract_number(name):
 
 
 
-def plot_retau_time(folders, current_directory, plots_names):
+def plot_retau_time(folders, current_directory, plots_names, skip=False):
     print("Printing Retau time")
 
     # Start maximum Retau point list
@@ -28,11 +28,13 @@ def plot_retau_time(folders, current_directory, plots_names):
     turbulent_retau_avg = []
 
     # Create a simple matplotlib figure
-    fig, ax = plt.subplots()
-    ax.set_title("Channel Ret over time")
-    ax.set_xlabel("Time")
-    ax.set_ylabel("Ret")
-
+    fig, ax = plt.subplots(figsize=(6, 4))
+    ax.set_title(r"Channel $Re_{\tau}$ over time")
+    ax.set_xlabel("t [s]")
+    ax.set_ylabel(r"$Re_{\tau}$ ")
+    ax.set_xlim(0, 450)
+    ax.set_ylim(85, 290)
+    
 
     # Iterate through each folder and check for the pickled file
     for folder in folders:
@@ -77,14 +79,15 @@ def plot_retau_time(folders, current_directory, plots_names):
                     # Format folder name to display as "name = value"
                     folder_name = re.sub(r'^\d+_', '', folder)
                     folder_name = folder_name.capitalize()
+
                     if '_' in folder_name and len(folder_name.split('_')) >= 2:
                         parts = folder_name.split('_')
-                        formatted_name = f"{parts[0]} = {parts[1]}"
+                        formatted_name = f"{parts[1]} = {parts[0]}"
                     else:
                         formatted_name = folder_name
                         
 
-                    ax.plot(times, ret, label=folder_name)
+                    ax.plot(times, ret, label=formatted_name)
 
                     
 
@@ -96,14 +99,23 @@ def plot_retau_time(folders, current_directory, plots_names):
     ret_dns = [101.14503816793894, 101.6030534351145, 101.6030534351145, 101.37404580152672, 101.37404580152672, 101.14503816793894, 101.37404580152672, 102.29007633587786, 104.12213740458016, 107.32824427480917, 112.13740458015268, 117.17557251908397, 121.98473282442748, 128.62595419847327, 133.89312977099237, 140.53435114503816, 149.9236641221374, 160.2290076335878, 179.92366412213738, 194.35114503816794, 205.34351145038167, 219.08396946564886, 227.09923664122135, 236.2595419847328, 242.90076335877862, 244.50381679389312, 242.67175572519085, 238.54961832061068, 233.2824427480916, 223.66412213740458, 221.83206106870227, 218.62595419847327, 213.3587786259542, 209.6946564885496, 209.46564885496184, 208.0916030534351, 203.51145038167937, 201.6793893129771, 201.22137404580153, 202.59541984732823, 204.42748091603053, 204.8854961832061, 204.19847328244276, 206.4885496183206, 205.34351145038167, 204.19847328244276, 204.6564885496183, 207.17557251908397, 207.63358778625954, 207.17557251908397, 206.71755725190837, 207.40458015267177, 209.23664122137404, 210.61068702290078, 210.83969465648855, 211.5267175572519, 213.81679389312978, 211.5267175572519, 210.61068702290078, 207.63358778625954, 207.8625954198473, 208.0916030534351, 209.00763358778624, 210.61068702290078, 211.29770992366412, 212.44274809160305]
 
     ax.scatter(times_dns, ret_dns, label="DNS")
+    
+    
+    # Get the full path of the current working directory
+    current_working_directory = os.getcwd()
+
+    # Extract just the last part (the directory name)
+    directory_name = os.path.basename(current_working_directory)
             
     plt.legend()
-    plt.savefig("variations_ret.png")
-    plt.show()
+    plt.savefig(f"../ret_plots/variations_ret_time_{directory_name}.eps")
+    
+    if not skip:
+        plt.show()
     
     return max_retau_time, turbulent_retau_avg
 
-def plot_retau_space(folders, current_directory):
+def plot_retau_space(folders, current_directory, skip=False):
     
     print("Printing Retau space")
     # Create a simple matplotlib figure
@@ -157,7 +169,7 @@ def plot_retau_space(folders, current_directory):
                 folder_name = folder_name.capitalize()
                 if '_' in folder_name and len(folder_name.split('_')) >= 2:
                     parts = folder_name.split('_')
-                    formatted_name = f"{parts[0]} = {parts[1]}"
+                    formatted_name = f"{parts[1]} = {parts[0]}"
                     
                 else:
                     formatted_name = folder_name
@@ -176,27 +188,37 @@ def plot_retau_space(folders, current_directory):
     #ax.scatter(times_dns, ret_dns, label="DNS")
             
 
+    # Get the full path of the current working directory
+    current_working_directory = os.getcwd()
+
+    # Extract just the last part (the directory name)
+    directory_name = os.path.basename(current_working_directory)
+
     ax.set_title(f"Channel Ret over space at time {last_time}")
 
     plt.legend()
-    plt.savefig("variations_ret.png")
-    plt.show()
+    plt.savefig(f"../ret_plots/variations_ret_space_{current_working_directory}.eps")
+    if not skip:
+        plt.show()
 
-def plot_u_sample(folders, current_directory):
+def plot_u_sample(folders, current_directory, skip=False):
     """
     Plot the U velocity component from probe data files across different cases.
     """
     print("Plotting U velocity from probe data")
     
-    fig, ax = plt.subplots(figsize=(10, 6))
+    fig, ax = plt.subplots(figsize=(6, 4))
     ax.set_title("U Velocity at Probe Location")
     ax.set_xlabel("Time [s]")
     ax.set_ylabel("U Velocity [m/s]")
+    ax.set_xlim(0, 450)
+    ax.grid(True)
     
-    fig2, ax2 = plt.subplots(figsize=(10, 6))
+    fig2, ax2 = plt.subplots(figsize=(6, 4))
     ax2.set_title("Lomgb-Scargle Periodogram")
     ax2.set_xlabel("Frequency [rad/s]")
     ax2.set_ylabel("Power")
+    ax.grid(True)
     
     for folder in folders:
         if folder[0].isdigit():
@@ -233,7 +255,7 @@ def plot_u_sample(folders, current_directory):
                     folder_name = folder_name.capitalize()
                     if '_' in folder_name and len(folder_name.split('_')) >= 2:
                         parts = folder_name.split('_')
-                        formatted_name = f"{parts[0]} = {parts[1]}"
+                        formatted_name = f"{parts[1]} = {parts[0]}"
                     else:
                         formatted_name = folder_name
                         
@@ -275,17 +297,25 @@ def plot_u_sample(folders, current_directory):
     
     ax2.loglog(ref_freqs, ref_power * scale_factor, 'k--', label=r'$\omega^{-5/3}$ (Kolmogorov)')
     
+    
+    # Get the full path of the current working directory
+    current_working_directory = os.getcwd()
+
+    # Extract just the last part (the directory name)
+    directory_name = os.path.basename(current_working_directory)
+    
     # Add labels to ax2
     ax2.legend()
     ax2.grid(True)
     plt.tight_layout()
-    plt.savefig("variations_spectrum.png")
+    plt.savefig(f"../ret_plots/variations_spectrum_{directory_name}.eps")
     
     plt.legend()
     plt.grid(True)
-    plt.savefig("variations_u_velocity.png")
-    
-    plt.show()
+    plt.savefig(f"../ret_plots/variations_u_velocity_{directory_name}.eps")
+
+    if not skip:
+        plt.show()
 
 
 def parse_foam_file(filepath):
@@ -370,7 +400,7 @@ def save_retau_data(max_retau_time, turbulent_retau_avg):
     print("Saved ReTau data to retau_data.json")
 
 
-def plot_retau_summary(max_retau_times, turbulent_retau_avgs):
+def plot_retau_summary(max_retau_times, turbulent_retau_avgs, skip=False):
     """
     Plot summary of max ReTau times and average ReTau values against folder names.
     
@@ -381,8 +411,9 @@ def plot_retau_summary(max_retau_times, turbulent_retau_avgs):
     print("Plotting ReTau summary")
     
     # Create figure with two subplots
-    fig, (ax1, ax2, ax3) = plt.subplots(3, 1, figsize=(10, 8))
+    fig, (ax1, ax2, ax3) = plt.subplots(3, 1, figsize=(7, 7))
     
+    folders = []
     max_values = []
     max_times = []
     avg_values = []
@@ -392,6 +423,8 @@ def plot_retau_summary(max_retau_times, turbulent_retau_avgs):
     for max_retau_time, turbulent_retau_avg in zip(max_retau_times, turbulent_retau_avgs):
         
         # Get values and times
+        folder = max_retau_time[0]
+        folders.append(folder)
         max_values.append(max_retau_time[1])
         max_times.append(max_retau_time[2])
         avg_values.append(turbulent_retau_avg[1])
@@ -413,13 +446,14 @@ def plot_retau_summary(max_retau_times, turbulent_retau_avgs):
         ax1.set_ylabel(r'Max $Re_{\tau}$')
         ax1.set_title(r"Maximum $Re_{\tau}$ Values")
         ax1.set_xticks(x_values_max)
+        ax1.grid(True, alpha=0.7)
     else:
         bars1 = ax1.plot(folders_max, max_values)
         ax1.set_title(r"Maximum $Re_{\tau}$ u Values")
         ax1.set_xlabel(x_type_max)
         ax1.set_ylabel(r"Max $Re_{\tau}$")
         ax1.set_title(r"Maximum $Re_{\tau}$ Values")
-        ax1.set_xticklabels(folders_max, rotation=45, ha='right')
+        ax1.set_xticklabels(folder, rotation=45, ha='right')
         ax1.grid(axis='y', linestyle='--', alpha=0.7)
         
     # Plot maximum ReTau times
@@ -429,13 +463,15 @@ def plot_retau_summary(max_retau_times, turbulent_retau_avgs):
         ax2.set_ylabel(r"Time for max $Re_{\tau}$ [s]")
         ax2.set_title(r"Maximum $Re_{\tau}$ Times")
         ax2.set_xticks(x_values_max)
+        ax2.grid(True, alpha=0.7)
+        
     else:
         bars2 = ax2.plot(folders_max, max_times)
         ax2.set_title(r"Maximum $Re_{\tau}$ Values")
         ax2.set_xlabel(x_type_max)
         ax2.set_ylabel(r"Time for max $Re_{\tau}$")
         ax2.set_title(r"Maximum $Re_{\tau}$ Values")
-        ax2.set_xticklabels(folders_max, rotation=45, ha='right')
+        ax2.set_xticklabels(folders, rotation=45, ha='right')
         ax2.grid(axis='y', linestyle='--', alpha=0.7)
     
 
@@ -443,20 +479,28 @@ def plot_retau_summary(max_retau_times, turbulent_retau_avgs):
         ax3.plot(x_values_avg, avg_values, label="Avg ReTau", color='orange')
         ax3.set_xlabel(x_type_avg)
         ax3.set_ylabel(r"Avg. $Re_{\tau}$")
-        ax3.set_title(r"Average $Re_{\tau}$ Values (t ≥ 300)")
+        ax3.set_title(r"Average $Re_{\tau}$ Values ($t \geq 300$)")
         ax3.set_xticks(x_values_avg)
+        ax3.grid(True, alpha=0.7)
     else:
-        bars3 = ax3.bar(folders_avg, avg_values)
-        ax3.set_title(r"Average Turbulent $Re_{\tau}$ Values (t ≥ 300)")
+        bars3 = ax3.bar(folders, avg_values)
+        ax3.set_title(r"Average Turbulent $Re_{\tau}$ Values ($t \geq 300$)")
         ax3.set_ylabel(r"Avg. $Re_{\tau}$")
-        ax3.set_xticklabels(folders_avg, rotation=45, ha='right')
+        ax3.set_xticklabels(folders, rotation=45, ha='right')
         ax3.grid(axis='y', linestyle='--', alpha=0.7)
     
+    
+    # Get the full path of the current working directory
+    current_working_directory = os.getcwd()
+
+    # Extract just the last part (the directory name)
+    directory_name = os.path.basename(current_working_directory)
+
 
     plt.tight_layout()
-    plt.savefig("retau_summary.png")
-    plt.show()
-
+    plt.savefig(f"../ret_plots/retau_summary_{directory_name}.eps")
+    if not skip:
+        plt.show()
 
 
 def get_x_values_according_to_folder(folder):
@@ -532,29 +576,34 @@ if __name__ == "__main__":
     }
 
     # Check for arguments
-    if len(sys.argv) != 2 or sys.argv[1].lower() not in ["time", "space","skip","fast"]:
-        print("Usage: python plot_all.py [time|space|skip|fast]")
+    skip = False
+    if len(sys.argv) > 2 and sys.argv[2].lower() == "skip":
+        skip = True
+
+    if len(sys.argv) < 2 or sys.argv[1].lower() not in ["time", "space","noretau","fast"]:
+        print("Usage: python plot_all.py [time|space|noretau|fast] [skip]")
         sys.exit(1)
 
     # Run the corresponding function based on the argument
     if sys.argv[1].lower() == "space":
-        plot_retau_space(folders, current_directory)
+        plot_retau_space(folders, current_directory, skip)
+        
     elif sys.argv[1].lower() == "time":
-        max_retau_time, turbulent_retau_avg = plot_retau_time(folders, current_directory, pickled_plots_names)
+        max_retau_time, turbulent_retau_avg = plot_retau_time(folders, current_directory, pickled_plots_names, skip)
         save_retau_data(max_retau_time, turbulent_retau_avg)
-        plot_retau_summary(max_retau_time, turbulent_retau_avg)
+        plot_retau_summary(max_retau_time, turbulent_retau_avg, skip)
+        
     elif sys.argv[1].lower() == "fast":
         path = os.path.join(current_directory, "retau_data.json")
         print(f"Loading Retau data from {path}")
         max_retau_time, turbulent_retau_avg = read_json_file(path)
-        plot_retau_summary(max_retau_time, turbulent_retau_avg)
+        plot_retau_summary(max_retau_time, turbulent_retau_avg, skip)
         
-    else:
+    elif sys.argv[1].lower() == "noretau":
         print("Skipping Retau plot")
         pass
         
-    plot_u_sample(folders, current_directory)
-    
+
 
         
 
