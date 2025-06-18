@@ -1,0 +1,3 @@
+folder,x_value,max_retau,max_retau_time,avg_retau
+0_linear_schemes,linear,226.26697,337.6996590824626,193.93927777205883
+1_cubic_schemes,cubic,233.43785,175.27333021714867,205.91737064220183

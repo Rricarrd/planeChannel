@@ -1,0 +1,4 @@
+folder,x_value,max_retau,max_retau_time,avg_retau
+0_dynamicSmagorinsky_model,dynamicSmagorinsky,230.0191,181.83367360127835,209.2055122283814
+1_Smagorinsky_model,Smagorinsky,237.16973,191.49264845057112,215.22014622098422
+2_WALE_model,WALE,225.63726,188.71626663559897,204.9537186648983

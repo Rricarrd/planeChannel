@@ -1,0 +1,4 @@
+folder,x_value,max_retau,max_retau_time,avg_retau
+0_backward_tschemes,backward,233.43785,175.27333021714867,205.91737064220183
+1_Euler_tschemes,Euler,230.65499,222.66011398710364,196.4159770487106
+2_CrankNicolson_tschemes,CrankNicolson,236.94376,189.1488503097305,205.72644270851248

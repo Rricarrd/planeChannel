@@ -7,6 +7,8 @@ import numpy as np
 import re
 import sys
 from scipy.signal import lombscargle
+import pandas as pd
+import os
 
 
 def extract_number(name):
@@ -438,56 +440,90 @@ def plot_retau_summary(max_retau_times, turbulent_retau_avgs, skip=False):
         value_flag_avg, x_value_avg, x_type_avg = get_x_values_according_to_folder(turbulent_retau_avg[0])
         x_values_avg.append(x_value_avg)
         
+    # Create and export data table to CSV
+    
+    # Create data dictionary
+    data_dict = {
+        'folder': folders,
+        'x_value': x_values_max,
+        'max_retau': max_values,
+        'max_retau_time': max_times,
+        'avg_retau': avg_values
+    }
+    
+    # Create DataFrame
+    df = pd.DataFrame(data_dict)
+    
+    # Create csv_data directory if it doesn't exist
+    csv_dir = '../csv_data'
+    if not os.path.exists(csv_dir):
+        os.makedirs(csv_dir)
+    
+    # Get current directory name for filename
+    current_working_directory = os.getcwd()
+    directory_name = os.path.basename(current_working_directory)
+    
+    # Export to CSV
+    csv_filename = os.path.join(csv_dir, f'retau_summary_{directory_name}.csv')
+    df.to_csv(csv_filename, index=False)
+    print(f"Data exported to {csv_filename}")
 
     # Plot maximum ReTau values
     if value_flag_max:
-        ax1.plot(x_values_max, max_values, label="Max ReTau", color='blue')
+        if x_type_max == "amplitude" or x_type_avg == "omega":
+            ax1.semilogx(x_values_max, max_values, label="Max ReTau", color='blue')
+        else:
+            ax1.plot(x_values_max, max_values, label="Max ReTau", color='blue')
         ax1.set_xlabel(x_type_max)
         ax1.set_ylabel(r'Max $Re_{\tau}$')
-        ax1.set_title(r"Maximum $Re_{\tau}$ Values")
-        ax1.set_xticks(x_values_max)
+        ax1.set_title(r"a) Maximum $Re_{\tau}$ Values")
         ax1.grid(True, alpha=0.7)
+        
+        
     else:
-        bars1 = ax1.plot(folders_max, max_values)
-        ax1.set_title(r"Maximum $Re_{\tau}$ u Values")
+        bars1 = ax1.plot(folders, max_values)
+        ax1.set_title(r"a) Maximum $Re_{\tau}$ Values")
         ax1.set_xlabel(x_type_max)
         ax1.set_ylabel(r"Max $Re_{\tau}$")
-        ax1.set_title(r"Maximum $Re_{\tau}$ Values")
-        ax1.set_xticklabels(folder, rotation=45, ha='right')
         ax1.grid(axis='y', linestyle='--', alpha=0.7)
         
     # Plot maximum ReTau times
     if value_flag_max:
-        ax2.plot(x_values_max, max_times, label="Max Times", color='red')
+        if (x_type_max == "amplitude") or (x_type_avg == "omega"):
+            ax2.semilogx(x_values_max, max_times, label="Max Times", color='red')
+        else:
+            ax2.plot(x_values_max, max_times, label="Max Times", color='red')
         ax2.set_xlabel(x_type_max)
         ax2.set_ylabel(r"Time for max $Re_{\tau}$ [s]")
-        ax2.set_title(r"Maximum $Re_{\tau}$ Times")
-        ax2.set_xticks(x_values_max)
+        ax2.set_title(r"b) Maximum $Re_{\tau}$ Times")
         ax2.grid(True, alpha=0.7)
         
     else:
-        bars2 = ax2.plot(folders_max, max_times)
-        ax2.set_title(r"Maximum $Re_{\tau}$ Values")
+        bars2 = ax2.plot(folders, max_times)
+        ax2.set_title(r"b) Maximum $Re_{\tau}$ Times")
         ax2.set_xlabel(x_type_max)
         ax2.set_ylabel(r"Time for max $Re_{\tau}$")
-        ax2.set_title(r"Maximum $Re_{\tau}$ Values")
-        ax2.set_xticklabels(folders, rotation=45, ha='right')
         ax2.grid(axis='y', linestyle='--', alpha=0.7)
     
 
     if value_flag_avg:
-        ax3.plot(x_values_avg, avg_values, label="Avg ReTau", color='orange')
+        if (x_type_avg == "amplitude") or (x_type_avg == "omega"):
+            ax3.semilogx(x_values_avg, avg_values, label="Avg ReTau", color='orange')
+        else:
+            ax3.plot(x_values_avg, avg_values, label="Avg ReTau", color='orange')
         ax3.set_xlabel(x_type_avg)
         ax3.set_ylabel(r"Avg. $Re_{\tau}$")
-        ax3.set_title(r"Average $Re_{\tau}$ Values ($t \geq 300$)")
-        ax3.set_xticks(x_values_avg)
+        ax3.set_title(r"c) Average $Re_{\tau}$ Values ($t \geq 300$)")
         ax3.grid(True, alpha=0.7)
     else:
         bars3 = ax3.bar(folders, avg_values)
-        ax3.set_title(r"Average Turbulent $Re_{\tau}$ Values ($t \geq 300$)")
+        ax3.set_title(r"c) Average Turbulent $Re_{\tau}$ Values ($t \geq 300$)")
         ax3.set_ylabel(r"Avg. $Re_{\tau}$")
-        ax3.set_xticklabels(folders, rotation=45, ha='right')
         ax3.grid(axis='y', linestyle='--', alpha=0.7)
+        
+        
+    print(f"X type max is {x_type_max}")
+
     
     
     # Get the full path of the current working directory
@@ -495,8 +531,8 @@ def plot_retau_summary(max_retau_times, turbulent_retau_avgs, skip=False):
 
     # Extract just the last part (the directory name)
     directory_name = os.path.basename(current_working_directory)
-
-
+    
+    # Set the title for the entire figure
     plt.tight_layout()
     plt.savefig(f"../ret_plots/retau_summary_{directory_name}.eps")
     if not skip:
@@ -532,15 +568,29 @@ def get_x_values_according_to_folder(folder):
         
         # Determine the x values based on the folder type
         if folder_type == "nx":
-            x_type = "Mesh size"
+            x_type = r"Mesh size ($n_i$)"
         elif folder_type == "amplitude":
-            x_type = "Transpiration BC Amplitude"
+            x_type = r"Transpiration BC Amplitude ($A$)"
         elif folder_type == "maxCo":
-            x_type = "Max Courant number"
+            x_type = r"Max Courant number ($Co_{max}$)"
         elif folder_type == "model":
-            x_type = "Turbulence Model"
+            x_type = r"Turbulence Model"
         elif folder_type == "schemes":
-            x_type = "Numerical Schemes"
+            x_type = r"Numerical Schemes"
+        elif folder_type == "tschemes":
+            x_type = r"Time schemes"
+        elif folder_type == "alpha":
+            x_type = r"Perturbation Wavenumber ($\alpha$)"
+        elif folder_type == "A2D":
+            x_type = r"Perturbation 2D Amplitude ($A_{2D}$)"
+        elif folder_type == "omega":
+            x_type = r"Perturbation Frequency ($\omega$)"
+        elif folder_type == "nOuterCorrectors":
+            x_type = r"Number of Outer Correctors ($n_{outer}$)"
+        elif folder_type == "nInnerCorrectors":
+            x_type = r"Number of Inner Correctors ($n_{inner}$)"
+            
+        
         else:
             x_type = "Unknown"
 
@@ -592,6 +642,7 @@ if __name__ == "__main__":
         max_retau_time, turbulent_retau_avg = plot_retau_time(folders, current_directory, pickled_plots_names, skip)
         save_retau_data(max_retau_time, turbulent_retau_avg)
         plot_retau_summary(max_retau_time, turbulent_retau_avg, skip)
+        plot_u_sample(folders, current_directory, skip)
         
     elif sys.argv[1].lower() == "fast":
         path = os.path.join(current_directory, "retau_data.json")

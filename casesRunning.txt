@@ -1,5 +1,14 @@
-mié jun 11 16:40:03 CEST 2025: Running runAllCasesTmux.sh on node juno4.upc.edu in directory 5_meshVariations/
-mié jun 11 16:40:03 CEST 2025: Running runAllCasesTmux.sh on node juno5.upc.edu in directory 3_courantVariations/
-mié jun 11 16:40:03 CEST 2025: Running runAllCasesTmux.sh on node juno6.upc.edu in directory 0_alphaVariations/
-mié jun 11 16:40:03 CEST 2025: Running runAllCasesTmux.sh on node juno7.upc.edu in directory 1_amplitude2DVariations/
-mié jun 11 16:52:49 CEST 2025: Running runAllCasesTmux.sh on node juno3.upc.edu in directory 9_schemeVariations/
+mié jun 11 16:40:03 CEST 2025: Running runAllCasesTmux.sh on node juno4 in directory 5_meshVariations/
+mié jun 11 16:40:03 CEST 2025: Running runAllCasesTmux.sh on node juno5 in directory 3_courantVariations/
+mié jun 11 16:40:03 CEST 2025: Running runAllCasesTmux.sh on node juno6 in directory 0_alphaVariations/
+mié jun 11 16:40:03 CEST 2025: Running runAllCasesTmux.sh on node juno7 in directory 1_amplitude2DVariations/
+mié jun 11 16:52:49 CEST 2025: Running runAllCasesTmux.sh on node juno3 in directory 9_schemeVariations/
+vie jun 13 00:41:17 CEST 2025: Running runAllCasesTmux.sh on node juno3 in directory 10_tschemeVariations/
+vie jun 13 09:05:28 CEST 2025: Running runAllCasesTmux.sh on node juno7 in directory 11_turbModelVariations/
+vie jun 13 17:42:09 CEST 2025: Running runAllCasesTmux.sh on node juno6 in directory 2_amplitudeVariations/
+
+sáb jun 14 09:44:07 CEST 2025: Running runAllCasesTmux.sh on node juno4.upc.edu in directory 7_omega_transpVariations/
+
+sáb jun 14 13:25:03 CEST 2025: Running runAllCasesTmux.sh on node juno7 in directory 6_ncorrectorsVariations/
+
+dom jun 15 11:21:18 CEST 2025: Running runAllCasesTmux.sh on node juno3.upc.edu in directory 8_outercorrectorsVariations/
